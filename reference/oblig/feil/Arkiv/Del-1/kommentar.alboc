@@ -1,0 +1,8 @@
+# En test av kommentarer, både #... og /*...*/:
+
+/* Dette er en kommentar uten slutt.
+
+int main ()
+{
+   putchar('.');  putchar(10);
+}

@@ -1,0 +1,10 @@
+int main ()
+{
+   int x;;  /* NB! En tom setning! Det er lovlig. */
+   int y;   /* Ulovlig, siden deklarasjoner maa komme foerst! */
+
+   x = getint();  y = getint();
+   if (x) { putint(x); }
+   if (y) { putint(y); }
+   putchar(10);
+}
