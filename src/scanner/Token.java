@@ -65,7 +65,6 @@ public class Token {
 		kind = charValToken;  charVal = c;  lineNum = lNum;
 	}
 
-
 	public String identify() {
 		String t = kind.identify();
 		if (lineNum > 0) 

@@ -1,20 +1,17 @@
 Space:
 - Actual space
-- New line (\n)
 - Tab (\t)
-
-Normal Character:
-- Letter: (a-z) (A-Z)
-- Digit: (0-9)
-
-Special Character:
-	= ; : , . ( ) < > + - * [ ]
-	
-Quote: 
-	'
 
 Comment Character:
 	/* {
+
+Special Character:
+	= ; : , . ( ) < > + - * [ ] 
+	quote (') is extra special
+	
+Normal Character:
+- Letter: (a-z) (A-Z)
+- Digit: (0-9)
 
 Illegal Character: The rest!
 
@@ -22,31 +19,13 @@ Illegal Character: The rest!
 ================================================================================
 
 RULES FOR READING TOKEN:
-If i is:
-- Space --> Skip (by updating i)
-- Normal --> Let j search for Space, Special, Comment, or Illegal
-- Special --> Let j search for Space, Normal, Comment, or Illegal
-- Quote -->
-	Increase i
-	If i is still a quote, then
-		If next 2 characters after i are also quotes, then
-			Add new CHAR LITERAL token for the symbol: '
-			Increase i to i+1
-		Else: ERROR!!!
-	Else 
-		If j=i+1 is a quote, then
-			substring(i,j) is a new token
-			Increase i to j+1
-		Else: ERROR!!!
-- Comment -->
-	If it is a slash (/)
-		then check if next char is arterisk (*) and let j search for symbols: */
-	Else, let j search for the symbol: }
-	Finally, increase i to j+1
-- Illegal --> ERROR!!!
-
-POSSIBLE METHODS FOR READING TOKEN:
-	private boolean isSpecial(char c) {
-		if(c == '+')....
-	}
-	private boolean isSpace(char c) {}
+If "srcPos" is:
+- Space --> Skip (by updating "srcPos").
+- Comment --> Call handleComment() method to skip over it.
+- Letter --> Continue until "k" reaches a char that is NOT a digit or a letter.
+- Digit --> Continue until "k" reaches a char that is NOT a digit.
+- Special --> Call handleSymbols() method, which does the following:
+	+ If "srcPos" is a quote, then call handleQuote() method, else
+	+ Compare it to each of the 2-char symbol token, else
+	+ Compare it to each of the 1-char symbol token, else
+	+ ILLEGAL Symbol --> ERROR!
