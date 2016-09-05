@@ -10,10 +10,7 @@ public class Scanner {
 	private LineNumberReader srcFile = null;
 	private String srcFileName, srcLine = "";
 	private int srcPos = 0;
-	private final char[] SPECIAL_CHARS = ['=', '<', '>', '(', ')', '[', ']',
-	                                      '+', '-', '*', '.', ',', ':', ';'];
 	
-
 	/* Parser tests:
 	public void test(TokenKind t) {
 		if (curToken.kind != t)
@@ -62,53 +59,51 @@ public class Scanner {
 
 	
 	public void readNextToken() {
-		if(srcFile == null) return; //maybe give an error?
-		int k;
-		char x, c;
+		if(srcFile == null) return; //-----------------maybe give an error?
 		curToken = nextToken; 
 		nextToken = null;
-		
+		int k;
+		char c;
+ 
 		// SKIP OVER WHITE SPACES, HANDLE EOF-TOKEN IF NEEDED
-		while(isSpace(srcLine.charAt(srcPos))) {
-			if(++srcPos == srcLine.length()) {
+		while(true) {
+			if(srcPos >= srcLine.length()) {
 				readNextLine();
 				if(srcFile == null) {
 					nextToken = new Token(TokenKind.eofToken,0);
 					Main.log.noteToken(nextToken); return;
 				}
 			}
+			if(! isSpace(srcLine.charAt(srcPos))) break;
 		}
 		// SKIP OVER COMMENTS
-		boolean commentError = false;
 		if(srcLine.charAt(srcPos) == '{') {
-			commentError = handleComment(true);
+			handleComment(true); //bracket-style comment
 		} else if(srcLine.substring(srcPos,srcPos+1).equals("/*") {
-			commentError = handleComment(false);
+			handleComment(false); //C-style comment
 		} 
-		if(commentError == true) return;
-		
-		// MAIN CONDITIONAL CONTROL STRUCTURE FOR GETTING NEXT TOKEN
-		if(isDigit(x)) {
+		// MAIN SWITCH TO GET NEXT TOKEN
+		if(isDigit(srcLine.charAt(srcPos))) {
 			for(k = srcPos+1; k < srcLine.length(); k++) {
 				c = srcLine.charAt(k);
 				if(!isDigit(c)) break;
 			}
 			int num = Integer.parseInt(srcLine.substring(srcPos, k));
-			nextToken = new Token(num, srcLine.getLineNumber());
+			nextToken = new Token(num, curLineNum());
 		}
-		else if(isLetterAZ(x)) {
+		else if(isLetterAZ(srcLine.charAt(srcPos))) {
 			for(k = srcPos+1; k < srcLine.length(); k++) {
 				c = srcLine.charAt(k);
 				if(!isLetterAZ(c) && !isDigit(c)) break;
 			}
 			String str = srcLine.substring(srcPos, k);
-			nextToken = new Token(str, srcLine.getLineNumber());
+			nextToken = new Token(str, curLineNum());
 		}
-		//-------------------------------------- CONTINUE HERE
-
+		else {
+			handleSymbol();
+		}
 		Main.log.noteToken(nextToken);
 	}
-
 
 	private void readNextLine() {
 		if (srcFile != null) {
@@ -141,19 +136,80 @@ public class Scanner {
 		return c == ' ' || c == '\t';
 	}
 	
-	private boolean isValidChar(char c) {
+	/** Processes symbols and create a token if there is a symbol token. */
+	private void handleSymbol() {
+		char c1 = srcLine.charAt(srcPos);
+		char c2 = srcLine.charAt(srcPos+1);
+		int cln = curLineNum();
+		boolean isTwoCharToken = false;
 		
+		// MAIN SWITCH TO DETERMINE THE TYPE OF TOKEN
+		if(c1 == '\'') {
+			handleQuote();
+			return;
+		} 
+		else if(c1 == '.') {
+			if(c2 == '.') {
+				nextToken = new Token(TokenKind.rangeToken, cln);
+				isTwoCharToken = true;
+			} else nextToken = new Token(TokenKind.dotToken, cln);
+		} else if(c1 == ':') {
+			if(c2 == '=') {
+				nextToken = new Token(TokenKind.assignToken, cln);
+				isTwoCharToken = true;
+			} else nextToken = new Token(TokenKind.colonToken, cln);
+		} else if(c1 == '>') {
+			if(c2 == '=') {
+				nextToken = new Token(TokenKind.greaterEqualToken, cln);
+				isTwoCharToken = true;
+			} else nextToken = new Token(TokenKind.greaterToken, cln); 
+		} else if(c1 == '<') {
+			if(c2 == '=') {
+				nextToken = new Token(TokenKind.lessEqualToken, cln);
+				isTwoCharToken = true;
+			} else if (c2 == '>') {
+				nextToken = new Token(TokenKind.notEqualToken, cln);
+				isTwoCharToken = true;
+			} else nextToken = new Token(TokenKind.lessToken, cln);
+		}
+		else if(c1 == '+') nextToken = new Token(TokenKind.addToken, cln);
+		else if(c1 == '-') nextToken = new Token(TokenKind.subtractToken, cln);
+		else if(c1 == '*') nextToken = new Token(TokenKind.multiplyToken, cln);
+		else if(c1 == '=') nextToken = new Token(TokenKind.equalToken, cln);
+		else if(c1 == '[') nextToken = new Token(TokenKind.leftBracketToken, cln);
+		else if(c1 == ']') nextToken = new Token(TokenKind.rightBracketToken, cln);
+		else if(c1 == '(') nextToken = new Token(TokenKind.leftParToken, cln);
+		else if(c1 == ')') nextToken = new Token(TokenKind.rightParToken, cln);
+		else if(c1 == ',') nextToken = new Token(TokenKind.commaToken, cln);
+		else if(c1 == ';') nextToken = new Token(TokenKind.semicolonToken, cln);
+		else error("Illegal character: '" + c1 + "'!");
+		
+		// UPDATE srcPos TO CORRECT VALUE
+		if(isTwoCharToken) srcPos = srcPos + 2;
+		else srcPos++;
 	}
 	
-	private boolean isCommentChar(char c) {
-		return c == '/' || c == '{'
+	/** Processes a char literal. */
+	private void handleQuote() {
+		boolean isLegal = false;
+		if(++srcPos + 2 < srcLine.length()) {
+			if(srcLine.substring(srcPos,srcPos+3).equals("'''") {
+				nextToken = new Token('\'', curLineNum());
+				isLegal = true;
+			} else if(srcLine.charAt(srcPos+1) == '\'') {
+				nextToken = new Token(srcLine.charAt(srcPos), curLineNum());
+				isLegal = true;
+			}
+		}
+		if(!isLegal) {
+			error("Illegal char literal!");
+		}
+		return isLegal;
 	}
 	
 	/**
 	 * Skips over a comment.
 	 * @param isBracketComment true for curly-bracket style, false for C-style.
-	 * @return true if the comment is successfully skipped over,
-	 *         false if scanner error occurs due to absence of closing symbols.
 	 */
 	private void handleComment(boolean isBracketComment) {
 		int cln = curLineNum();
@@ -166,20 +222,21 @@ public class Scanner {
 		// MAIN LOOP FOR SEARCHING CLOSING SYMBOLS
 		while(true) {
 			// If the end of this line has been reached:
-			if(srcPos == srcLine.length() - 1) {
+			if(srcPos >= srcLine.length() - 1) {
 				readNextLine();
-				if(srcFile == null) {
-					error(errorMessage);
-					return false;
-				} else continue;
+				if(srcFile == null) error(errorMessage);
+				else continue;
 			}
 			// Handle bracket comment:
 			if(isBracketComment) {
-				if(srcLine.charAt(srcPos++) == '}') return true;
+				if(srcLine.charAt(srcPos++) == '}') return;
+				else continue;
 			}
 			// Handle C-style comment:
-			else if(srcLine.charAt(srcPos++) == '*') {
-				if(srcLine.charAt(srcPos) == '/') return true;
+			if(srcLine.charAt(srcPos++) == '*') {
+				if(srcLine.charAt(srcPos) == '/') {
+					srcPos++; return;
+				} else continue;
 			}
 		}
 	}
