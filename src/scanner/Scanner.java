@@ -224,7 +224,7 @@ public class Scanner {
 	 * @param isBracketComment true for curly-bracket style, false for C-style.
 	 */
 	private void handleComment(boolean isBracketComment) {
-		int cln = srcFile.getLineNumber();
+		int cln = srcFile.getLineNumber(); //current line number
 		String errorMessage = "No end for comment starting on line " + cln;
 		
 		// SKIP OVER OPENING SYMBOLS
