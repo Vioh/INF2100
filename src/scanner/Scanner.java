@@ -209,10 +209,13 @@ public class Scanner {
 				nextToken = new Token('\'', cln);
 				srcPos = srcPos + 3;
 				isLegal = true;
-			} else if(srcLine.charAt(srcPos+1) == '\'') {
-				nextToken = new Token(srcLine.charAt(srcPos), cln);
-				srcPos = srcPos + 2;
-				isLegal = true;
+			} 
+			else if(srcLine.charAt(srcPos) != '\'') {
+				if(srcLine.charAt(srcPos+1) == '\'') {
+					nextToken = new Token(srcLine.charAt(srcPos), cln);
+					srcPos = srcPos + 2;
+					isLegal = true;
+				}
 			}
 		}
 		if(!isLegal) error("Illegal char literal!");
