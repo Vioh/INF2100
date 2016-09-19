@@ -79,6 +79,7 @@ public class Scanner {
 					srcLine += " ";
 				}
 				srcPos = 0;
+				srcLine = srcLine.toLowerCase();
 			} catch (IOException e) {
 				Main.error("Scanner error: unspecified I/O error!");
 			}
