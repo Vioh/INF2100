@@ -79,13 +79,13 @@ public class Scanner {
 					srcLine += " ";
 				}
 				srcPos = 0;
-				srcLine = srcLine.toLowerCase();
 			} catch (IOException e) {
 				Main.error("Scanner error: unspecified I/O error!");
 			}
 		}
 		if (srcFile != null) 
 			Main.log.noteSourceLine(getFileLineNum(), srcLine);
+		srcLine = srcLine.toLowerCase();
 	}
 	
 	
