@@ -29,3 +29,17 @@ If "srcPos" is:
 	+ Compare it to each of the 2-char symbol token, else
 	+ Compare it to each of the 1-char symbol token, else
 	+ ILLEGAL Symbol --> ERROR!
+
+
+
+
+================================================================================
+**************************PARSE*************************************************
+================================================================================
+
+++ Vite hvilke SUBCLASSER en class/instans må inneholde
+++ Prøv å lage et tre  slik at vi kan sjekke og dele opp bugs som kommer
+++ Hvis det er "END" , så les den først før vi forlater "PROC CALL"
+++ Bruk Scanner for å lese tokens og kall Parse metode deretter
+++ Pretty Printing
+
