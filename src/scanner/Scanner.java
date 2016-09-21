@@ -50,7 +50,6 @@ public class Scanner {
 		           ": " + message);
 	}
 	
-	/* Parser tests:
 	public void test(TokenKind t) {
 		if (curToken.kind != t)
 			testError(t.toString());
@@ -66,7 +65,6 @@ public class Scanner {
 		test(t);  
 		readNextToken();
 	}
-	*/
 	
 	private void readNextLine() {
 		if (srcFile != null) {
