@@ -7,7 +7,7 @@ class WhileStatm extends Statement {
 	Expression expr;
 	Statement body;
 	
-	WhileStatm(int lNum) {
+	public WhileStatm(int lNum) {
 		super(lNum);
 	}
 	
@@ -16,7 +16,7 @@ class WhileStatm extends Statement {
 		return "<while-statm> on line " + lineNum;
 	}
 	
-	static WhileStatm parse(Scanner s) {
+	public static WhileStatm parse(Scanner s) {
 		enterParser("while-statm");
 		
 		WhileStatm ws = new WhileStatm(s.curLineNum());
