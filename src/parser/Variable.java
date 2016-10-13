@@ -7,7 +7,7 @@ class Variable extends Factor {
 	String name;
 	Expression expr;
 	
-	public Variable(int lNum) { // MIGZ
+	public Variable(int lNum) { 
 		super(lNum);
 	}
 	
@@ -17,19 +17,16 @@ class Variable extends Factor {
 	}
 	
 	public static Variable parse(Scanner s) {
-		enterParser("variable");
-		
+		enterParser("variable");	
 		Variable v = new Variable(s.curLineNum());
-		this.name = s.curToken.id;
+		v.name = s.curToken.id;
 		s.readNextToken();
 		
-		if(s.test(leftParToken)) {
-			s.readNextToken(); //skipping the left parenthesis 
-			v.expr = new Expression.parse(s)
-			s.skip(rightParToken);			
-		} else {
-			v.expressions = null;
-		}
+		if(s.curToken.kind == leftBracketToken) {
+			s.readNextToken(); //skipping the left bracket 
+			v.expr = Expression.parse(s);
+			s.skip(rightBracketToken);			
+		}	
 		leaveParser("variable");
 		return v;
 	}

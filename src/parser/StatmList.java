@@ -18,18 +18,11 @@ class StatmList extends PascalSyntax {
 	}
 	
 	public static StatmList parse(Scanner s) {
-		enterParser("statm-list");
-		
-		StatmList stl = new StatmList(s.curLineNum());
-		
-		while(true) {
+		enterParser("statm-list");		
+		StatmList stl = new StatmList(s.curLineNum());	
+		do {
 			stl.stlist.add(Statement.parse(s));
-			if(s.test(semicolonToken)) {
-				s.readNextToken();  //skip semicolon
-				continue;
-			} else break;
-		}
-		
+		}while(s.curToken.kind == semicolonToken);
 		leaveParser("statm-list");
 		return stl;
 	}
