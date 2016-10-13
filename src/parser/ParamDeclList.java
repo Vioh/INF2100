@@ -15,20 +15,16 @@ class ParamDeclList extends PascalSyntax {
 	public String identify() {
 		return "<param-decl-list> on line " + lineNum;
 	}
-	//MIGZ
+	
 	public static ParamDeclList parse(Scanner s) {
-		enterParser("param-decl-list");
-		
+		enterParser("param-decl-list");		
 		ParamDeclList pdl = new ParamDeclList(s.curLineNum());
-		s.skip(leftParToken);
+		s.skip(leftParToken);	
 		
-		while(true) {
+		do {
 			pdl.pdlist.add(ParamDecl.parse(s));
-			if(s.test(semicolonToken)) {
-				s.readNextToken(); //skip semicolon
-				continue;
-			} else break; 
-		}
+		}while(s.curToken.kind == semicolonToken);	
+		
 		s.skip(rightParToken);
 		leaveParser("param-decl-list");
 		return pdl;

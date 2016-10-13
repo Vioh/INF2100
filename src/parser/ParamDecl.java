@@ -27,4 +27,28 @@ class ParamDecl extends PascalDecl {
 		leaveParser("param-decl");
 		return pd;
 	}
+
+	@Override
+	void checkWhetherAssignable(PascalSyntax where) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void checkWhetherFunction(PascalSyntax where) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void checkWhetherProcedure(PascalSyntax where) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void checkWhetherValue(PascalSyntax where) {
+		// TODO Auto-generated method stub
+		
+	}
 }

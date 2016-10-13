@@ -21,19 +21,15 @@ class ProcCallStatm extends Statement {
 		enterParser("proccall-statm");
 		
 		ProcCallStatm pcs = new ProcCallStatm(s.curLineNum());
-		this.name = s.curToken.id;
+		pcs.name = s.curToken.id;
 		s.readNextToken();
 		
-		if(s.test(leftParToken)) {
+		if(s.curToken.kind == leftParToken) {
 			s.readNextToken(); //skipping the left parenthesis 
 			pcs.expressions = new ArrayList<Expression>();
-			while(true) {
-				pcs.expression.add(Expression.parse(s));
-				if(s.test(commaToken)) {
-					s.readNextToken(); //skipping the comma token
-					continue;
-				} else break;
-			} 
+			do {
+				pcs.expressions.add(Expression.parse(s));
+			}while(s.curToken.kind == commaToken);
 			s.skip(rightParToken);			
 		} else {
 			pcs.expressions = null;
