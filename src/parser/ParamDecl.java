@@ -4,9 +4,10 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class ParamDecl extends PascalDecl {
+	//SOME METHODS MUST BE IMPLEMENTED
 	String name;
-	//TYPENAME Class Variable
-	//MIGZ
+	TypeName type;
+	
 	
 	public ParamDecl(int lNum) {
 		super(lNum);
@@ -18,16 +19,12 @@ class ParamDecl extends PascalDecl {
 	}
 	
 	public static ParamDecl parse(Scanner s) {
-		enterParser("param-decl");
-		
+		enterParser("param-decl");	
 		ParamDecl pd = new ParamDecl(s.curLineNum());
-		this.name = s.curToken.id;
-		
-		
-		//TYPE NAME CLASS MAYBE NEEDED
-		
+		pd.name = s.curToken.id;		
+		s.skip(colonToken);
+		pd.type = TypeName.parse(s);
 		leaveParser("param-decl");
 		return pd;
 	}
-}
 }

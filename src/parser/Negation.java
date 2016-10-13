@@ -4,7 +4,7 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class Negation extends Factor {
-	Factor fac;
+	Factor fact;
 	
 	public Negation(int lNum) {
 		super(lNum);
@@ -18,12 +18,12 @@ class Negation extends Factor {
 	public static Negation parse(Scanner s) {
 		enterParser("negation");
 		
-		Negation ws = new Negation(s.curLineNum());
+		Negation neg = new Negation(s.curLineNum());
 		
 		s.skip(notToken);
-		ws.fac = Factor.parse(s);
+		neg.fact = Factor.parse(s);
 		leaveParser("negation");
-		return ws;
+		return neg;
 	}
 	
 }
