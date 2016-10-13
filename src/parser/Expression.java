@@ -4,9 +4,9 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class Expression extends PascalSyntax {
-	SimpleExpr se1;
-	SimpleExpr se2;
-	RelOperator ro;
+	SimpleExpr exprStart; // 1st simple expr (must not be NULL)
+	SimpleExpr exprEnd;   // 2nd simple expr (might be NULL)
+	RelOperator opr;
 	
 	public Expression(int lNum) {
 		super(lNum);
@@ -17,18 +17,22 @@ class Expression extends PascalSyntax {
 		return "<expression> on line " + lineNum;
 	}
 	
+	private static boolean isRelOpr(Token tok) {
+		TokenKind kind = tok.kind;
+		return kind == equalToken || kind == notEqualToken ||
+				kind == lessToken || kind == lessEqualToken ||
+				kind == greaterToken || kind == greaterEqualToken;
+	}
+	
 	public static Expression parse(Scanner s) {
 		enterParser("expression");
+		Expression expr = new Expression(s.curLineNum());
 		
-		Expression e = new Expression(s.curLineNum());
-		
-		
-		e.se1 = SimpleExpr.parse(s);
-		s.readNextToken();
-		if(s.test(equalToken)) {
-			e.ro = RelOperator.parse(equalToken); // MÅ VI SENDE INN SELVE TOKEN ELLER e.ro.opr = equalTOken ??? CHECK
-		
-		
+		expr.exprStart = SimpleExpr.parse(s);
+		if(isRelOpr(s.curToken)) {
+			expr.opr = RelOperator.parse(s);
+			expr.exprEnd = SimpleExpr.parse(s);
+		}
 		leaveParser("expression");
 		return ws;
 	}

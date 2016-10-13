@@ -5,9 +5,9 @@ import static scanner.TokenKind.*;
 
 class ConstDecl extends PascalDecl {
 	String name;
-	Constant con;
+	Constant constant;
 	
-	public ConstDecl(int lNum) {//MIGZ
+	public ConstDecl(int lNum) {
 		super(lNum);
 	}
 	
@@ -21,9 +21,9 @@ class ConstDecl extends PascalDecl {
 		
 		ConstDecl cd = new ConstDecl(s.curLineNum());
 		
-		this.name = s.curToken.id;
+		cd.name = s.curToken.id;
 		s.skip(equalToken);
-		cd.con = new Constant.parse(s);
+		cd.constant = Constant.parse(s);
 		s.skip(semicolonToken);
 		
 		leaveParser("constant-decl");

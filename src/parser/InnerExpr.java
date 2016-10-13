@@ -6,7 +6,7 @@ import static scanner.TokenKind.*;
 class InnerExpr extends Factor {
 	Expression expr;
 	
-	public InnerExpr(int lNum) {//MIGZ
+	public InnerExpr(int lNum) {
 		super(lNum);
 	}
 	

@@ -13,7 +13,6 @@ class Block extends PascalSyntax {
 	public Block(int lNum) {
 		super(lNum);
 		procList = new ArrayList<ProcDecl>();
-		stmtList = new ArrayList<Statement>();
 	}
 	
 	@Override

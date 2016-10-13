@@ -27,7 +27,7 @@ class IfStatm extends Statement {
 		s.skip(thenToken);
 		ifst.thenStatm = Statement.parse(s);
 		
-		if(s.test(elseToken)) {
+		if(s.curToken.kind == elseToken) {
 			s.readNextToken();
 			ifst.elseStatm = Statement.parse(s);
 		} else {
