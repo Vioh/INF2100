@@ -18,9 +18,8 @@ class AssignStatm extends Statement {
 	
 	public static AssignStatm parse(Scanner s) {
 		enterParser("assign-statm");
-		
+
 		AssignStatm as = new AssignStatm(s.curLineNum());
-		
 		as.var = Variable.parse(s);
 		s.skip(assignToken);
 		as.expr = Expression.parse(s);
@@ -28,6 +27,4 @@ class AssignStatm extends Statement {
 		leaveParser("assign-statm");
 		return as;
 	}
-	
-	
 }

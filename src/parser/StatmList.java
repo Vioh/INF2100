@@ -1,10 +1,12 @@
 package parser;
 import main.*;
 import scanner.*;
+import java.util.ArrayList;
 import static scanner.TokenKind.*;
 
+
 class StatmList extends PascalSyntax {
-	Arraylist<Statement> stlist = new ArrayList<Statement>();
+	ArrayList<Statement> stlist = new ArrayList<Statement>();
 	
 	public StatmList(int lNum) {
 		super(lNum);
@@ -20,7 +22,7 @@ class StatmList extends PascalSyntax {
 		
 		StatmList stl = new StatmList(s.curLineNum());
 		
-		while(True) {
+		while(true) {
 			stl.stlist.add(Statement.parse(s));
 			if(s.test(semicolonToken)) {
 				s.readNextToken();  //skip semicolon

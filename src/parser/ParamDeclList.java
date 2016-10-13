@@ -1,6 +1,7 @@
 package parser;
 import main.*;
 import scanner.*;
+import java.util.ArrayList;
 import static scanner.TokenKind.*;
 
 class ParamDeclList extends PascalSyntax {
@@ -21,7 +22,7 @@ class ParamDeclList extends PascalSyntax {
 		ParamDeclList pdl = new ParamDeclList(s.curLineNum());
 		s.skip(leftParToken);
 		
-		while(True) {
+		while(true) {
 			pdl.pdlist.add(ParamDecl.parse(s));
 			if(s.test(semicolonToken)) {
 				s.readNextToken(); //skip semicolon

@@ -1,6 +1,7 @@
 package parser;
 import main.*;
 import scanner.*;
+import java.util.ArrayList;
 import static scanner.TokenKind.*;
 
 class ConstDeclPart extends PascalSyntax {
@@ -20,7 +21,7 @@ class ConstDeclPart extends PascalSyntax {
 		
 		ConstDeclPart cdp = new ConstDeclPart(s.curLineNum());
 		
-		while(True) {
+		while(true) {
 			cdp.cdlist.add(ConstDecl.parse(s));
 			if(s.test("\n")) { //MÅ FORANDRE FOR Å SJEKKE RIKTIG OM DET ER EN TIL CONST DECL
 				s.readNextToken();

@@ -18,7 +18,7 @@ class CompoundStatm extends Statement {
 	public static CompoundStatm parse(Scanner s) {
 		enterParser("compound-statm");
 		
-		CompundStatm cs = new CompoundStatm(s.curLineNum());
+		CompoundStatm cs = new CompoundStatm(s.curLineNum());
 		
 		s.skip(beginToken);
 		cs.stml = StatmList.parse(s);
