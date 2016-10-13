@@ -4,10 +4,10 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class FuncDecl extends ProcDecl {
-	String name;
-	ParamDeclList pdl; // might be NULL
-	TypeName type;
-	Block block;
+	String name;   // not NULL
+	TypeName type; // not NULL
+	Block block;   // not NULL
+	ParamDeclList pdl;
 	
 	public FuncDecl(int lNum) {
 		super(lNum);
@@ -36,5 +36,18 @@ class FuncDecl extends ProcDecl {
 		
 		leaveParser("func-decl");
 		return fd;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint("function " + name + " ");
+		if(pdl != null) {
+			pdl.prettyPrint();
+		}
+		Main.log.prettyPrint(":");
+		type.prettyPrint();
+		Main.log.prettyPrint(";");
+		block.prettyPrint();
+		Main.log.prettyPrint("; {" + name + "}");
 	}
 }

@@ -4,8 +4,8 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class IfStatm extends Statement {
-	Expression expr;
-	Statement thenStatm;
+	Expression expr;     // not NULL
+	Statement thenStatm; // not NULL
 	Statement elseStatm;
 	
 	public IfStatm(int lNum) {
@@ -37,4 +37,19 @@ class IfStatm extends Statement {
 		return ifst;
 	}
 	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint("if ");
+		expr.prettyPrint();
+		
+		Main.log.prettyPrintLn(" then "); Main.log.prettyIndent();
+		thenStatm.prettyPrint();
+		Main.log.prettyOutdent();
+		
+		if(elseStatm != null) {
+			Main.log.prettyPrintLn("else"); Main.log.prettyIndent();
+			elseStatm.prettyPrint();
+			Main.log.prettyOutdent();
+		}
+	}
 }

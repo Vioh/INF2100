@@ -35,4 +35,18 @@ class FuncCall extends Factor {
 		leaveParser("func-call");
 		return fc;
 	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint(name);
+		if(exprList.isEmpty()) return;
+		
+		Main.log.prettyPrint("(");
+		exprList.get(0).prettyPrint();
+		for(int i = 1; i < exprList.size(); i++) {
+			Main.log.prettyPrint(", ");
+			exprList.get(1).prettyPrint();
+		}
+		Main.log.prettyPrint(")");
+	}
 }

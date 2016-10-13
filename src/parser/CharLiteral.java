@@ -24,4 +24,11 @@ class CharLiteral extends UnsignedConstant {
 		leaveParser("char-literal");
 		return cl;
 	}
+	
+	@Override
+	public void prettyPrint() {
+		String str = "'" + literal + "'";
+		if(literal == '\'') str += "'";
+		Main.log.prettyPrint(str);
+	}	
 } 

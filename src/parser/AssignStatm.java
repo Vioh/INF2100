@@ -27,4 +27,19 @@ class AssignStatm extends Statement {
 		leaveParser("assign-statm");
 		return as;
 	}
+	
+	@Override
+	public void prettyPrint() {
+		var.prettyPrint();
+		Main.log.prettyPrint(" := ");
+		expr.prettyPrint();
+	}
 }
+
+
+
+
+
+
+
+

@@ -28,4 +28,11 @@ class InnerExpr extends Factor {
 		return ie;
 	}
 	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint("(");
+		expr.prettyPrint();
+		Main.log.prettyPrint(")");
+	}
+	
 }

@@ -4,8 +4,8 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class Constant extends PascalSyntax {
-	PrefixOperator prefix;
-	UnsignedConstant uconstant;
+	PrefixOperator prefix; 
+	UnsignedConstant uconstant; // must not be NULL
 	
 	public Constant(int lNum) {
 		super(lNum);
@@ -28,5 +28,13 @@ class Constant extends PascalSyntax {
 		
 		leaveParser("constant");
 		return c;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		if(prefix != null) {
+			prefix.prettyPrint();
+		}
+		uconstant.prettyPrint();
 	}
 }

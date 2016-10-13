@@ -4,7 +4,7 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class CompoundStatm extends Statement {
-	StatmList stml;
+	StatmList stmList;
 	
 	public CompoundStatm(int lNum) {
 		super(lNum);
@@ -21,10 +21,17 @@ class CompoundStatm extends Statement {
 		CompoundStatm cs = new CompoundStatm(s.curLineNum());
 		
 		s.skip(beginToken);
-		cs.stml = StatmList.parse(s);
+		cs.stmList = StatmList.parse(s);
 		s.skip(endToken);
 		
 		leaveParser("compound-statm");
 		return cs;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrintLn("begin"); Main.log.prettyIndent();
+		stmList.prettyPrint(); Main.log.prettyPrintLn();
+		Main.log.prettyOutdent(); Main.log.prettyPrint("end");
 	}
 }

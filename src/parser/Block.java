@@ -46,4 +46,23 @@ class Block extends PascalSyntax {
 		leaveParser("block");
 		return b;
 	}
+	
+	@Override
+	public void prettyPrint() {
+		if(cdp != null) {
+			cdp.prettyPrint();
+			Main.log.prettyPrintLn(); Main.log.prettyPrintLn();
+		}
+		if(vdp != null) {
+			vdp.prettyPrint();
+			Main.log.prettyPrintLn(); Main.log.prettyPrintLn();
+		}
+		for(ProcDecl dec : procList) {
+			dec.prettyPrint();
+			Main.log.prettyPrintLn(); Main.log.prettyPrintLn();
+		}
+		Main.log.prettyPrintLn("begin"); Main.log.prettyIndent();
+		stmList.prettyPrint(); Main.log.prettyPrintLn();
+		Main.log.prettyOutdent(); Main.log.prettyPrint("end");
+	}
 }

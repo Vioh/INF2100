@@ -29,6 +29,13 @@ class WhileStatm extends Statement {
 		leaveParser("while-statm");
 		return ws;
 	}
+	
+	@Override 
+	public void prettyPrint() {
+		Main.log.prettyPrint("while "); expr.prettyPrint();
+		Main.log.prettyPrintLn(" do"); Main.log.prettyIndent();
+		body.prettyPrint(); Main.log.prettyOutdent();
+	}
 }
 
 

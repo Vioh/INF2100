@@ -30,4 +30,10 @@ class ConstDecl extends PascalDecl {
 		return cd;
 	}
 	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint(name + " = ");
+		constant.prettyPrint();
+		Main.log.prettyPrint(";");
+	}
 }

@@ -6,7 +6,7 @@ import static scanner.TokenKind.*;
 class Expression extends PascalSyntax {
 	SimpleExpr exprStart; // 1st simple expr (must not be NULL)
 	SimpleExpr exprEnd;   // 2nd simple expr (might be NULL)
-	RelOperator opr;
+	RelOperator opr;      // might be NULL
 	
 	public Expression(int lNum) {
 		super(lNum);
@@ -35,5 +35,16 @@ class Expression extends PascalSyntax {
 		}
 		leaveParser("expression");
 		return ws;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		exprStart.prettyPrint();
+		if(opr != null) {
+			Main.log.prettyPrint(" ");
+			opr.prettyPrint();
+			Main.log.prettyPrint(" ");
+			exprEnd.prettyPrint();
+		}
 	}
 }

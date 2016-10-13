@@ -18,4 +18,9 @@ class EmptyStatm extends Statement {
 		leaveParser("empty-statm");
 		return new EmptyStatm(s.curLineNum());
 	}
+	
+	@Override
+	public void prettyPrint() {
+		// Print nothing for an empty statement
+	}
 }

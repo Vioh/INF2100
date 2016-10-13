@@ -27,4 +27,14 @@ class ConstDeclPart extends PascalSyntax {
 		leaveParser("const-decl-part");
 		return cdp;
 	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint("const"); Main.log.prettyIndent();
+		for(ConstDecl dec : decList) {
+			Main.log.prettyPrintLn();
+			dec.prettyPrint();
+			Main.log.prettyPrint(";");
+		}
+	}
 }

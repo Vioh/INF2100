@@ -23,4 +23,9 @@ class FactorOperator extends Operator {
 		leaveParser("factor-opr");
 		return fopr;
 	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint(oprType.toString());
+	}
 }
