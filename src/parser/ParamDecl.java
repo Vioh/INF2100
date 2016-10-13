@@ -4,7 +4,6 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class ParamDecl extends PascalDecl {
-	//SOME METHODS MUST BE IMPLEMENTED
 	String name;
 	TypeName type;
 	
@@ -28,27 +27,4 @@ class ParamDecl extends PascalDecl {
 		return pd;
 	}
 
-	@Override
-	void checkWhetherAssignable(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void checkWhetherFunction(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void checkWhetherProcedure(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void checkWhetherValue(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
-	}
 }

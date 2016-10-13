@@ -3,11 +3,11 @@ Check:
 NumberLiteral
 NamedConst
 TypeName
-Operator
+Operator(Cant find it on diagram)
 **And all the "name" in the diagramm.
 
 
-ADDED:
+REMOVED on what to do:
 
 PARAMDECL
 VARDECL
@@ -15,4 +15,10 @@ CONSTDECL
 PROCDECL(added)
 PASCALDECL
 
---I have no idea what to do bro.. 
+ADDED:
+
+Check Program.java (specifically p.block.context)
+ArrayType?? (Do we need to create class for this?)
+TypeDecl == Type on the diagram??
+
+

@@ -31,27 +31,4 @@ class ProcDecl extends PascalDecl {
 		leaveParser("proc-decl");
 		return procDecl;
 	}
-	
-	@Override
-	void checkWhetherAssignable(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	void checkWhetherFunction(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	void checkWhetherProcedure(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	void checkWhetherValue(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 }
