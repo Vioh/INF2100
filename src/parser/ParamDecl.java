@@ -17,7 +17,8 @@ class ParamDecl extends PascalDecl {
 	
 	public static ParamDecl parse(Scanner s) {
 		enterParser("param-decl");	
-		ParamDecl pd = new ParamDecl(s.curToken.id, s.curLineNum());		
+		ParamDecl pd = new ParamDecl(s.curToken.id, s.curLineNum());
+		s.skip(nameToken);
 		s.skip(colonToken);
 		pd.type = TypeName.parse(s);
 		leaveParser("param-decl");

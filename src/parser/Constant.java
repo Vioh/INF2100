@@ -23,8 +23,7 @@ class Constant extends PascalSyntax {
 				|| s.curToken.kind == subtractToken) {
 			c.prefix = PrefixOperator.parse(s);
 		}
-		c.uconstant = UnsignedConstant.parse(s);
-		
+		c.uconstant = UnsignedConstant.parse(s);		
 		leaveParser("constant");
 		return c;
 	}

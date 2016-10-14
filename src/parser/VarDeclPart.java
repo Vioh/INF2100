@@ -17,7 +17,8 @@ class VarDeclPart extends PascalSyntax {
 	}
 	
 	public static VarDeclPart parse(Scanner s) {
-		enterParser("var-decl-part");		
+		enterParser("var-decl-part");
+		s.skip(varToken);
 		VarDeclPart vdp = new VarDeclPart(s.curLineNum());
 		
 		do {

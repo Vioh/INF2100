@@ -18,6 +18,7 @@ class FactorOperator extends PascalSyntax {
 		enterParser("factor-opr");
 		FactorOperator fopr = new FactorOperator(s.curLineNum());
 		fopr.oprType = s.curToken.kind;
+		s.readNextToken();
 		leaveParser("factor-opr");
 		return fopr;
 	}

@@ -43,7 +43,12 @@ class Term extends PascalSyntax {
 	public void prettyPrint() {
 		for(int i = 0; i < facList.size(); i++) {
 			facList.get(i).prettyPrint();
-			if(i != foprList.size()) foprList.get(i).prettyPrint();
+			
+			if(i != foprList.size()) {
+				Main.log.prettyPrint(" ");
+				foprList.get(i).prettyPrint();
+				Main.log.prettyPrint(" ");
+			}
 		}
 	}
 }

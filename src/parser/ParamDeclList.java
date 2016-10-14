@@ -21,10 +21,11 @@ class ParamDeclList extends PascalSyntax {
 		ParamDeclList pdl = new ParamDeclList(s.curLineNum());
 		s.skip(leftParToken);	
 		
-		do {
+		while(true) {
 			pdl.pdList.add(ParamDecl.parse(s));
-		}while(s.curToken.kind == semicolonToken);	
-		
+			if(s.curToken.kind != semicolonToken) break;
+			s.skip(semicolonToken);
+		}
 		s.skip(rightParToken);
 		leaveParser("param-decl-list");
 		return pdl;

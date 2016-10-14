@@ -1,6 +1,7 @@
 package parser;
 import main.*;
 import scanner.*;
+import static scanner.TokenKind.*;
 
 class TypeName extends Type {
 	String name;
@@ -18,6 +19,7 @@ class TypeName extends Type {
 		enterParser("type-name");
 		TypeName typName = new TypeName(s.curLineNum());
 		typName.name = s.curToken.id;
+		s.skip(nameToken);
 		leaveParser("type-name");
 		return typName;
 	}

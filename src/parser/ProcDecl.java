@@ -21,6 +21,7 @@ class ProcDecl extends PascalDecl {
 		
 		s.skip(procedureToken);
 		ProcDecl proc = new ProcDecl(s.curToken.id, s.curLineNum());
+		s.skip(nameToken);
 		
 		if(s.curToken.kind == leftParToken) {
 			proc.pdList = ParamDeclList.parse(s);

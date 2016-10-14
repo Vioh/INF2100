@@ -17,8 +17,9 @@ class ConstDecl extends PascalDecl {
 	
 	public static ConstDecl parse(Scanner s) {
 		enterParser("constant-decl");
-		
+
 		ConstDecl cd = new ConstDecl(s.curToken.id, s.curLineNum());
+		s.skip(nameToken);			
 		s.skip(equalToken);
 		cd.constant = Constant.parse(s);
 		s.skip(semicolonToken);

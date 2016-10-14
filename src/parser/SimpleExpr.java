@@ -51,7 +51,11 @@ class SimpleExpr extends PascalSyntax {
 		if(popr != null) popr.prettyPrint();
 		for(int i = 0; i < tlist.size(); i++) {
 			tlist.get(i).prettyPrint();
-			if(i != toprlist.size()) toprlist.get(i).prettyPrint();
+			if(i != toprlist.size()) {
+				Main.log.prettyPrint(" ");
+				toprlist.get(i).prettyPrint();
+				Main.log.prettyPrint(" ");
+			}
 		}
 	}
 }

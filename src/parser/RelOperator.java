@@ -18,6 +18,7 @@ class RelOperator extends PascalSyntax {
 		enterParser("Rel-opr");
 		RelOperator ropr = new RelOperator(s.curLineNum());
 		ropr.oprType = s.curToken.kind;
+		s.readNextToken();
 		leaveParser("Rel-opr");
 		return ropr;
 	}

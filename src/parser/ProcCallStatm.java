@@ -6,7 +6,7 @@ import static scanner.TokenKind.*;
 
 class ProcCallStatm extends Statement {
 	String name;
-	ArrayList<Expression> expressions;
+	ArrayList<Expression> expressions; // can be NULL
 
 	public ProcCallStatm(int lNum) {
 		super(lNum);
@@ -22,18 +22,18 @@ class ProcCallStatm extends Statement {
 		
 		ProcCallStatm pcs = new ProcCallStatm(s.curLineNum());
 		pcs.name = s.curToken.id;
-		s.readNextToken();
+		s.skip(nameToken);
 		
 		if(s.curToken.kind == leftParToken) {
-			s.readNextToken(); //skipping the left parenthesis 
+			s.skip(leftParToken); 
 			pcs.expressions = new ArrayList<Expression>();
-			do {
+			while(true) {
 				pcs.expressions.add(Expression.parse(s));
-			} while(s.curToken.kind == commaToken);
+				if(s.curToken.kind != commaToken) break;
+				s.skip(commaToken);		
+			}
 			s.skip(rightParToken);			
-		} else {
-			pcs.expressions = null;
-		}
+		} 
 		leaveParser("proccall-statm");
 		return pcs;
 	}

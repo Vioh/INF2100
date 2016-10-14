@@ -47,6 +47,7 @@ class IfStatm extends Statement {
 		Main.log.prettyOutdent();
 		
 		if(elseStatm != null) {
+			Main.log.prettyPrintLn();
 			Main.log.prettyPrintLn("else"); Main.log.prettyIndent();
 			elseStatm.prettyPrint();
 			Main.log.prettyOutdent();

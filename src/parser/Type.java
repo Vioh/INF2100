@@ -15,15 +15,15 @@ abstract class Type extends PascalSyntax {
 	
 	//TODO
 	public static Type parse(Scanner s) {
-		enterParser("type-decl");
-		Type tdecl = null;
+		enterParser("type");
+		Type t = null;
 		switch(s.curToken.kind) {
 		case arrayToken:
-			tdecl = ArrayType.parse(s); break;
+			t = ArrayType.parse(s); break;
 		default:
-			tdecl = TypeName.parse(s); break;
+			t = TypeName.parse(s); break;
 		}
-		leaveParser("type-decl");
-		return tdecl;
+		leaveParser("type");
+		return t;
 	}
 }

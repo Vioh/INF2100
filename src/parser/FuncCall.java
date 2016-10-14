@@ -20,17 +20,19 @@ class FuncCall extends Factor {
 	public static FuncCall parse(Scanner s) {
 		enterParser("func-call");
 		FuncCall fc = new FuncCall(s.curLineNum());
-		
 		fc.name = s.curToken.id;
-		s.readNextToken();
+		s.skip(nameToken);
+		
 		if(s.curToken.kind == leftParToken) {
-			s.skip(leftParToken);
-			do {
+			s.skip(leftParToken); 
+			fc.exprList = new ArrayList<Expression>();
+			while(true) {
 				fc.exprList.add(Expression.parse(s));
-			} 
-			while(s.curToken.kind == commaToken);
-			s.skip(rightParToken);
-		}
+				if(s.curToken.kind != commaToken) break;
+				s.skip(commaToken);		
+			}
+			s.skip(rightParToken);			
+		} 
 		
 		leaveParser("func-call");
 		return fc;

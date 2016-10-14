@@ -43,7 +43,7 @@ class FuncDecl extends ProcDecl {
 		if(pdl != null) {
 			pdl.prettyPrint();
 		}
-		Main.log.prettyPrint(":");
+		Main.log.prettyPrint(": ");
 		type.prettyPrint();
 		Main.log.prettyPrintLn(";");
 		block.prettyPrint();

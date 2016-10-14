@@ -34,27 +34,20 @@ public class Program extends PascalDecl {
 	@Override
 	public void prettyPrint() {
 		Main.log.prettyPrintLn("program " + this.name + ";");
+		Main.log.prettyPrintLn();
 		progBlock.prettyPrint();
 		Main.log.prettyPrintLn(".");
 	}
 
 //	@Override
-//	void checkWhetherAssignable(PascalSyntax where) {
-//		// TODO Auto-generated method stub
-//	}
+//	void checkWhetherAssignable(PascalSyntax where) {}
 //
 //	@Override
-//	void checkWhetherFunction(PascalSyntax where) {
-//		// TODO Auto-generated method stub
-//	}
+//	void checkWhetherFunction(PascalSyntax where) {}
 //
 //	@Override
-//	void checkWhetherProcedure(PascalSyntax where) {
-//		// TODO Auto-generated method stub
-//	}
+//	void checkWhetherProcedure(PascalSyntax where) {}
 //
 //	@Override
-//	void checkWhetherValue(PascalSyntax where) {
-//		// TODO Auto-generated method stub
-//	}
+//	void checkWhetherValue(PascalSyntax where) {}
 }
