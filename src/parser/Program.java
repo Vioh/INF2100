@@ -24,34 +24,37 @@ public class Program extends PascalDecl {
 		s.readNextToken();
 		s.skip(semicolonToken);
 		p.progBlock = Block.parse(s); 
-		p.progBlock.context = p; //what is context?
+		// p.progBlock.context = p;
 		s.skip(dotToken);
 		
 		leaveParser("program");
 		return p;
 	}
-
+	
 	@Override
-	void checkWhetherAssignable(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
+	public void prettyPrint() {
+		Main.log.prettyPrintLn("program " + this.name + ";");
+		progBlock.prettyPrint();
+		Main.log.prettyPrintLn(".");
 	}
 
-	@Override
-	void checkWhetherFunction(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void checkWhetherProcedure(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void checkWhetherValue(PascalSyntax where) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	void checkWhetherAssignable(PascalSyntax where) {
+//		// TODO Auto-generated method stub
+//	}
+//
+//	@Override
+//	void checkWhetherFunction(PascalSyntax where) {
+//		// TODO Auto-generated method stub
+//	}
+//
+//	@Override
+//	void checkWhetherProcedure(PascalSyntax where) {
+//		// TODO Auto-generated method stub
+//	}
+//
+//	@Override
+//	void checkWhetherValue(PascalSyntax where) {
+//		// TODO Auto-generated method stub
+//	}
 }

@@ -3,7 +3,7 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class RelOperator extends Operator {
+class RelOperator extends PascalSyntax {
 	TokenKind oprType;
 	
 	public RelOperator(int lNum) {
@@ -21,5 +21,10 @@ class RelOperator extends Operator {
 		ropr.oprType = s.curToken.kind;
 		leaveParser("Rel-opr");
 		return ropr;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint(oprType.toString());
 	}
 }

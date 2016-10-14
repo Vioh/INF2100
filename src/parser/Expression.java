@@ -34,7 +34,7 @@ class Expression extends PascalSyntax {
 			expr.exprEnd = SimpleExpr.parse(s);
 		}
 		leaveParser("expression");
-		return ws;
+		return expr;
 	}
 	
 	@Override

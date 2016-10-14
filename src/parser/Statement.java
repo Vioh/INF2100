@@ -1,7 +1,7 @@
 package parser;
 import main.*;
 import scanner.*;
-import static scanner.TokenKind.*;
+//import static scanner.TokenKind.*;
 
 /* 
 <statement> ::= <assign statm> | <compound statm> | <empty statm> |
@@ -35,7 +35,7 @@ abstract class Statement extends PascalSyntax {
 			case leftBracketToken:
 				st = AssignStatm.parse(s); break;
 			default:
-				st = procCallStatm.parse(s); break;
+				st = ProcCallStatm.parse(s); break;
 			} break;
 		default:
 			st = EmptyStatm.parse(s); break;

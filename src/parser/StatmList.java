@@ -4,7 +4,6 @@ import scanner.*;
 import java.util.ArrayList;
 import static scanner.TokenKind.*;
 
-
 class StatmList extends PascalSyntax {
 	ArrayList<Statement> stlist = new ArrayList<Statement>();
 	
@@ -27,4 +26,5 @@ class StatmList extends PascalSyntax {
 		return stl;
 	}
 	
+	@Override
 }

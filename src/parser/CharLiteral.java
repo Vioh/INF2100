@@ -1,9 +1,6 @@
 package parser;
 import main.*;
 import scanner.*;
-import static scanner.TokenKind.*;
-
-import java.util.ArrayList;
 
 class CharLiteral extends UnsignedConstant {
 	char literal;

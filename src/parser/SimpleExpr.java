@@ -1,10 +1,11 @@
 package parser;
 import main.*;
 import scanner.*;
+import java.util.ArrayList;
 import static scanner.TokenKind.*;
 
 class SimpleExpr extends PascalSyntax {
-	PrefixOperator popr;
+	PrefixOperator popr; //can be NULL
 	ArrayList<TermOperator> toprlist = new ArrayList<TermOperator>();
 	ArrayList<Term> tlist = new ArrayList<Term>();
 	
@@ -44,4 +45,17 @@ class SimpleExpr extends PascalSyntax {
 		leaveParser("simple-expr");
 		return se;
 	}
+	
+	@Override
+	//TODO
+	public void prettyPrint() {
+		if(popr != null) popr.prettyPrint();
+		
+	}
+	
+	
+	
+	
+	
+	
 }
