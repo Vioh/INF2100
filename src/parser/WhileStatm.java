@@ -37,16 +37,3 @@ class WhileStatm extends Statement {
 		body.prettyPrint(); Main.log.prettyOutdent();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

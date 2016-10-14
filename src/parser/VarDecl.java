@@ -5,10 +5,9 @@ import static scanner.TokenKind.*;
 
 class VarDecl extends PascalDecl {
 	TypeDecl td;
-	String name;
 	
-	public VarDecl(int lNum) {
-		super(lNum);
+	public VarDecl(String name, int lNum) {
+		super(name, lNum);
 	}
 
 	@Override
@@ -17,10 +16,9 @@ class VarDecl extends PascalDecl {
 	}
 	
 	public static VarDecl parse(Scanner s) {
-		enterParser("var-decl");		
-		VarDecl vd = new VarDecl(s.curLineNum());
-		
-		vd.name = s.curToken.id;
+		enterParser("var-decl");
+		VarDecl vd = new VarDecl(s.curToken.id, s.curLineNum());
+
 		s.skip(colonToken);
 		vd.td = TypeDecl.parse(s);
 		s.skip(semicolonToken);
@@ -29,4 +27,9 @@ class VarDecl extends PascalDecl {
 		return vd;
 	}
 	
+	@Override 
+	public void prettyPrint() {
+		Main.log.prettyPrint(this.name + ": ");
+		//TODO
+	}
 }

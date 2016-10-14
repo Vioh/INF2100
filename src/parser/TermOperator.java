@@ -1,9 +1,8 @@
 package parser;
 import main.*;
 import scanner.*;
-import static scanner.TokenKind.*;
 
-class TermOperator extends Operator {
+class TermOperator extends PascalSyntax {
 	TokenKind oprType;
 	
 	public TermOperator(int lNum) {
@@ -21,5 +20,10 @@ class TermOperator extends Operator {
 		topr.oprType = s.curToken.kind;
 		leaveParser("term-opr");
 		return topr;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint(oprType.toString());
 	}
 }

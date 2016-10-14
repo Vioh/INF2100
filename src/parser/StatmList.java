@@ -27,4 +27,10 @@ class StatmList extends PascalSyntax {
 	}
 	
 	@Override
+	public void prettyPrint() {
+		for(int i = 0; i < stlist.size(); i++) {
+			if(i != 0) Main.log.prettyPrintLn(";");
+			stlist.get(i).prettyPrint();
+		}
+	}
 }

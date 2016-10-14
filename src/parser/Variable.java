@@ -5,7 +5,7 @@ import static scanner.TokenKind.*;
 
 class Variable extends Factor {
 	String name;
-	Expression expr;
+	Expression expr; //can be NULL
 	
 	public Variable(int lNum) { 
 		super(lNum);
@@ -29,5 +29,15 @@ class Variable extends Factor {
 		}	
 		leaveParser("variable");
 		return v;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint(name);
+		if(expr != null) {
+			Main.log.prettyPrint("[");
+			expr.prettyPrint();
+			Main.log.prettyPrint("]");
+		}
 	}
 }

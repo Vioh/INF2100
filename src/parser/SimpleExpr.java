@@ -6,8 +6,8 @@ import static scanner.TokenKind.*;
 
 class SimpleExpr extends PascalSyntax {
 	PrefixOperator popr; //can be NULL
-	ArrayList<TermOperator> toprlist = new ArrayList<TermOperator>();
 	ArrayList<Term> tlist = new ArrayList<Term>();
+	ArrayList<TermOperator> toprlist = new ArrayList<TermOperator>();
 	
 	public SimpleExpr(int lNum) {
 		super(lNum);
@@ -47,15 +47,11 @@ class SimpleExpr extends PascalSyntax {
 	}
 	
 	@Override
-	//TODO
 	public void prettyPrint() {
 		if(popr != null) popr.prettyPrint();
-		
+		for(int i = 0; i < tlist.size(); i++) {
+			tlist.get(i).prettyPrint();
+			if(i != toprlist.size()) toprlist.get(i).prettyPrint();
+		}
 	}
-	
-	
-	
-	
-	
-	
 }

@@ -4,9 +4,8 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class TypeDecl extends PascalDecl {
-	
-	public TypeDecl(int lNum) {
-		super(lNum);
+	public TypeDecl(String name, int lNum) {
+		super(name, lNum);
 	}
 	
 	@Override
@@ -14,16 +13,22 @@ class TypeDecl extends PascalDecl {
 		return "<Type> on line " + lineNum;
 	}
 	
+	//TODO
 	public static TypeDecl parse(Scanner s) {
-		enterParser("Type");
-		TypeDecl tdecl = null;
-		switch(s.curToken.kind) {
-		case arrayToken:
-			tdecl = ArrayType.parse(s); break;
-		default:
-			tdecl = TypeName.parse(s); break;
-		}
-		leaveParser("Type");
-		return tdecl;
+//		enterParser("type-decl");
+//		TypeDecl tdecl = null;
+//		switch(s.curToken.kind) {
+//		case arrayToken:
+//			tdecl = ArrayType.parse(s); break;
+//		default:
+//			tdecl = TypeName.parse(s); break;
+//		}
+//		leaveParser("type-decl");
+//		return tdecl;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		
 	}
 }
