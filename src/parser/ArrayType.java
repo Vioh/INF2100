@@ -3,10 +3,10 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class ArrayType extends TypeDecl {
+class ArrayType extends Type {
 	Constant constFirst;
 	Constant constSecond;
-	TypeDecl type;
+	Type type;
 	
 	public ArrayType(int lNum) {
 		super(lNum);
@@ -26,11 +26,21 @@ class ArrayType extends TypeDecl {
 		arrt.constFirst = Constant.parse(s);
 		s.skip(rangeToken);
 		arrt.constSecond = Constant.parse(s);
-		s.skip(leftBracketToken);
+		s.skip(rightBracketToken);
 		s.skip(ofToken);
-		arrt.type = TypeDecl.parse(s);
+		arrt.type = Type.parse(s);
 		
 		leaveParser("array-type");
 		return arrt;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint("array [");
+		constFirst.prettyPrint();
+		Main.log.prettyPrint("..");
+		constSecond.prettyPrint();
+		Main.log.prettyPrint("] of ");
+		type.prettyPrint();
 	}
 }

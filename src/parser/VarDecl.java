@@ -4,7 +4,7 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class VarDecl extends PascalDecl {
-	TypeDecl td;
+	Type td;
 	
 	public VarDecl(String name, int lNum) {
 		super(name, lNum);
@@ -20,7 +20,7 @@ class VarDecl extends PascalDecl {
 		VarDecl vd = new VarDecl(s.curToken.id, s.curLineNum());
 
 		s.skip(colonToken);
-		vd.td = TypeDecl.parse(s);
+		vd.td = Type.parse(s);
 		s.skip(semicolonToken);
 	
 		leaveParser("var-decl");

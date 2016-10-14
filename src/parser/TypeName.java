@@ -1,9 +1,8 @@
 package parser;
 import main.*;
 import scanner.*;
-import static scanner.TokenKind.*;
 
-class TypeName extends TypeDecl {
+class TypeName extends Type {
 	String name;
 	
 	public TypeName(int lNum) {
@@ -21,6 +20,11 @@ class TypeName extends TypeDecl {
 		typName.name = s.curToken.id;
 		leaveParser("type-name");
 		return typName;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint(name);
 	}
 }
 
