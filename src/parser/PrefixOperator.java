@@ -3,7 +3,7 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class PrefixOperator extends Operator {
+class PrefixOperator extends PascalSyntax {
 	TokenKind oprType;
 	
 	public PrefixOperator(int lNum) {
@@ -21,5 +21,10 @@ class PrefixOperator extends Operator {
 		popr.oprType = s.curToken.kind;
 		leaveParser("prefix-opr");
 		return popr;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint(oprType.toString());
 	}
 }

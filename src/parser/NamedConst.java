@@ -22,4 +22,9 @@ class NamedConst extends UnsignedConstant {
 		leaveParser("name-constant");
 		return nc;
 	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint(name);
+	}
 }

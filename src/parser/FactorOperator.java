@@ -4,7 +4,7 @@ import scanner.*;
 import java.util.ArrayList;
 import static scanner.TokenKind.*;
 
-class FactorOperator extends Operator {
+class FactorOperator extends PascalSyntax {
 	TokenKind oprType;
 	
 	public FactorOperator(int lNum) {

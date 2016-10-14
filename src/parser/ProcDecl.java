@@ -4,12 +4,11 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class ProcDecl extends PascalDecl {	
-	String name;
-	ParamDecl parDecl;
+	ParamDeclList pdList;
 	Block block;
 	
-	public ProcDecl(int lNum) {
-		super(lNum);
+	public ProcDecl(String name, int lNum) {
+		super(name, lNum);
 	}
 	
 	@Override
@@ -19,16 +18,27 @@ class ProcDecl extends PascalDecl {
 	
 	public static ProcDecl parse(Scanner s) {
 		enterParser("proc-decl");
-		ProcDecl procDecl = new ProcDecl(s.curLineNum());
+		
 		s.skip(procedureToken);
-		procDecl.name = s.curToken.id;
+		ProcDecl proc = new ProcDecl(s.curToken.id, s.curLineNum());
+		
 		if(s.curToken.kind == leftParToken) {
-			procDecl.parDecl = ParamDecl.parse(s);
+			proc.pdList = ParamDeclList.parse(s);
 		}
 		s.skip(semicolonToken);
-		procDecl.block = Block.parse(s);
+		proc.block = Block.parse(s);
 		s.skip(semicolonToken);
+		
 		leaveParser("proc-decl");
-		return procDecl;
+		return proc;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint("procedure " + this.name);
+		if(pdList != null) pdList.prettyPrint();
+		Main.log.prettyPrintLn(";");
+		block.prettyPrint();
+		Main.log.prettyPrint("; {" + this.name + "}");
 	}
 }

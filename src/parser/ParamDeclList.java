@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import static scanner.TokenKind.*;
 
 class ParamDeclList extends PascalSyntax {
-	ArrayList<ParamDecl> pdlist = new ArrayList<ParamDecl>();
+	ArrayList<ParamDecl> pdList = new ArrayList<ParamDecl>();
 	
 	public ParamDeclList(int lNum) {
 		super(lNum);
@@ -22,7 +22,7 @@ class ParamDeclList extends PascalSyntax {
 		s.skip(leftParToken);	
 		
 		do {
-			pdl.pdlist.add(ParamDecl.parse(s));
+			pdl.pdList.add(ParamDecl.parse(s));
 		}while(s.curToken.kind == semicolonToken);	
 		
 		s.skip(rightParToken);
@@ -30,4 +30,13 @@ class ParamDeclList extends PascalSyntax {
 		return pdl;
 	}
 	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint("(");
+		for(int i = 0; i < pdList.size(); i++) {
+			if(i != 0) Main.log.prettyPrint("; ");
+			pdList.get(i).prettyPrint();
+		}
+		Main.log.prettyPrint(")");
+	}
 }

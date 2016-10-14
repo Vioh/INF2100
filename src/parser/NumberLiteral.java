@@ -22,4 +22,9 @@ class NumberLiteral extends UnsignedConstant {
 		leaveParser("number-literal");
 		return nl;
 	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint("" + numliteral);
+	}
 }

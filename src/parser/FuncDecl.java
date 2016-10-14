@@ -4,13 +4,12 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 class FuncDecl extends ProcDecl {
-	String name;   // not NULL
 	TypeName type; // not NULL
 	Block block;   // not NULL
 	ParamDeclList pdl;
 	
-	public FuncDecl(int lNum) {
-		super(lNum);
+	public FuncDecl(String name, int lNum) {
+		super(name, lNum);
 	}
 	
 	@Override
@@ -20,10 +19,10 @@ class FuncDecl extends ProcDecl {
 	
 	public static FuncDecl parse(Scanner s) {
 		enterParser("func-decl");
-		FuncDecl fd = new FuncDecl(s.curLineNum());
 		
 		s.skip(functionToken);
-		fd.name = s.curToken.id;
+		FuncDecl fd = new FuncDecl(s.curToken.id, s.curLineNum());
+		
 		s.readNextToken();
 		if(s.curToken.kind == leftParToken) {
 			fd.pdl = ParamDeclList.parse(s);
@@ -40,13 +39,13 @@ class FuncDecl extends ProcDecl {
 	
 	@Override
 	public void prettyPrint() {
-		Main.log.prettyPrint("function " + name + " ");
+		Main.log.prettyPrint("function " + this.name + " ");
 		if(pdl != null) {
 			pdl.prettyPrint();
 		}
 		Main.log.prettyPrint(":");
 		type.prettyPrint();
-		Main.log.prettyPrint(";");
+		Main.log.prettyPrintLn(";");
 		block.prettyPrint();
 		Main.log.prettyPrint("; {" + name + "}");
 	}

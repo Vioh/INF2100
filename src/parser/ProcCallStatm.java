@@ -29,12 +29,25 @@ class ProcCallStatm extends Statement {
 			pcs.expressions = new ArrayList<Expression>();
 			do {
 				pcs.expressions.add(Expression.parse(s));
-			}while(s.curToken.kind == commaToken);
+			} while(s.curToken.kind == commaToken);
 			s.skip(rightParToken);			
 		} else {
 			pcs.expressions = null;
 		}
 		leaveParser("proccall-statm");
 		return pcs;
+	}
+	
+	@Override
+	public void prettyPrint() {
+		Main.log.prettyPrint(name);
+		if(expressions.isEmpty()) return;
+		
+		Main.log.prettyPrint("(");
+		for(int i = 0; i < expressions.size(); i++) {
+			if(i != 0) Main.log.prettyPrint(", ");
+			expressions.get(i).prettyPrint();
+		}
+		Main.log.prettyPrint(")");
 	}
 }
