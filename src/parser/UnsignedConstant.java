@@ -20,7 +20,14 @@ public class UnsignedConstant extends Factor {
 	
 	@Override
 	public String identify() {
-		return "<unsigned constant> on line " + lineNum;
+		String ret = "";
+		switch(type) {
+			case NAME: ret += "<named constant>"; break;
+			case NUMB: ret += "<numeric literal>"; break;
+			case CHAR: ret += "<char literal>"; break;
+			default: break;
+		}
+		return ret += " on line " + lineNum;
 	}
 	
 	public static UnsignedConstant parse(Scanner s) {
@@ -43,11 +50,11 @@ public class UnsignedConstant extends Factor {
 			leaveParser("char literal");
 			break;
 		case nameToken:
-			enterParser("name constant");
+			enterParser("named constant");
 			uc.name = s.curToken.id;
 			uc.type = ConstantType.NAME;
 			s.skip(nameToken);
-			leaveParser("name constant");
+			leaveParser("named constant");
 			break;
 		default:
 			s.testError("unsigned constant"); // expect an unsigned const here

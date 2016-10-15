@@ -5,7 +5,9 @@ import java.io.*;
 public class Scanner {
 	public Token curToken = null, nextToken = null; 
 	private LineNumberReader srcFile = null;
-	private String srcFileName, srcLine = "";
+	private String srcFileName;
+	private String originalLine = ""; // can have upper-case
+	private String srcLine = "";      // no upper-case is allowed here
 	private int srcPos = 0;
 	
 	public Scanner(String fileName) {
@@ -68,12 +70,12 @@ public class Scanner {
 	private void readNextLine() {
 		if (srcFile != null) {
 			try {
-				srcLine = srcFile.readLine();
-				if (srcLine == null) {
+				originalLine = srcFile.readLine();
+				if (originalLine == null) {
 					srcFile.close(); srcFile = null;
-					srcLine = "";
+					originalLine = "";
 				} else {
-					srcLine += " ";
+					originalLine += " ";
 				}
 				srcPos = 0;
 			} catch (IOException e) {
@@ -81,8 +83,8 @@ public class Scanner {
 			}
 		}
 		if (srcFile != null) 
-			Main.log.noteSourceLine(getFileLineNum(), srcLine);
-		srcLine = srcLine.toLowerCase();
+			Main.log.noteSourceLine(getFileLineNum(), originalLine);
+		srcLine = originalLine.toLowerCase();
 	}
 	
 	
@@ -210,7 +212,7 @@ public class Scanner {
 			} 
 			else if(srcLine.charAt(srcPos) != '\'') {
 				if(srcLine.charAt(srcPos+1) == '\'') {
-					nextToken = new Token(srcLine.charAt(srcPos), cln);
+					nextToken = new Token(originalLine.charAt(srcPos), cln);
 					srcPos = srcPos + 2;
 					isLegal = true;
 				}
