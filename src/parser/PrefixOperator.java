@@ -2,7 +2,7 @@ package parser;
 import main.*;
 import scanner.*;
 
-class PrefixOperator extends PascalSyntax {
+public class PrefixOperator extends PascalSyntax {
 	TokenKind oprType;
 	
 	public PrefixOperator(int lNum) {
@@ -11,14 +11,17 @@ class PrefixOperator extends PascalSyntax {
 	
 	@Override
 	public String identify() {
-		return "<prefix-opr> on line " + lineNum;
+		return "<prefix opr> on line " + lineNum;
 	}
 	
 	public static PrefixOperator parse(Scanner s) {
-		enterParser("prefix-opr");
+		enterParser("prefix opr");
 		PrefixOperator popr = new PrefixOperator(s.curLineNum());
+		
 		popr.oprType = s.curToken.kind;
-		leaveParser("prefix-opr");
+		s.readNextToken();
+		
+		leaveParser("prefix opr");
 		return popr;
 	}
 	

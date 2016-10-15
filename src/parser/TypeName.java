@@ -3,7 +3,7 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class TypeName extends Type {
+public class TypeName extends Type {
 	String name;
 	
 	public TypeName(int lNum) {
@@ -12,16 +12,18 @@ class TypeName extends Type {
 	
 	@Override
 	public String identify() {
-		return "<type-name> on line " + lineNum;
+		return "<type name> on line " + lineNum;
 	}
 	
 	public static TypeName parse(Scanner s) {
-		enterParser("type-name");
-		TypeName typName = new TypeName(s.curLineNum());
-		typName.name = s.curToken.id;
+		enterParser("type name");
+		TypeName tn = new TypeName(s.curLineNum());
+		
+		tn.name = s.curToken.id;
 		s.skip(nameToken);
-		leaveParser("type-name");
-		return typName;
+		
+		leaveParser("type name");
+		return tn;
 	}
 	
 	@Override
@@ -29,6 +31,3 @@ class TypeName extends Type {
 		Main.log.prettyPrint(name);
 	}
 }
-
-
-

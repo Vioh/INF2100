@@ -31,7 +31,6 @@ public class Main {
 			Scanner s = new Scanner(sourceFileName);
 			if (testScanner) 
 				doTestScanner(s);
-			// Del 2: 
 			 else if (testParser)
 			     doTestParser(s);
 			// Del 3:
@@ -100,7 +99,6 @@ public class Main {
 	}
 
 
-	// Del 2:
 	private static void doTestParser(Scanner s) {
 		Program prog = Program.parse(s);
 		if (s.curToken.kind != eofToken) 

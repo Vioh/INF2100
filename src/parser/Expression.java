@@ -1,7 +1,6 @@
 package parser;
 import main.*;
 import scanner.*;
-import static scanner.TokenKind.*;
 
 public class Expression extends PascalSyntax {
 	SimpleExpr exprStart; // 1st expression
@@ -17,19 +16,12 @@ public class Expression extends PascalSyntax {
 		return "<expression> on line " + lineNum;
 	}
 	
-	private static boolean isRelOpr(Token tok) {
-		TokenKind kind = tok.kind;
-		return kind == equalToken || kind == notEqualToken ||
-				kind == lessToken || kind == lessEqualToken ||
-				kind == greaterToken || kind == greaterEqualToken;
-	}
-	
 	public static Expression parse(Scanner s) {
 		enterParser("expression");
 		Expression expr = new Expression(s.curLineNum());
 		
 		expr.exprStart = SimpleExpr.parse(s);
-		if(isRelOpr(s.curToken)) {
+		if(s.curToken.kind.isRelOpr()) {
 			expr.opr = RelOperator.parse(s);
 			expr.exprEnd = SimpleExpr.parse(s);
 		}

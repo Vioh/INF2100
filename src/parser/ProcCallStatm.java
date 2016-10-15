@@ -4,9 +4,9 @@ import scanner.*;
 import java.util.ArrayList;
 import static scanner.TokenKind.*;
 
-class ProcCallStatm extends Statement {
+public class ProcCallStatm extends Statement {
 	String name;
-	ArrayList<Expression> expressions; // can be NULL
+	ArrayList<Expression> expressions = new ArrayList<Expression>();
 
 	public ProcCallStatm(int lNum) {
 		super(lNum);
@@ -14,19 +14,16 @@ class ProcCallStatm extends Statement {
 	
 	@Override
 	public String identify() {
-		return "<proccall-statm> on line " + lineNum;
+		return "<proc call> on line " + lineNum;
 	}
 	
 	public static ProcCallStatm parse(Scanner s) {
-		enterParser("proccall-statm");
-		
+		enterParser("proc call");
 		ProcCallStatm pcs = new ProcCallStatm(s.curLineNum());
-		pcs.name = s.curToken.id;
-		s.skip(nameToken);
 		
+		s.test(nameToken); pcs.name = s.curToken.id; s.skip(nameToken);
 		if(s.curToken.kind == leftParToken) {
-			s.skip(leftParToken); 
-			pcs.expressions = new ArrayList<Expression>();
+			s.skip(leftParToken);
 			while(true) {
 				pcs.expressions.add(Expression.parse(s));
 				if(s.curToken.kind != commaToken) break;
@@ -34,7 +31,7 @@ class ProcCallStatm extends Statement {
 			}
 			s.skip(rightParToken);			
 		} 
-		leaveParser("proccall-statm");
+		leaveParser("proc call");
 		return pcs;
 	}
 	

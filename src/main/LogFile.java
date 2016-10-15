@@ -1,5 +1,4 @@
 package main;
-
 import parser.*;
 import scanner.Token;
 import java.io.*;

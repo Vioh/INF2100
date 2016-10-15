@@ -3,8 +3,8 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class VarDecl extends PascalDecl {
-	Type td;
+public class VarDecl extends PascalDecl {
+	Type type;
 	
 	public VarDecl(String name, int lNum) {
 		super(name, lNum);
@@ -12,24 +12,26 @@ class VarDecl extends PascalDecl {
 
 	@Override
 	public String identify() {
-		return "<var-decl> on line " + lineNum;
+		return "<var decl> " + name + " on line " + lineNum;
 	}
 	
 	public static VarDecl parse(Scanner s) {
-		enterParser("var-decl");
+		enterParser("var decl");
+		s.test(nameToken);
 		VarDecl vd = new VarDecl(s.curToken.id, s.curLineNum());
-		s.skip(nameToken);
-		s.skip(colonToken);
-		vd.td = Type.parse(s);
+		
+		s.skip(nameToken); s.skip(colonToken);
+		vd.type = Type.parse(s);
 		s.skip(semicolonToken);
-		leaveParser("var-decl");
+		
+		leaveParser("var decl");
 		return vd;
 	}
 	
 	@Override 
 	public void prettyPrint() {
 		Main.log.prettyPrint(this.name + ": ");
-		td.prettyPrint();
+		type.prettyPrint();
 		Main.log.prettyPrint(";");
 	}
 }

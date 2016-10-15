@@ -4,9 +4,7 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 public class FuncDecl extends ProcDecl {
-	ParamDeclList pdl; //optional
 	TypeName type;
-	Block block;
 	
 	public FuncDecl(String name, int lNum) {
 		super(name, lNum);
@@ -14,7 +12,7 @@ public class FuncDecl extends ProcDecl {
 	
 	@Override
 	public String identify() {
-		return "<func decl> on line " + lineNum;
+		return "<func decl> " + name + " on line " + lineNum;
 	}
 	
 	public static FuncDecl parse(Scanner s) {
@@ -24,7 +22,7 @@ public class FuncDecl extends ProcDecl {
 		
 		s.skip(nameToken);
 		if(s.curToken.kind == leftParToken) {
-			fd.pdl = ParamDeclList.parse(s);
+			fd.pdList = ParamDeclList.parse(s);
 		}
 		s.skip(colonToken);
 		fd.type = TypeName.parse(s);
@@ -39,8 +37,8 @@ public class FuncDecl extends ProcDecl {
 	@Override
 	public void prettyPrint() {
 		Main.log.prettyPrint("function " + this.name + " ");
-		if(pdl != null) {
-			pdl.prettyPrint();
+		if(pdList != null) {
+			pdList.prettyPrint();
 		}
 		Main.log.prettyPrint(": ");
 		type.prettyPrint();

@@ -2,12 +2,11 @@ package parser;
 import main.*;
 import scanner.*;
 import java.util.ArrayList;
-import static scanner.TokenKind.*;
 
-class SimpleExpr extends PascalSyntax {
-	PrefixOperator popr; //can be NULL
-	ArrayList<Term> tlist = new ArrayList<Term>();
-	ArrayList<TermOperator> toprlist = new ArrayList<TermOperator>();
+public class SimpleExpr extends PascalSyntax {
+	PrefixOperator prefix; //optional
+	ArrayList<Term> termList = new ArrayList<Term>();
+	ArrayList<TermOperator> termOprList = new ArrayList<TermOperator>();
 	
 	public SimpleExpr(int lNum) {
 		super(lNum);
@@ -15,45 +14,33 @@ class SimpleExpr extends PascalSyntax {
 	
 	@Override
 	public String identify() {
-		return "<simple-expr> on line " + lineNum;
-	}
-	
-	private static boolean isPrefixOpr(Token tok) {
-		TokenKind kind = tok.kind;
-		return kind == addToken || kind ==subtractToken;
-	}
-	
-	private static boolean isTermOpr(Token tok) {
-		TokenKind kind = tok.kind;
-		return isPrefixOpr(tok) || kind == orToken;
+		return "<simple expr> on line " + lineNum;
 	}
 	
 	public static SimpleExpr parse(Scanner s) {
-		enterParser("simple-expr");		
-		SimpleExpr se = new SimpleExpr(s.curLineNum());
+		enterParser("simple expr");		
+		SimpleExpr expr = new SimpleExpr(s.curLineNum());
 		
-		if(isPrefixOpr(s.curToken)) {
-			se.popr = PrefixOperator.parse(s);		
+		if(s.curToken.kind.isPrefixOpr()) {
+			expr.prefix = PrefixOperator.parse(s);		
 		} 
 		while(true) {
-			se.tlist.add(Term.parse(s));
-			if(isTermOpr(s.curToken)) {
-				se.toprlist.add(TermOperator.parse(s));
-				continue;
-			} else break;
+			expr.termList.add(Term.parse(s));
+			if(! s.curToken.kind.isTermOpr()) break;
+			expr.termOprList.add(TermOperator.parse(s));
 		}
-		leaveParser("simple-expr");
-		return se;
+		leaveParser("simple expr");
+		return expr;
 	}
 	
 	@Override
 	public void prettyPrint() {
-		if(popr != null) popr.prettyPrint();
-		for(int i = 0; i < tlist.size(); i++) {
-			tlist.get(i).prettyPrint();
-			if(i != toprlist.size()) {
+		if(prefix != null) prefix.prettyPrint();
+		for(int i = 0; i < termList.size(); i++) {
+			termList.get(i).prettyPrint();
+			if(i < termOprList.size()) {
 				Main.log.prettyPrint(" ");
-				toprlist.get(i).prettyPrint();
+				termOprList.get(i).prettyPrint();
 				Main.log.prettyPrint(" ");
 			}
 		}

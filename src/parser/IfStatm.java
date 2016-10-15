@@ -27,7 +27,7 @@ public class IfStatm extends Statement {
 		ifst.thenStmt = Statement.parse(s);
 		
 		if(s.curToken.kind == elseToken) {
-			s.readNextToken();
+			s.skip(elseToken);
 			ifst.elseStmt = Statement.parse(s);
 		}	
 		leaveParser("if-statm");

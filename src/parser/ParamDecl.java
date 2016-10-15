@@ -3,7 +3,7 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class ParamDecl extends PascalDecl {
+public class ParamDecl extends PascalDecl {
 	TypeName type;
 	
 	public ParamDecl(String name, int lNum) {
@@ -12,22 +12,24 @@ class ParamDecl extends PascalDecl {
 	
 	@Override
 	public String identify() {
-		return "<param-decl> on line " + lineNum;
+		return "<param decl> " + name + " on line " + lineNum;
 	}
 	
 	public static ParamDecl parse(Scanner s) {
-		enterParser("param-decl");	
+		enterParser("param decl");
+		s.test(nameToken);
 		ParamDecl pd = new ParamDecl(s.curToken.id, s.curLineNum());
-		s.skip(nameToken);
-		s.skip(colonToken);
+		
+		s.skip(nameToken); s.skip(colonToken);
 		pd.type = TypeName.parse(s);
-		leaveParser("param-decl");
+		
+		leaveParser("param decl");
 		return pd;
 	}
 
 	@Override
 	public void prettyPrint() {
-		Main.log.prettyPrint(name + ": ");
+		Main.log.prettyPrint(this.name + ": ");
 		type.prettyPrint();
 	}
 }

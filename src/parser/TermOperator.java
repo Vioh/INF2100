@@ -2,7 +2,7 @@ package parser;
 import main.*;
 import scanner.*;
 
-class TermOperator extends PascalSyntax {
+public class TermOperator extends PascalSyntax {
 	TokenKind oprType;
 	
 	public TermOperator(int lNum) {
@@ -11,14 +11,17 @@ class TermOperator extends PascalSyntax {
 	
 	@Override
 	public String identify() {
-		return "<term-opr> on line " + lineNum;
+		return "<term opr> on line " + lineNum;
 	}
 	
 	public static TermOperator parse(Scanner s) {
-		enterParser("term-opr");
+		enterParser("term opr");
 		TermOperator topr = new TermOperator(s.curLineNum());
+		
 		topr.oprType = s.curToken.kind;
-		leaveParser("term-opr");
+		s.readNextToken();
+		
+		leaveParser("term opr");
 		return topr;
 	}
 	

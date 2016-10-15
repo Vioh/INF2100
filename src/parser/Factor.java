@@ -30,7 +30,7 @@ public abstract class Factor extends PascalSyntax {
 				fact = Variable.parse(s); break;
 			} break;
 		default:
-			// will NEVER execute because of preceding cases
+			s.testError("value"); // we expect a value here
 		}
 		leaveParser("factor");
 		return fact;

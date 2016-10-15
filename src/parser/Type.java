@@ -1,29 +1,29 @@
 package parser;
-import main.*;
 import scanner.*;
-import static scanner.TokenKind.*;
 
-abstract class Type extends PascalSyntax {
+public abstract class Type extends PascalSyntax {
 	public Type(int lNum) {
 		super(lNum);
 	}
 	
 	@Override
 	public String identify() {
-		return "<Type> on line " + lineNum;
+		return "<type> on line " + lineNum;
 	}
 	
-	//TODO
 	public static Type parse(Scanner s) {
 		enterParser("type");
-		Type t = null;
+		Type type = null;
+		
 		switch(s.curToken.kind) {
 		case arrayToken:
-			t = ArrayType.parse(s); break;
+			type = ArrayType.parse(s); break;
+		case nameToken:
+			type = TypeName.parse(s); break;
 		default:
-			t = TypeName.parse(s); break;
+			s.testError("type"); // we expect a type here
 		}
 		leaveParser("type");
-		return t;
+		return type;
 	}
 }

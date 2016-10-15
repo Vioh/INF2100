@@ -2,7 +2,7 @@ package parser;
 import main.*;
 import scanner.*;
 
-class RelOperator extends PascalSyntax {
+public class RelOperator extends PascalSyntax {
 	TokenKind oprType;
 	
 	public RelOperator(int lNum) {
@@ -11,15 +11,17 @@ class RelOperator extends PascalSyntax {
 	
 	@Override
 	public String identify() {
-		return "<Rel-opr> on line " + lineNum;
+		return "<rel opr> on line " + lineNum;
 	}
 	
 	public static RelOperator parse(Scanner s) {
-		enterParser("Rel-opr");
+		enterParser("rel opr");
 		RelOperator ropr = new RelOperator(s.curLineNum());
+		
 		ropr.oprType = s.curToken.kind;
 		s.readNextToken();
-		leaveParser("Rel-opr");
+		
+		leaveParser("rel opr");
 		return ropr;
 	}
 	

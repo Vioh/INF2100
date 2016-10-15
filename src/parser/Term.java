@@ -1,13 +1,11 @@
 package parser;
 import main.*;
 import scanner.*;
-import static scanner.TokenKind.*;
-
 import java.util.ArrayList;
 
-class Term extends PascalSyntax {
+public class Term extends PascalSyntax {
 	ArrayList<Factor> facList = new ArrayList<Factor>();
-	ArrayList<FactorOperator> foprList = new ArrayList<FactorOperator>();
+	ArrayList<FactorOperator> facOprList = new ArrayList<FactorOperator>();
 	
 	public Term(int lNum) {
 		super(lNum);
@@ -16,37 +14,28 @@ class Term extends PascalSyntax {
 	@Override
 	public String identify() {
 		return "<term> on line " + lineNum;
-	}
-	
-	private static boolean isFactorOpr(Token tok) {
-		TokenKind kind = tok.kind;
-		return kind == multiplyToken || kind == divToken ||
-			kind == modToken || kind == andToken;
-	}
+	}	
 	
 	public static Term parse(Scanner s) {
 		enterParser("term");		
-		Term t = new Term(s.curLineNum());
+		Term term = new Term(s.curLineNum());
 	
 		while(true) {
-			t.facList.add(Factor.parse(s));
-			if(isFactorOpr(s.curToken)) {
-				t.foprList.add(FactorOperator.parse(s));
-				continue;
-			} else break;
+			term.facList.add(Factor.parse(s));
+			if(! s.curToken.kind.isFactorOpr()) break;
+			term.facOprList.add(FactorOperator.parse(s));
 		}
 		leaveParser("term");
-		return t;
+		return term;
 	}
 	
 	@Override
 	public void prettyPrint() {
 		for(int i = 0; i < facList.size(); i++) {
 			facList.get(i).prettyPrint();
-			
-			if(i != foprList.size()) {
+			if(i < facOprList.size()) {
 				Main.log.prettyPrint(" ");
-				foprList.get(i).prettyPrint();
+				facOprList.get(i).prettyPrint();
 				Main.log.prettyPrint(" ");
 			}
 		}

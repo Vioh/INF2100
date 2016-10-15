@@ -12,7 +12,7 @@ public class ConstDecl extends PascalDecl {
 	
 	@Override
 	public String identify() {
-		return "<constant decl> on line " + lineNum;
+		return "<constant decl> " + name + " on line " + lineNum;
 	}
 	
 	public static ConstDecl parse(Scanner s) {

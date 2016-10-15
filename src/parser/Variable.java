@@ -3,9 +3,9 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class Variable extends Factor {
+public class Variable extends Factor {
 	String name;
-	Expression expr; //can be NULL
+	Expression expr; //optional
 	
 	public Variable(int lNum) { 
 		super(lNum);
@@ -18,17 +18,16 @@ class Variable extends Factor {
 	
 	public static Variable parse(Scanner s) {
 		enterParser("variable");	
-		Variable v = new Variable(s.curLineNum());
-		v.name = s.curToken.id;
-		s.readNextToken();
+		Variable var = new Variable(s.curLineNum());
 		
+		s.test(nameToken); var.name = s.curToken.id; s.skip(nameToken);		
 		if(s.curToken.kind == leftBracketToken) {
-			s.readNextToken(); //skipping the left bracket 
-			v.expr = Expression.parse(s);
+			s.skip(leftBracketToken);
+			var.expr = Expression.parse(s);
 			s.skip(rightBracketToken);			
 		}	
 		leaveParser("variable");
-		return v;
+		return var;
 	}
 	
 	@Override
