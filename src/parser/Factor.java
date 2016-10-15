@@ -1,8 +1,7 @@
 package parser;
 import scanner.*;
-//import static scanner.TokenKind.*;
 
-abstract class Factor extends PascalSyntax {
+public abstract class Factor extends PascalSyntax {
 	public Factor(int lNum) {
 		super(lNum);
 	}
@@ -14,8 +13,8 @@ abstract class Factor extends PascalSyntax {
 	
 	public static Factor parse(Scanner s) {
 		enterParser("factor");
-		
 		Factor fact = null;
+		
 		switch (s.curToken.kind) {
 		case intValToken: case charValToken:
 			fact = UnsignedConstant.parse(s); break;
@@ -31,9 +30,8 @@ abstract class Factor extends PascalSyntax {
 				fact = Variable.parse(s); break;
 			} break;
 		default:
-			// will NOT execute because of the line preceding the switch
+			// will NEVER execute because of preceding cases
 		}
-		
 		leaveParser("factor");
 		return fact;
 	}

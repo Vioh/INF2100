@@ -3,8 +3,8 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class CompoundStatm extends Statement {
-	StatmList stmList;
+public class CompoundStatm extends Statement {
+	StatmList stmtList;
 	
 	public CompoundStatm(int lNum) {
 		super(lNum);
@@ -16,22 +16,21 @@ class CompoundStatm extends Statement {
 	}
 	
 	public static CompoundStatm parse(Scanner s) {
-		enterParser("compound-statm");
-		
+		enterParser("compound statm");
 		CompoundStatm cs = new CompoundStatm(s.curLineNum());
 		
 		s.skip(beginToken);
-		cs.stmList = StatmList.parse(s);
+		cs.stmtList = StatmList.parse(s);
 		s.skip(endToken);
 		
-		leaveParser("compound-statm");
+		leaveParser("compound statm");
 		return cs;
 	}
 	
 	@Override
 	public void prettyPrint() {
 		Main.log.prettyPrintLn("begin"); Main.log.prettyIndent();
-		stmList.prettyPrint(); Main.log.prettyPrintLn();
+		stmtList.prettyPrint(); Main.log.prettyPrintLn();
 		Main.log.prettyOutdent(); Main.log.prettyPrint("end");
 	}
 }

@@ -3,10 +3,10 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class Expression extends PascalSyntax {
-	SimpleExpr exprStart; // 1st simple expr (must not be NULL)
-	SimpleExpr exprEnd;   // 2nd simple expr (might be NULL)
-	RelOperator opr;      // might be NULL
+public class Expression extends PascalSyntax {
+	SimpleExpr exprStart; // 1st expression
+	SimpleExpr exprEnd;   // 2nd expression (optional)
+	RelOperator opr;      // optional (like exprEnd)
 	
 	public Expression(int lNum) {
 		super(lNum);

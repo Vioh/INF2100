@@ -4,8 +4,8 @@ import scanner.*;
 import java.util.ArrayList;
 import static scanner.TokenKind.*;
 
-class ConstDeclPart extends PascalSyntax {
-	ArrayList<ConstDecl> decList = new ArrayList<ConstDecl>();
+public class ConstDeclPart extends PascalSyntax {
+	ArrayList<ConstDecl> constList = new ArrayList<ConstDecl>();
 	
 	public ConstDeclPart(int lNum) {
 		super(lNum);
@@ -13,26 +13,26 @@ class ConstDeclPart extends PascalSyntax {
 	
 	@Override
 	public String identify() {
-		return "<const-decl-part> on line " + lineNum;
+		return "<const decl part> on line " + lineNum;
 	}
 	
 	public static ConstDeclPart parse(Scanner s) {
-		enterParser("const-decl-part");
-		s.skip(constToken);
+		enterParser("const decl part");
 		ConstDeclPart cdp = new ConstDeclPart(s.curLineNum());
 		
+		s.skip(constToken);
 		do {
-			cdp.decList.add(ConstDecl.parse(s));
+			cdp.constList.add(ConstDecl.parse(s));
 		} while(s.curToken.kind == nameToken);
 		
-		leaveParser("const-decl-part");
+		leaveParser("const decl part");
 		return cdp;
 	}
 	
 	@Override
 	public void prettyPrint() {
 		Main.log.prettyPrint("const"); Main.log.prettyIndent();
-		for(ConstDecl dec : decList) {
+		for(ConstDecl dec : constList) {
 			Main.log.prettyPrintLn();
 			dec.prettyPrint();
 		}

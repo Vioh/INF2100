@@ -2,7 +2,7 @@ package parser;
 import main.*;
 import scanner.*;
 
-class EmptyStatm extends Statement {
+public class EmptyStatm extends Statement {
 	public EmptyStatm(int lNum) {
 		super(lNum);
 	}
@@ -13,14 +13,13 @@ class EmptyStatm extends Statement {
 	}
 	
 	public static EmptyStatm parse(Scanner s) {
-		enterParser("empty-statm");
-		leaveParser("empty-statm");
+		enterParser("empty statm");
+		leaveParser("empty statm");
 		return new EmptyStatm(s.curLineNum());
 	}
 	
 	@Override
-	//TODO
 	public void prettyPrint() {
-		// Print nothing for an empty statement
+		Main.log.prettyPrintLn();
 	}
 }

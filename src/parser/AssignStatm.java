@@ -3,7 +3,7 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class AssignStatm extends Statement {
+public class AssignStatm extends Statement {
 	Variable var;
 	Expression expr;
 	
@@ -13,19 +13,19 @@ class AssignStatm extends Statement {
 	
 	@Override
 	public String identify() {
-		return "<assign-statm> on line " + lineNum;
+		return "<assign statm> on line " + lineNum;
 	}
 	
 	public static AssignStatm parse(Scanner s) {
-		enterParser("assign-statm");
-
-		AssignStatm as = new AssignStatm(s.curLineNum());
-		as.var = Variable.parse(s);
-		s.skip(assignToken);
-		as.expr = Expression.parse(s);
+		enterParser("assign statm");
+		AssignStatm assignment = new AssignStatm(s.curLineNum());
 		
-		leaveParser("assign-statm");
-		return as;
+		assignment.var = Variable.parse(s);
+		s.skip(assignToken);
+		assignment.expr = Expression.parse(s);
+		
+		leaveParser("assign statm");
+		return assignment;
 	}
 	
 	@Override
@@ -35,11 +35,3 @@ class AssignStatm extends Statement {
 		expr.prettyPrint();
 	}
 }
-
-
-
-
-
-
-
-

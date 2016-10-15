@@ -2,9 +2,9 @@ package parser;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class Constant extends PascalSyntax {
-	PrefixOperator prefix; 
-	UnsignedConstant uconstant; // must not be NULL
+public class Constant extends PascalSyntax {
+	PrefixOperator prefix; //optional
+	UnsignedConstant uconst;
 	
 	public Constant(int lNum) {
 		super(lNum);
@@ -17,22 +17,21 @@ class Constant extends PascalSyntax {
 	
 	public static Constant parse(Scanner s) {
 		enterParser("constant");
-		Constant c = new Constant(s.curLineNum());
+		Constant constant = new Constant(s.curLineNum());
 		
 		if(s.curToken.kind == addToken
 				|| s.curToken.kind == subtractToken) {
-			c.prefix = PrefixOperator.parse(s);
+			constant.prefix = PrefixOperator.parse(s);
 		}
-		c.uconstant = UnsignedConstant.parse(s);		
+		constant.uconst = UnsignedConstant.parse(s);		
+		
 		leaveParser("constant");
-		return c;
+		return constant;
 	}
 	
 	@Override
 	public void prettyPrint() {
-		if(prefix != null) {
-			prefix.prettyPrint();
-		}
-		uconstant.prettyPrint();
+		if(prefix != null) prefix.prettyPrint();
+		uconst.prettyPrint();
 	}
 }

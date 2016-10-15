@@ -2,7 +2,7 @@ package parser;
 import main.*;
 import scanner.*;
 
-class FactorOperator extends PascalSyntax {
+public class FactorOperator extends PascalSyntax {
 	TokenKind oprType;
 	
 	public FactorOperator(int lNum) {
@@ -11,15 +11,17 @@ class FactorOperator extends PascalSyntax {
 	
 	@Override
 	public String identify() {
-		return "<factor-opr> on line " + lineNum;
+		return "<factor opr> on line " + lineNum;
 	}
 	
 	public static FactorOperator parse(Scanner s) {
-		enterParser("factor-opr");
+		enterParser("factor opr");
 		FactorOperator fopr = new FactorOperator(s.curLineNum());
+		
 		fopr.oprType = s.curToken.kind;
 		s.readNextToken();
-		leaveParser("factor-opr");
+		
+		leaveParser("factor opr");
 		return fopr;
 	}
 	

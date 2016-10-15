@@ -3,9 +3,9 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class ArrayType extends Type {
-	Constant constFirst;
-	Constant constSecond;
+public class ArrayType extends Type {
+	Constant firstInd;
+	Constant lastInd;
 	Type type;
 	
 	public ArrayType(int lNum) {
@@ -19,27 +19,25 @@ class ArrayType extends Type {
 	
 	public static ArrayType parse(Scanner s) {
 		enterParser("array-type");		
-		ArrayType arrt = new ArrayType(s.curLineNum());
+		ArrayType array = new ArrayType(s.curLineNum());
 		
-		s.skip(arrayToken);
-		s.skip(leftBracketToken);
-		arrt.constFirst = Constant.parse(s);
+		s.skip(arrayToken); s.skip(leftBracketToken);
+		array.firstInd = Constant.parse(s);
 		s.skip(rangeToken);
-		arrt.constSecond = Constant.parse(s);
-		s.skip(rightBracketToken);
-		s.skip(ofToken);
-		arrt.type = Type.parse(s);
+		array.lastInd = Constant.parse(s);
+		s.skip(rightBracketToken); s.skip(ofToken);
+		array.type = Type.parse(s);
 		
 		leaveParser("array-type");
-		return arrt;
+		return array;
 	}
 	
 	@Override
 	public void prettyPrint() {
 		Main.log.prettyPrint("array [");
-		constFirst.prettyPrint();
+		firstInd.prettyPrint();
 		Main.log.prettyPrint("..");
-		constSecond.prettyPrint();
+		lastInd.prettyPrint();
 		Main.log.prettyPrint("] of ");
 		type.prettyPrint();
 	}

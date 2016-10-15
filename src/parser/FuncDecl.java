@@ -3,10 +3,10 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class FuncDecl extends ProcDecl {
-	TypeName type; // not NULL
-	Block block;   // not NULL
-	ParamDeclList pdl;
+public class FuncDecl extends ProcDecl {
+	ParamDeclList pdl; //optional
+	TypeName type;
+	Block block;
 	
 	public FuncDecl(String name, int lNum) {
 		super(name, lNum);
@@ -14,16 +14,15 @@ class FuncDecl extends ProcDecl {
 	
 	@Override
 	public String identify() {
-		return "<func-decl> on line " + lineNum;
+		return "<func decl> on line " + lineNum;
 	}
 	
 	public static FuncDecl parse(Scanner s) {
-		enterParser("func-decl");
-		
-		s.skip(functionToken);
+		enterParser("func decl");
+		s.skip(functionToken); s.test(nameToken);
 		FuncDecl fd = new FuncDecl(s.curToken.id, s.curLineNum());
 		
-		s.readNextToken();
+		s.skip(nameToken);
 		if(s.curToken.kind == leftParToken) {
 			fd.pdl = ParamDeclList.parse(s);
 		}

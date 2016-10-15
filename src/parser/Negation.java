@@ -3,7 +3,7 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class Negation extends Factor {
+public class Negation extends Factor {
 	Factor fact;
 	
 	public Negation(int lNum) {
@@ -17,11 +17,11 @@ class Negation extends Factor {
 	
 	public static Negation parse(Scanner s) {
 		enterParser("negation");
-		
 		Negation neg = new Negation(s.curLineNum());
 		
 		s.skip(notToken);
 		neg.fact = Factor.parse(s);
+		
 		leaveParser("negation");
 		return neg;
 	}

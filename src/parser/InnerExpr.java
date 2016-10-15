@@ -3,7 +3,7 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class InnerExpr extends Factor {
+public class InnerExpr extends Factor {
 	Expression expr;
 	
 	public InnerExpr(int lNum) {
@@ -12,19 +12,18 @@ class InnerExpr extends Factor {
 	
 	@Override
 	public String identify() {
-		return "<inner-expr> on line " + lineNum;
+		return "<inner expr> on line " + lineNum;
 	}
 	
 	public static InnerExpr parse(Scanner s) {
-		enterParser("inner-expr");
-		
+		enterParser("inner expr");
 		InnerExpr ie = new InnerExpr(s.curLineNum());
 		
 		s.skip(leftParToken);
 		ie.expr = Expression.parse(s);
 		s.skip(rightParToken);
 		
-		leaveParser("inner-expr");
+		leaveParser("inner expr");
 		return ie;
 	}
 	
@@ -34,5 +33,4 @@ class InnerExpr extends Factor {
 		expr.prettyPrint();
 		Main.log.prettyPrint(")");
 	}
-	
 }

@@ -3,10 +3,10 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class IfStatm extends Statement {
-	Expression expr;     // not NULL
-	Statement thenStatm; // not NULL
-	Statement elseStatm;
+public class IfStatm extends Statement {
+	Expression condition;
+	Statement thenStmt;
+	Statement elseStmt; //optional
 	
 	public IfStatm(int lNum) {
 		super(lNum);
@@ -19,20 +19,17 @@ class IfStatm extends Statement {
 	
 	public static IfStatm parse(Scanner s) {
 		enterParser("if-statm");
-		
 		IfStatm ifst = new IfStatm(s.curLineNum());
-		s.skip(ifToken);
 		
-		ifst.expr = Expression.parse(s);
+		s.skip(ifToken);
+		ifst.condition = Expression.parse(s);
 		s.skip(thenToken);
-		ifst.thenStatm = Statement.parse(s);
+		ifst.thenStmt = Statement.parse(s);
 		
 		if(s.curToken.kind == elseToken) {
 			s.readNextToken();
-			ifst.elseStatm = Statement.parse(s);
-		} else {
-			ifst.elseStatm = null;
-		}		
+			ifst.elseStmt = Statement.parse(s);
+		}	
 		leaveParser("if-statm");
 		return ifst;
 	}
@@ -40,17 +37,15 @@ class IfStatm extends Statement {
 	@Override
 	public void prettyPrint() {
 		Main.log.prettyPrint("if ");
-		expr.prettyPrint();
+		condition.prettyPrint();
 		
 		Main.log.prettyPrintLn(" then "); Main.log.prettyIndent();
-		thenStatm.prettyPrint();
-		Main.log.prettyOutdent();
+		thenStmt.prettyPrint(); Main.log.prettyOutdent();
 		
-		if(elseStatm != null) {
+		if(elseStmt != null) {
 			Main.log.prettyPrintLn();
 			Main.log.prettyPrintLn("else"); Main.log.prettyIndent();
-			elseStatm.prettyPrint();
-			Main.log.prettyOutdent();
+			elseStmt.prettyPrint(); Main.log.prettyOutdent();
 		}
 	}
 }

@@ -3,7 +3,7 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-class ConstDecl extends PascalDecl {
+public class ConstDecl extends PascalDecl {
 	Constant constant;
 	
 	public ConstDecl(String name, int lNum) {
@@ -12,19 +12,19 @@ class ConstDecl extends PascalDecl {
 	
 	@Override
 	public String identify() {
-		return "<constant-decl> on line " + lineNum;
+		return "<constant decl> on line " + lineNum;
 	}
 	
 	public static ConstDecl parse(Scanner s) {
-		enterParser("constant-decl");
-
+		enterParser("constant decl");
+		s.test(nameToken);
 		ConstDecl cd = new ConstDecl(s.curToken.id, s.curLineNum());
-		s.skip(nameToken);			
-		s.skip(equalToken);
+		
+		s.skip(nameToken); s.skip(equalToken);
 		cd.constant = Constant.parse(s);
 		s.skip(semicolonToken);
 		
-		leaveParser("constant-decl");
+		leaveParser("constant decl");
 		return cd;
 	}
 	

@@ -4,7 +4,7 @@ import scanner.*;
 import java.util.ArrayList;
 import static scanner.TokenKind.*;
 
-class FuncCall extends Factor {
+public class FuncCall extends Factor {
 	String name;
 	ArrayList<Expression> exprList = new ArrayList<Expression>();
 	
@@ -14,27 +14,24 @@ class FuncCall extends Factor {
 	
 	@Override
 	public String identify() {
-		return "<func-call> on line " + lineNum;
+		return "<func call> on line " + lineNum;
 	}
 	
 	public static FuncCall parse(Scanner s) {
-		enterParser("func-call");
+		enterParser("func call");
 		FuncCall fc = new FuncCall(s.curLineNum());
-		fc.name = s.curToken.id;
-		s.skip(nameToken);
 		
+		fc.name = s.curToken.id; s.skip(nameToken);
 		if(s.curToken.kind == leftParToken) {
-			s.skip(leftParToken); 
-			fc.exprList = new ArrayList<Expression>();
+			s.skip(leftParToken);
 			while(true) {
 				fc.exprList.add(Expression.parse(s));
 				if(s.curToken.kind != commaToken) break;
-				s.skip(commaToken);		
+				s.skip(commaToken);	
 			}
-			s.skip(rightParToken);			
-		} 
-		
-		leaveParser("func-call");
+			s.skip(rightParToken);		
+		}
+		leaveParser("func call");
 		return fc;
 	}
 	
@@ -44,10 +41,9 @@ class FuncCall extends Factor {
 		if(exprList.isEmpty()) return;
 		
 		Main.log.prettyPrint("(");
-		exprList.get(0).prettyPrint();
-		for(int i = 1; i < exprList.size(); i++) {
-			Main.log.prettyPrint(", ");
-			exprList.get(1).prettyPrint();
+		for(int i = 0; i < exprList.size(); i++) {
+			if(i != 0) Main.log.prettyPrint(", ");
+			exprList.get(i).prettyPrint();
 		}
 		Main.log.prettyPrint(")");
 	}
