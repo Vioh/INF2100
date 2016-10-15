@@ -100,7 +100,7 @@ public class Scanner {
 				if(srcPos >= srcLine.length()) {
 					readNextLine();
 					if(srcFile == null) {
-						nextToken = new Token(TokenKind.eofToken,0);
+						nextToken = new Token(TokenKind.eofToken,-1);
 						Main.log.noteToken(nextToken); 
 						return;
 					}

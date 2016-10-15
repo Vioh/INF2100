@@ -30,14 +30,15 @@ public class FuncDecl extends ProcDecl {
 		fd.block = Block.parse(s);
 		s.skip(semicolonToken);
 		
-		leaveParser("func-decl");
+		leaveParser("func decl");
 		return fd;
 	}
 	
 	@Override
 	public void prettyPrint() {
-		Main.log.prettyPrint("function " + this.name + " ");
+		Main.log.prettyPrint("function " + this.name);
 		if(pdList != null) {
+			Main.log.prettyPrint(" ");
 			pdList.prettyPrint();
 		}
 		Main.log.prettyPrint(": ");

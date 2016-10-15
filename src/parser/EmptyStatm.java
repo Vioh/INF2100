@@ -1,5 +1,4 @@
 package parser;
-import main.*;
 import scanner.*;
 
 public class EmptyStatm extends Statement {
@@ -20,6 +19,6 @@ public class EmptyStatm extends Statement {
 	
 	@Override
 	public void prettyPrint() {
-		Main.log.prettyPrintLn();
+		// Print nothing for empty statement
 	}
 }

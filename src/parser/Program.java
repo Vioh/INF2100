@@ -34,7 +34,6 @@ public class Program extends PascalDecl {
 	@Override
 	public void prettyPrint() {
 		Main.log.prettyPrintLn("program " + this.name + ";");
-		Main.log.prettyPrintLn();
 		progBlock.prettyPrint();
 		Main.log.prettyPrintLn(".");
 	}
