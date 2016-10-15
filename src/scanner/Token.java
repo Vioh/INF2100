@@ -1,5 +1,4 @@
 package scanner;
-
 import static scanner.TokenKind.*;
 
 public class Token {
@@ -74,6 +73,7 @@ public class Token {
 			case nameToken:    t += ": " + id;  break;
 			case intValToken:  t += ": " + intVal;  break;
 			case charValToken: t += ": '" + charVal + "'";  break;
+			default: break;
 		}
 		return t;
 	}
