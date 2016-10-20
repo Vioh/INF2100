@@ -21,4 +21,9 @@ public class EmptyStatm extends Statement {
 	public void prettyPrint() {
 		// Print nothing for empty statement
 	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		// No need to check an empty statement
+	}
 }

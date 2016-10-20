@@ -34,4 +34,15 @@ public class AssignStatm extends Statement {
 		Main.log.prettyPrint(" := ");
 		expr.prettyPrint();
 	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		var.check(curScope, lib);
+		var.varRef.checkWhetherAssignable(this);
+		expr.check(curScope, lib);
+		
+		expr.type.checkType(var.type, ":=", this, 
+				"Different types in assignment!");
+	}
+	
 }

@@ -33,4 +33,9 @@ public class InnerExpr extends Factor {
 		expr.prettyPrint();
 		Main.log.prettyPrint(")");
 	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		expr.check(curScope, lib);
+	}
 }

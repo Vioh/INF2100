@@ -29,4 +29,9 @@ public class FactorOperator extends PascalSyntax {
 	public void prettyPrint() {
 		Main.log.prettyPrint(oprType.toString());
 	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		// No need to check an operator
+	}
 }

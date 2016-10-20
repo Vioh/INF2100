@@ -4,7 +4,7 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 public class FuncDecl extends ProcDecl {
-	TypeName type;
+	TypeName typename;
 	
 	public FuncDecl(String name, int lNum) {
 		super(name, lNum);
@@ -25,7 +25,7 @@ public class FuncDecl extends ProcDecl {
 			fd.pdList = ParamDeclList.parse(s);
 		}
 		s.skip(colonToken);
-		fd.type = TypeName.parse(s);
+		fd.typename = TypeName.parse(s);
 		s.skip(semicolonToken);
 		fd.block = Block.parse(s);
 		s.skip(semicolonToken);
@@ -42,9 +42,20 @@ public class FuncDecl extends ProcDecl {
 			pdList.prettyPrint();
 		}
 		Main.log.prettyPrint(": ");
-		type.prettyPrint();
+		typename.prettyPrint();
 		Main.log.prettyPrintLn(";");
 		block.prettyPrint();
 		Main.log.prettyPrint("; {" + name + "}");
+	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		curScope.addDecl(this.name, this);
+		if(this.pdList != null) {
+			this.pdList.check(curScope, lib);
+		}
+		typename.check(curScope, lib);
+		this.type = typename.type;
+		this.block.check(curScope, lib);
 	}
 }

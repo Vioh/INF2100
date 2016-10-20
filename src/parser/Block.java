@@ -11,7 +11,7 @@ public class Block extends PascalSyntax {
 	StatmList stmtList;
 	ArrayList<ProcDecl> procAndFuncList = new ArrayList<ProcDecl>();
 	HashMap<String,PascalDecl> decls = new HashMap<String,PascalDecl>();
-	Block outerScope; 
+	Block outerScope;
 	
 	public Block(int lNum) {
 		super(lNum);
@@ -92,7 +92,9 @@ public class Block extends PascalSyntax {
 	public void check(Block curScope, Library lib) {
 		outerScope = curScope; // initialization of outer block
 		if(cdp != null) cdp.check(this, lib);
-//		if(vdp != null) vdp.check(this, lib);
+		if(vdp != null) vdp.check(this, lib);
 		
+		for(ProcDecl proc : procAndFuncList) proc.check(this, lib);
+		stmtList.check(this, lib);
 	}
 }

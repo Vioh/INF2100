@@ -38,4 +38,9 @@ public class ConstDeclPart extends PascalSyntax {
 		}
 		Main.log.prettyOutdent();
 	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		for(ConstDecl dec : constList) dec.check(curScope, lib);
+	}
 }

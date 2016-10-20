@@ -6,6 +6,7 @@ public class Expression extends PascalSyntax {
 	SimpleExpr exprStart; // 1st expression
 	SimpleExpr exprEnd;   // 2nd expression (optional)
 	RelOperator opr;      // optional (like exprEnd)
+	types.Type type;
 	
 	public Expression(int lNum) {
 		super(lNum);
@@ -37,6 +38,20 @@ public class Expression extends PascalSyntax {
 			opr.prettyPrint();
 			Main.log.prettyPrint(" ");
 			exprEnd.prettyPrint();
+		}
+	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		exprStart.check(curScope, lib);
+		type = exprStart.type;
+		
+		if(exprEnd != null) {
+			exprEnd.check(curScope, lib);
+			String oprName = opr.oprType.toString();
+			type.checkType(exprEnd.type, oprName + " operands", this,
+					"Operands to " + oprName + " are of different types!");
+			type = lib.boolType;
 		}
 	}
 }

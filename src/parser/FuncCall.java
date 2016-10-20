@@ -7,6 +7,8 @@ import static scanner.TokenKind.*;
 public class FuncCall extends Factor {
 	String name;
 	ArrayList<Expression> exprList = new ArrayList<Expression>();
+	FuncDecl funcRef;
+	types.Type type;
 	
 	public FuncCall(int lNum) {
 		super(lNum);
@@ -46,5 +48,13 @@ public class FuncCall extends Factor {
 			exprList.get(i).prettyPrint();
 		}
 		Main.log.prettyPrint(")");
+	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		PascalDecl pd = curScope.findDecl(this.name, this);
+		for(Expression expr : exprList) expr.check(curScope, lib);
+		funcRef = (FuncDecl) pd;
+		this.type = funcRef.type;
 	}
 }

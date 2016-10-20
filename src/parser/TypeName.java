@@ -5,6 +5,7 @@ import static scanner.TokenKind.*;
 
 public class TypeName extends Type {
 	String name;
+	types.Type type;
 	
 	public TypeName(int lNum) {
 		super(lNum);

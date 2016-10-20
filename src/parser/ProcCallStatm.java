@@ -52,8 +52,7 @@ public class ProcCallStatm extends Statement {
 	@Override
 	public void check(Block curScope, Library lib) {
 		PascalDecl pd = curScope.findDecl(name, this);
-		//...
+		for(Expression expr : expressions) expr.check(curScope, lib);
 		procRef = (ProcDecl) pd;
-		
 	}
 }

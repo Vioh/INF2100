@@ -6,6 +6,7 @@ import static scanner.TokenKind.*;
 public class Variable extends Factor {
 	String name;
 	Expression expr; //optional
+	VarDecl varRef;
 	
 	public Variable(int lNum) { 
 		super(lNum);

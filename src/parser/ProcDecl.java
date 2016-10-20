@@ -44,4 +44,14 @@ public class ProcDecl extends PascalDecl {
 		block.prettyPrint();
 		Main.log.prettyPrint("; {" + this.name + "}");
 	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		curScope.addDecl(this.name, this);
+		if(this.pdList != null) {
+			this.pdList.check(curScope, lib);
+		}
+		this.block.check(curScope, lib);
+	}
+	
 }

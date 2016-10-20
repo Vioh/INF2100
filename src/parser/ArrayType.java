@@ -41,4 +41,19 @@ public class ArrayType extends Type {
 		Main.log.prettyPrint("] of ");
 		type.prettyPrint();
 	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		firstInd.check(curScope, lib);
+		lastInd.check(curScope, lib);
+		type.check(curScope, lib);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

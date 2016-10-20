@@ -5,6 +5,8 @@ import static scanner.TokenKind.*;
 public class Constant extends PascalSyntax {
 	PrefixOperator prefix; //optional
 	UnsignedConstant uconst;
+	types.Type type;
+	int constVal;
 	
 	public Constant(int lNum) {
 		super(lNum);
@@ -33,5 +35,21 @@ public class Constant extends PascalSyntax {
 	public void prettyPrint() {
 		if(prefix != null) prefix.prettyPrint();
 		uconst.prettyPrint();
+	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		uconst.check(curScope, lib);
+		type = uconst.type;
+		constVal = uconst.constVal;
+		
+		if (prefix != null) {
+			String oprName = prefix.oprType.toString();
+			uconst.type.checkType(lib.integerType, "Prefix "+oprName, this,
+					"Prefix + or - may only be applied to Integers.");
+			
+			if (prefix.oprType == subtractToken)
+				constVal = -constVal;
+		}
 	}
 }

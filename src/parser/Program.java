@@ -37,6 +37,11 @@ public class Program extends PascalDecl {
 		progBlock.prettyPrint();
 		Main.log.prettyPrintLn(".");
 	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		progBlock.check(curScope, lib);
+	}
 
 //	@Override
 //	void checkWhetherAssignable(PascalSyntax where) {}

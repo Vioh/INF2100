@@ -33,4 +33,18 @@ public class CompoundStatm extends Statement {
 		stmtList.prettyPrint(); Main.log.prettyPrintLn();
 		Main.log.prettyOutdent(); Main.log.prettyPrint("end");
 	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		stmtList.check(curScope, lib);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
