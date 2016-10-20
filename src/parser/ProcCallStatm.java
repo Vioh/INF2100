@@ -7,6 +7,7 @@ import static scanner.TokenKind.*;
 public class ProcCallStatm extends Statement {
 	String name;
 	ArrayList<Expression> expressions = new ArrayList<Expression>();
+	ProcDecl procRef;
 
 	public ProcCallStatm(int lNum) {
 		super(lNum);
@@ -46,5 +47,13 @@ public class ProcCallStatm extends Statement {
 			expressions.get(i).prettyPrint();
 		}
 		Main.log.prettyPrint(")");
+	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		PascalDecl pd = curScope.findDecl(name, this);
+		//...
+		procRef = (ProcDecl) pd;
+		
 	}
 }

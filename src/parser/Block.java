@@ -2,6 +2,7 @@ package parser;
 import main.*;
 import scanner.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import static scanner.TokenKind.*;
 
 public class Block extends PascalSyntax {
@@ -9,6 +10,8 @@ public class Block extends PascalSyntax {
 	ConstDeclPart cdp; //optional
 	StatmList stmtList;
 	ArrayList<ProcDecl> procAndFuncList = new ArrayList<ProcDecl>();
+	HashMap<String,PascalDecl> decls = new HashMap<String,PascalDecl>();
+	Block outerScope; 
 	
 	public Block(int lNum) {
 		super(lNum);
@@ -63,5 +66,33 @@ public class Block extends PascalSyntax {
 		Main.log.prettyPrintLn("begin"); Main.log.prettyIndent();
 		stmtList.prettyPrint(); Main.log.prettyPrintLn();
 		Main.log.prettyOutdent(); Main.log.prettyPrint("end");
+	}
+	
+	public void addDecl(String id, PascalDecl pd) {
+		if(decls.containsKey(id)) {
+			pd.error(id + " declared twice in same block!");
+		}
+		decls.put(id,pd);
+	}
+	
+	public PascalDecl findDecl(String id, PascalSyntax where) {
+		PascalDecl pd = decls.get(id); // find in current scope
+		if(pd != null) {
+			Main.log.noteBinding(id, where, pd); 
+			return pd;
+		}
+		if(outerScope != null) {
+			return outerScope.findDecl(id, where);
+		}
+		where.error("Name " + id + " is unknown!");
+		return null;
+	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		outerScope = curScope; // initialization of outer block
+		if(cdp != null) cdp.check(this, lib);
+//		if(vdp != null) vdp.check(this, lib);
+		
 	}
 }
