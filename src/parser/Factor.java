@@ -2,6 +2,8 @@ package parser;
 import scanner.*;
 
 public abstract class Factor extends PascalSyntax {
+	types.Type type;
+	
 	public Factor(int lNum) {
 		super(lNum);
 	}

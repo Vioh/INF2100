@@ -22,7 +22,7 @@ public class FuncDecl extends ProcDecl {
 		
 		s.skip(nameToken);
 		if(s.curToken.kind == leftParToken) {
-			fd.pdList = ParamDeclList.parse(s);
+			fd.pdl = ParamDeclList.parse(s);
 		}
 		s.skip(colonToken);
 		fd.typename = TypeName.parse(s);
@@ -37,9 +37,9 @@ public class FuncDecl extends ProcDecl {
 	@Override
 	public void prettyPrint() {
 		Main.log.prettyPrint("function " + this.name);
-		if(pdList != null) {
+		if(pdl != null) {
 			Main.log.prettyPrint(" ");
-			pdList.prettyPrint();
+			pdl.prettyPrint();
 		}
 		Main.log.prettyPrint(": ");
 		typename.prettyPrint();
@@ -51,11 +51,31 @@ public class FuncDecl extends ProcDecl {
 	@Override
 	public void check(Block curScope, Library lib) {
 		curScope.addDecl(this.name, this);
-		if(this.pdList != null) {
-			this.pdList.check(curScope, lib);
+		if(this.pdl != null) {
+			this.pdl.check(curScope, lib);
 		}
 		typename.check(curScope, lib);
 		this.type = typename.type;
 		this.block.check(curScope, lib);
+	}
+	
+	@Override
+	public void checkWhetherAssignable(PascalSyntax where) {
+		// A function is assignable. Do nothing!
+	}
+	
+	@Override
+	public void checkWhetherFunction(PascalSyntax where) {
+		// This is a function. Do nothing!
+	}
+	
+	@Override
+	public void checkWhetherProcedure(PascalSyntax where) {
+		where.error(name + " is a function, not a procedure.");
+	}
+	
+	@Override
+	public void checkWhetherValue(PascalSyntax where) {
+		// Function always returns a value. Do nothing!
 	}
 }

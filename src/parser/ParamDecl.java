@@ -35,8 +35,28 @@ public class ParamDecl extends PascalDecl {
 	
 	@Override
 	public void check(Block curScope, Library lib) {
-		curScope.addDecl(this.name, this);
+		curScope.addDecl(name, this);
 		typename.check(curScope, lib);
-		this.type = typename.type;
+		type = typename.type;
+	}
+
+	@Override
+	public void checkWhetherAssignable(PascalSyntax where) {
+		where.error("Cannot assign to a paramater");
+	}
+
+	@Override
+	public void checkWhetherFunction(PascalSyntax where) {
+		where.error(name + " is a parameter, not a function");
+	}
+
+	@Override
+	public void checkWhetherProcedure(PascalSyntax where) {
+		where.error(name + " is a parameter, not a procedure");
+	}
+
+	@Override
+	public void checkWhetherValue(PascalSyntax where) {
+		// A parameter always has a value. Do nothing!	
 	}
 }

@@ -43,15 +43,8 @@ public class Program extends PascalDecl {
 		progBlock.check(curScope, lib);
 	}
 
-//	@Override
-//	void checkWhetherAssignable(PascalSyntax where) {}
-//
-//	@Override
-//	void checkWhetherFunction(PascalSyntax where) {}
-//
-//	@Override
-//	void checkWhetherProcedure(PascalSyntax where) {}
-//
-//	@Override
-//	void checkWhetherValue(PascalSyntax where) {}
+	@Override public void checkWhetherAssignable(PascalSyntax where) {}
+	@Override public void checkWhetherFunction(PascalSyntax where) {}
+	@Override public void checkWhetherProcedure(PascalSyntax where) {}
+	@Override public void checkWhetherValue(PascalSyntax where) {}
 }

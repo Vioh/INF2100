@@ -50,13 +50,13 @@ public class SimpleExpr extends PascalSyntax {
 	
 	@Override
 	public void check(Block curScope, Library lib) {
-		if(prefix != null) {
-			String oprName = prefix.oprType.toString();	
-			Term firstTerm = termList.get(0);
-			firstTerm.type.checkType(lib.integerType, "Prefix " + oprName, this, 
-					"Prefix + or - may only be applied to Integers.");
-		}
+		for(Term term : termList) term.check(curScope, lib);
 		
+		if(prefix != null) {
+			Term firstTerm = termList.get(0);
+			firstTerm.type.checkType(lib.integerType, "Prefix " + prefix.oprType, 
+					this, "Prefix + or - may only be applied to Integers.");
+		}
 		for(int i = 0; i < termOprList.size(); i++) {
 			TokenKind oprType = termOprList.get(i).oprType;
 			types.Type lTermType = termList.get(i).type;   // type of left term
@@ -64,21 +64,20 @@ public class SimpleExpr extends PascalSyntax {
 			
 			if(oprType == addToken || oprType == subtractToken) {
 				lTermType.checkType(lib.integerType, 
-					"left " + oprType.toString() + " operands", this, 
-					"Left operand to " + oprType.toString() + " is not a number!");
+					"left " + oprType + " operands", this, 
+					"Left operand to " + oprType+ " is not a number!");
 				rTermType.checkType(lib.integerType, 
-					"right " + oprType.toString() + " operands", this, 
-					"Right operand to " + oprType.toString() + " is not a number!");
+					"right " + oprType + " operands", this, 
+					"Right operand to " + oprType + " is not a number!");
 			}
 			else if(oprType == orToken) {
 				lTermType.checkType(lib.boolType, 
-					"left " + oprType.toString() + " operands", this, 
-					"Left operand to " + oprType.toString() + " is not a Boolean!");
+					"left " + oprType + " operands", this, 
+					"Left operand to " + oprType+ " is not a Boolean!");
 				rTermType.checkType(lib.boolType, 
-					"right " + oprType.toString() + " operands", this, 
-					"Right operand to " + oprType.toString() + " is not a Boolean!");
+					"right " + oprType + " operands", this, 
+					"Right operand to " + oprType + " is not a Boolean!");
 			}
 		}
-		
 	}
 }

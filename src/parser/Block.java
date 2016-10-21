@@ -72,7 +72,7 @@ public class Block extends PascalSyntax {
 		if(decls.containsKey(id)) {
 			pd.error(id + " declared twice in same block!");
 		}
-		decls.put(id,pd);
+		decls.put(id, pd);
 	}
 	
 	public PascalDecl findDecl(String id, PascalSyntax where) {
@@ -93,7 +93,6 @@ public class Block extends PascalSyntax {
 		outerScope = curScope; // initialization of outer block
 		if(cdp != null) cdp.check(this, lib);
 		if(vdp != null) vdp.check(this, lib);
-		
 		for(ProcDecl proc : procAndFuncList) proc.check(this, lib);
 		stmtList.check(this, lib);
 	}

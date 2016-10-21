@@ -6,7 +6,7 @@ import static scanner.TokenKind.*;
 
 public class ProcCallStatm extends Statement {
 	String name;
-	ArrayList<Expression> expressions = new ArrayList<Expression>();
+	ArrayList<Expression> exprList = new ArrayList<Expression>();
 	ProcDecl procRef;
 
 	public ProcCallStatm(int lNum) {
@@ -26,7 +26,7 @@ public class ProcCallStatm extends Statement {
 		if(s.curToken.kind == leftParToken) {
 			s.skip(leftParToken);
 			while(true) {
-				pcs.expressions.add(Expression.parse(s));
+				pcs.exprList.add(Expression.parse(s));
 				if(s.curToken.kind != commaToken) break;
 				s.skip(commaToken);		
 			}
@@ -39,12 +39,12 @@ public class ProcCallStatm extends Statement {
 	@Override
 	public void prettyPrint() {
 		Main.log.prettyPrint(name);
-		if(expressions.isEmpty()) return;
+		if(exprList.isEmpty()) return;
 		
 		Main.log.prettyPrint("(");
-		for(int i = 0; i < expressions.size(); i++) {
+		for(int i = 0; i < exprList.size(); i++) {
 			if(i != 0) Main.log.prettyPrint(", ");
-			expressions.get(i).prettyPrint();
+			exprList.get(i).prettyPrint();
 		}
 		Main.log.prettyPrint(")");
 	}
@@ -52,7 +52,17 @@ public class ProcCallStatm extends Statement {
 	@Override
 	public void check(Block curScope, Library lib) {
 		PascalDecl pd = curScope.findDecl(name, this);
-		for(Expression expr : expressions) expr.check(curScope, lib);
-		procRef = (ProcDecl) pd;
+		for(Expression expr : exprList) expr.check(curScope, lib);
+		
+		// Check if the name is a procedure name
+		pd.checkWhetherProcedure(this);
+		procRef = (ProcDecl) pd;		
+		
+		// Check the types of formal and actual parameters
+		ArrayList<ParamDecl> pdList = procRef.pdl.pdList;
+		for(int i = 0; i < pdList.size(); i++) {
+			pdList.get(i).type.checkType(exprList.get(i).type, 
+					"param #" + i, this, "Illegal type of parameter #" + i);
+		}
 	}
 }

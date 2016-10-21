@@ -2,6 +2,8 @@ package parser;
 import scanner.*;
 
 public abstract class Type extends PascalSyntax {
+	types.Type type;
+	
 	public Type(int lNum) {
 		super(lNum);
 	}

@@ -5,7 +5,6 @@ import static scanner.TokenKind.*;
 
 public class TypeName extends Type {
 	String name;
-	types.Type type;
 	
 	public TypeName(int lNum) {
 		super(lNum);
@@ -30,5 +29,11 @@ public class TypeName extends Type {
 	@Override
 	public void prettyPrint() {
 		Main.log.prettyPrint(name);
+	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		type = lib.findPrimitiveType(name);
+		if(type == null) error("Name " + name + " is unknown!");
 	}
 }

@@ -5,6 +5,7 @@ import static scanner.TokenKind.*;
 
 public class ConstDecl extends PascalDecl {
 	Constant constant;
+	int constVal;
 	
 	public ConstDecl(String name, int lNum) {
 		super(name, lNum);
@@ -37,7 +38,29 @@ public class ConstDecl extends PascalDecl {
 	
 	@Override
 	public void check(Block curScope, Library lib) {
-		curScope.addDecl(this.name, this);
+		curScope.addDecl(name, this);
 		constant.check(curScope, lib);
+		type = constant.type;
+		constVal = constant.constVal;
+	}
+
+	@Override
+	public void checkWhetherAssignable(PascalSyntax where) {
+		where.error("Cannot assign to a constant.");
+	}
+
+	@Override
+	public void checkWhetherFunction(PascalSyntax where) {
+		where.error(name + " is a constant, not a function.");
+	}
+
+	@Override
+	public void checkWhetherProcedure(PascalSyntax where) {
+		where.error(name + " is a constant, not a procedure.");
+	}
+
+	@Override
+	public void checkWhetherValue(PascalSyntax where) {
+		// Constant has a value. Do nothing!
 	}
 } 

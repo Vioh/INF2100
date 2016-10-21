@@ -1,18 +1,9 @@
 package parser;
-import main.*;
 import scanner.*;
-import static scanner.TokenKind.*;
 
-public class UnsignedConstant extends Factor {
-	String name;    //name
-	int number;     //numeric literal
-	char character; //char literal
-	ConstantType type;
-	
-	/** A tri-state boolean to distinguish between different constant types */
-	enum ConstantType {
-		NAME, NUMB, CHAR
-	}
+public abstract class UnsignedConstant extends Factor {
+	int constVal;
+	types.Type type;
 	
 	public UnsignedConstant(int lNum) {
 		super(lNum);
@@ -20,56 +11,25 @@ public class UnsignedConstant extends Factor {
 	
 	@Override
 	public String identify() {
-		String ret = "";
-		switch(type) {
-			case NAME: ret += "<named constant>"; break;
-			case NUMB: ret += "<numeric literal>"; break;
-			case CHAR: ret += "<char literal>"; break;
-			default: break;
-		}
-		return ret += " on line " + lineNum;
+		return "<unsigned constant> on line " + lineNum;
 	}
 	
 	public static UnsignedConstant parse(Scanner s) {
 		enterParser("unsigned constant");
-		UnsignedConstant uc = new UnsignedConstant(s.curLineNum());
+		UnsignedConstant uc = null;
 		
 		switch(s.curToken.kind) {
 		case intValToken:
-			enterParser("number literal");
-			uc.number = s.curToken.intVal;
-			uc.type = ConstantType.NUMB;
-			s.skip(intValToken);
-			leaveParser("number literal");
-			break;
-		case charValToken: 
-			enterParser("char literal");
-			uc.character = s.curToken.charVal;
-			uc.type = ConstantType.CHAR;
-			s.skip(charValToken);
-			leaveParser("char literal");
-			break;
+			uc = NumberLiteral.parse(s); break;
+		case charValToken:
+			uc = CharLiteral.parse(s); break;
 		case nameToken:
-			enterParser("named constant");
-			uc.name = s.curToken.id;
-			uc.type = ConstantType.NAME;
-			s.skip(nameToken);
-			leaveParser("named constant");
-			break;
+			uc = NamedConst.parse(s); break;
 		default:
 			s.testError("unsigned constant"); // expect an unsigned const here
 		}
+		s.readNextToken();
 		leaveParser("unsigned constant");
 		return uc;
-	}
-	
-	@Override
-	public void prettyPrint() {
-		if(type == ConstantType.NUMB) 
-			Main.log.prettyPrint("" + number);
-		if(type == ConstantType.CHAR) 
-			Main.log.prettyPrint("'" + character + "'");
-		if(type == ConstantType.NAME) 
-			Main.log.prettyPrint(name);
 	}
 }

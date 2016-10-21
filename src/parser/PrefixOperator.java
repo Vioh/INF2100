@@ -32,6 +32,6 @@ public class PrefixOperator extends PascalSyntax {
 	
 	@Override
 	public void check(Block curScope, Library lib) {
-		// Nothing to check
+		// No need to check for a prefix operator
 	}
 }

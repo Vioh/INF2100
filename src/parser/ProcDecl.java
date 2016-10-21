@@ -4,7 +4,7 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 public class ProcDecl extends PascalDecl {	
-	ParamDeclList pdList; //optional
+	ParamDeclList pdl; //optional
 	Block block;
 	
 	public ProcDecl(String name, int lNum) {
@@ -23,7 +23,7 @@ public class ProcDecl extends PascalDecl {
 		
 		s.skip(nameToken);
 		if(s.curToken.kind == leftParToken) {
-			proc.pdList = ParamDeclList.parse(s);
+			proc.pdl = ParamDeclList.parse(s);
 		}
 		s.skip(semicolonToken);
 		proc.block = Block.parse(s);
@@ -36,9 +36,9 @@ public class ProcDecl extends PascalDecl {
 	@Override
 	public void prettyPrint() {
 		Main.log.prettyPrint("procedure " + this.name);
-		if(pdList != null) {
+		if(pdl != null) {
 			Main.log.prettyPrint(" ");
-			pdList.prettyPrint();
+			pdl.prettyPrint();
 		}
 		Main.log.prettyPrintLn(";");
 		block.prettyPrint();
@@ -48,10 +48,30 @@ public class ProcDecl extends PascalDecl {
 	@Override
 	public void check(Block curScope, Library lib) {
 		curScope.addDecl(this.name, this);
-		if(this.pdList != null) {
-			this.pdList.check(curScope, lib);
+		if(this.pdl != null) {
+			this.pdl.check(curScope, lib);
 		}
 		this.block.check(curScope, lib);
 	}
-	
+
+	@Override
+	public void checkWhetherAssignable(PascalSyntax where) {
+		where.error("Cannot assign to a procedure.");
+	}
+
+	@Override
+	public void checkWhetherFunction(PascalSyntax where) {
+		where.error(name + " is a procedure, not a function.");
+	}
+
+	@Override
+	public void checkWhetherProcedure(PascalSyntax where) {
+		// This is a procedure. Do nothing!
+	}
+
+	@Override
+	public void checkWhetherValue(PascalSyntax where) {
+		where.error(name + " is a procedure name; "
+				+ "it may not be used in an expression.");
+	}
 }

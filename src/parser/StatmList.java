@@ -36,4 +36,9 @@ public class StatmList extends PascalSyntax {
 			stmtList.get(i).prettyPrint();
 		}
 	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		for(Statement stmt : stmtList) stmt.check(curScope, lib);
+	}
 }

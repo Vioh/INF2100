@@ -4,7 +4,7 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 public class VarDecl extends PascalDecl {
-	Type type;
+	parser.Type typeFromParser;
 	
 	public VarDecl(String name, int lNum) {
 		super(name, lNum);
@@ -21,7 +21,7 @@ public class VarDecl extends PascalDecl {
 		VarDecl vd = new VarDecl(s.curToken.id, s.curLineNum());
 		
 		s.skip(nameToken); s.skip(colonToken);
-		vd.type = Type.parse(s);
+		vd.typeFromParser = parser.Type.parse(s);
 		s.skip(semicolonToken);
 		
 		leaveParser("var decl");
@@ -31,7 +31,34 @@ public class VarDecl extends PascalDecl {
 	@Override 
 	public void prettyPrint() {
 		Main.log.prettyPrint(this.name + ": ");
-		type.prettyPrint();
+		typeFromParser.prettyPrint();
 		Main.log.prettyPrint(";");
+	}
+	
+	@Override
+	public void check(Block curScope, Library lib) {
+		curScope.addDecl(name, this);
+		typeFromParser.check(curScope, lib);
+		type = typeFromParser.type;
+	}
+	
+	@Override
+	public void checkWhetherAssignable(PascalSyntax where) {
+		// Variable is always assignable. Do nothing!
+	}
+
+	@Override
+	public void checkWhetherFunction(PascalSyntax where) {
+		where.error(name + " is a variable, not a function!");
+	}
+
+	@Override
+	public void checkWhetherProcedure(PascalSyntax where) {
+		where.error(name + " is a variable, not a procedure!");
+	}
+
+	@Override
+	public void checkWhetherValue(PascalSyntax where) {
+		// Variable has a value. Do nothing!
 	}
 }

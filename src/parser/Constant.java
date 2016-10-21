@@ -43,13 +43,11 @@ public class Constant extends PascalSyntax {
 		type = uconst.type;
 		constVal = uconst.constVal;
 		
-		if (prefix != null) {
+		if(prefix != null) {
 			String oprName = prefix.oprType.toString();
-			uconst.type.checkType(lib.integerType, "Prefix "+oprName, this,
+			uconst.type.checkType(lib.integerType, "Prefix " + oprName, this,
 					"Prefix + or - may only be applied to Integers.");
-			
-			if (prefix.oprType == subtractToken)
-				constVal = -constVal;
+			if (prefix.oprType == subtractToken) constVal = -constVal;
 		}
 	}
 }

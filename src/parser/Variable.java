@@ -40,4 +40,25 @@ public class Variable extends Factor {
 			Main.log.prettyPrint("]");
 		}
 	}
+
+	@Override
+	public void check(Block curScope, Library lib) {
+		PascalDecl pd = curScope.findDecl(name, this);
+		if(!(pd instanceof VarDecl)) error(name + "is no variable!");
+		varRef = (VarDecl) pd;
+		
+		if(expr != null) {
+			expr.check(curScope, lib);
+			varRef.type.checkType(lib.arrayType, "array index", this, 
+					"Cannot index " + name + "; it is no array!");
+			parser.ArrayType aa = (parser.ArrayType) varRef.typeFromParser;
+			aa.elemType.checkType(expr.type, op, this, mess);
+			
+//			expr.type.checkType(, op, where, mess);
+		}
+
+
+		
+//		type = varRef.type;
+	}
 }

@@ -5,6 +5,7 @@ import static scanner.TokenKind.*;
 
 public class Negation extends Factor {
 	Factor fact;
+	types.Type type;
 	
 	public Negation(int lNum) {
 		super(lNum);
@@ -35,5 +36,8 @@ public class Negation extends Factor {
 	@Override
 	public void check(Block curScope, Library lib) {
 		fact.check(curScope, lib);
+		fact.type.checkType(lib.boolType, "'not' operand", this,
+				"'not' operator only allowed for Boolean values.");
+		type = lib.boolType;
 	}
 }

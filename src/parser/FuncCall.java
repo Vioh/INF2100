@@ -8,7 +8,6 @@ public class FuncCall extends Factor {
 	String name;
 	ArrayList<Expression> exprList = new ArrayList<Expression>();
 	FuncDecl funcRef;
-	types.Type type;
 	
 	public FuncCall(int lNum) {
 		super(lNum);
@@ -52,9 +51,19 @@ public class FuncCall extends Factor {
 	
 	@Override
 	public void check(Block curScope, Library lib) {
-		PascalDecl pd = curScope.findDecl(this.name, this);
+		PascalDecl pd = curScope.findDecl(name, this);
 		for(Expression expr : exprList) expr.check(curScope, lib);
+		
+		// Check if the name a function name
+		pd.checkWhetherFunction(this);
 		funcRef = (FuncDecl) pd;
+		
+		// Check the types of formal and actual parameters
+		ArrayList<ParamDecl> pdList = funcRef.pdl.pdList;
+		for(int i = 0; i < pdList.size(); i++) {
+			pdList.get(i).type.checkType(exprList.get(i).type, 
+					"param #" + i, this, "Illegal type of parameter #" + i);
+		}
 		this.type = funcRef.type;
 	}
 }

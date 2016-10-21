@@ -18,4 +18,11 @@ public class Library extends Block {
 		integerType = new types.IntType();
 		
 	}
+	
+	public types.Type findPrimitiveType(String name) {
+		if(name.equals("integer")) return integerType;
+		if(name.equals("boolean")) return boolType;
+		if(name.equals("char")) return charType;
+		return null;
+	}
 }
