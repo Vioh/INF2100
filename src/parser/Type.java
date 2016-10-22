@@ -13,19 +13,19 @@ public abstract class Type extends PascalSyntax {
 		return "<type> on line " + lineNum;
 	}
 	
-	public static Type parse(Scanner s) {
+	public static parser.Type parse(Scanner s) {
 		enterParser("type");
-		Type type = null;
+		parser.Type typeFromParser = null;
 		
 		switch(s.curToken.kind) {
 		case arrayToken:
-			type = ArrayType.parse(s); break;
+			typeFromParser = ArrayType.parse(s); break;
 		case nameToken:
-			type = TypeName.parse(s); break;
+			typeFromParser = TypeName.parse(s); break;
 		default:
 			s.testError("type"); // we expect a type here
 		}
 		leaveParser("type");
-		return type;
+		return typeFromParser;
 	}
 }

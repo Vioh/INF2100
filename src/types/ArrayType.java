@@ -1,5 +1,4 @@
 package types;
-
 import parser.PascalSyntax;
 
 public class ArrayType extends Type {
@@ -11,15 +10,17 @@ public class ArrayType extends Type {
 		indexType = i;  loLim = lo;  hiLim = hi;
 	}
 
-	@Override public String identify() {
+	@Override 
+	public String identify() {
 		return "type array [" + loLim + ".." + hiLim + ": " +
 			indexType.identify() + "] of " + elemType.identify();
 	}
 
-	@Override public void checkType(Type tx, String op, 
+	@Override 
+	public void checkType(Type tx, String op,  
 					PascalSyntax where, String message) {
 		if (tx instanceof ArrayType) {
-			ArrayType txa = (ArrayType)tx;
+			ArrayType txa = (ArrayType) tx;
 			indexType.checkType(txa.indexType, "array index", where, message);
 			elemType.checkType(txa.elemType, op, where, message);
 		} else {
@@ -27,8 +28,8 @@ public class ArrayType extends Type {
 		}
 	}
 
-
-	@Override public int size() {
+	@Override 
+	public int size() {
 		return (hiLim-loLim+1)*elemType.size();
 	}
 }

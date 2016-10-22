@@ -7,6 +7,7 @@ public class Variable extends Factor {
 	String name;
 	Expression expr; //optional
 	VarDecl varRef;
+	types.Type type;
 	
 	public Variable(int lNum) { 
 		super(lNum);
@@ -46,19 +47,19 @@ public class Variable extends Factor {
 		PascalDecl pd = curScope.findDecl(name, this);
 		if(!(pd instanceof VarDecl)) error(name + "is no variable!");
 		varRef = (VarDecl) pd;
-		
-		if(expr != null) {
-			expr.check(curScope, lib);
-			varRef.type.checkType(lib.arrayType, "array index", this, 
-					"Cannot index " + name + "; it is no array!");
-			parser.ArrayType aa = (parser.ArrayType) varRef.typeFromParser;
-			aa.elemType.checkType(expr.type, op, this, mess);
-			
-//			expr.type.checkType(, op, where, mess);
+		if(expr == null) {
+			type = varRef.type;
+			return;
+		} 
+		// Check if this variable is a valid array access
+		expr.check(curScope, lib);
+		if(varRef.type instanceof types.ArrayType) {
+			types.ArrayType array = (types.ArrayType) varRef.type;
+			expr.type.checkType(array.indexType, "array index", this, 
+					"Index to " + name + " has wrong type!");
+			type = array.elemType;
+		} else {
+			error("Cannot index " + name + "; it is no array!");
 		}
-
-
-		
-//		type = varRef.type;
 	}
 }

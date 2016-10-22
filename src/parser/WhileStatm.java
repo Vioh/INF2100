@@ -35,4 +35,12 @@ public class WhileStatm extends Statement {
 		Main.log.prettyPrintLn(" do"); Main.log.prettyIndent();
 		body.prettyPrint(); Main.log.prettyOutdent();
 	}
+
+	@Override
+	public void check(Block curScope, Library lib) {
+		condition.check(curScope, lib);
+		body.check(curScope, lib);
+		condition.type.checkType(lib.boolType, "while-test", this,
+				"While-test is not Boolean.");
+	}
 }

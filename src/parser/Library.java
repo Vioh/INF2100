@@ -33,10 +33,11 @@ public class Library extends Block {
 		decls.put("false", falseConst);
 	}
 	
-	public types.Type findPrimitiveType(String name) {
+	public types.Type findPrimitiveType(String name, PascalSyntax where) {
 		if(name.equals("integer")) return integerType;
 		if(name.equals("boolean")) return boolType;
 		if(name.equals("char")) return charType;
+		where.error("Name " + name + " is unknown!");
 		return null;
 	}
 }

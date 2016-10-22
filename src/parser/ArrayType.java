@@ -7,8 +7,6 @@ public class ArrayType extends Type {
 	Constant firstInd;
 	Constant lastInd;
 	parser.Type typeFromParser; 
-	types.Type indexType;
-	types.Type elemType;
 
 	public ArrayType(int lNum) {
 		super(lNum);
@@ -53,14 +51,17 @@ public class ArrayType extends Type {
 		// Check if the limits are of the same type
 		firstInd.type.checkType(lastInd.type, "array limits",
 				this, "Array limits must be of the same type.");
-		indexType = firstInd.type;
 		
 		// Check the array size
-		if(lastInd.constVal - firstInd.constVal < 0) {
-			this.error("Arrays cannot have negative size!");
-		}
-		// Assign the element type
-		elemType = typeFromParser.type;
-		type = lib.arrayType;
+		if(lastInd.constVal - firstInd.constVal < 0)
+			error("Arrays cannot have negative size!");
+		
+		// Check the element type of the array
+		if(typeFromParser.type instanceof types.ArrayType)
+			error("Multi-dimensional arrays not allowed.");
+		
+		// Create a new array type
+		this.type = new types.ArrayType(typeFromParser.type,
+				firstInd.type, firstInd.constVal, lastInd.constVal);
 	}
 }

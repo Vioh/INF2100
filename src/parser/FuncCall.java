@@ -8,6 +8,7 @@ public class FuncCall extends Factor {
 	String name;
 	ArrayList<Expression> exprList = new ArrayList<Expression>();
 	FuncDecl funcRef;
+	types.Type type;
 	
 	public FuncCall(int lNum) {
 		super(lNum);
@@ -80,5 +81,7 @@ public class FuncCall extends Factor {
 						"param #" + i, this, "Illegal type of parameter #" + i);
 			}
 		}
+		// Assign the type of this function call to the type in its declaration
+		type = funcRef.type;
 	}
 }

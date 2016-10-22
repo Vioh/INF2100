@@ -40,6 +40,10 @@ public class AssignStatm extends Statement {
 		var.check(curScope, lib);
 		expr.check(curScope, lib);
 		
+		// Check if this is an assignment of a whole array
+		if(var.type instanceof types.ArrayType)
+			error("Assignment of arrays is not allowed.");
+		
 		// Check if both sides of assignment are of the same type
 		var.type.checkType(expr.type, ":=", this, 
 				"Different types in assignment!");
