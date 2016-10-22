@@ -57,13 +57,28 @@ public class FuncCall extends Factor {
 		// Check if the name a function name
 		pd.checkWhetherFunction(this);
 		funcRef = (FuncDecl) pd;
-		
-		// Check the types of formal and actual parameters
-		ArrayList<ParamDecl> pdList = funcRef.pdl.pdList;
-		for(int i = 0; i < pdList.size(); i++) {
-			pdList.get(i).type.checkType(exprList.get(i).type, 
-					"param #" + i, this, "Illegal type of parameter #" + i);
-		}
 		this.type = funcRef.type;
+		
+		// Make an alias for the parameter declarations array-list
+		ArrayList<ParamDecl> pdList_alias = null;
+		if(funcRef.pdl != null) pdList_alias = funcRef.pdl.pdList;
+		
+		// Check if this function has no formal parameters
+		if(pdList_alias == null) {
+			if(!exprList.isEmpty())
+				error("Too many parameters in call on " + name);
+			return;
+		}
+		// Check if the types of formal and actual parameters match
+		if(exprList.size() > pdList_alias.size()) 
+			error("Too many paramters in call on " + name);
+		else if(exprList.size() < pdList_alias.size())
+			error("Too few parameters in call on " + name);
+		else {
+			for(int i = 0; i < exprList.size(); i++) {
+				pdList_alias.get(i).type.checkType(exprList.get(i).type, 
+						"param #" + i, this, "Illegal type of parameter #" + i);
+			}
+		}
 	}
 }
