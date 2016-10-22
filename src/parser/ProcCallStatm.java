@@ -54,6 +54,14 @@ public class ProcCallStatm extends Statement {
 		PascalDecl pd = curScope.findDecl(name, this);
 		for(Expression expr : exprList) expr.check(curScope, lib);
 		
+		// Special case for the call to the in-built "write" procedure
+		if(pd == lib.writeProc) {
+			for(Expression expr : exprList) {
+				if(expr.type instanceof types.ArrayType) 
+					error("You may not print arrays.");
+			}
+			return;
+		}
 		// Check if the name is a procedure name
 		pd.checkWhetherProcedure(this);
 		procRef = (ProcDecl) pd;		

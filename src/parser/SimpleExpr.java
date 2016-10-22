@@ -79,5 +79,6 @@ public class SimpleExpr extends PascalSyntax {
 					"Right operand to " + oprType + " is not a Boolean!");
 			}
 		}
+		//TODO: Assigned type to this SimpleExpr
 	}
 }

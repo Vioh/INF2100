@@ -5,6 +5,7 @@ TODO:
 - While Statement
 - Type
 - TypeName
+- Assign "type" for SimpleExpression and Term (within check() method)
 
 Gruppe:
 - syhd (Sy Hai Dinh)

@@ -13,7 +13,9 @@ public class ConstDecl extends PascalDecl {
 	
 	@Override
 	public String identify() {
-		return "<const decl> " + name + " on line " + lineNum;
+		String ret = "<const decl> " + name;
+		if(this.isInLibrary()) return ret + " in the library";
+		return ret + " on line" + lineNum;
 	}
 	
 	public static ConstDecl parse(Scanner s) {

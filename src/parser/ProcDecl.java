@@ -13,7 +13,9 @@ public class ProcDecl extends PascalDecl {
 	
 	@Override
 	public String identify() {
-		return "<proc decl> " + name + " on line " + lineNum;
+		String ret = "<func decl> " + name;
+		if(this.isInLibrary()) return ret + " in the library";
+		return ret + " on line" + lineNum;
 	}
 	
 	public static ProcDecl parse(Scanner s) {
