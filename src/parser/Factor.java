@@ -8,11 +8,6 @@ public abstract class Factor extends PascalSyntax {
 		super(lNum);
 	}
 	
-	@Override
-	public String identify() {
-		return "<factor> on line " + lineNum;
-	}
-	
 	public static Factor parse(Scanner s) {
 		enterParser("factor");
 		Factor fact = null;

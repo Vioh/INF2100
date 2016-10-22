@@ -5,9 +5,8 @@ import static scanner.TokenKind.*;
 
 public class Variable extends Factor {
 	String name;
-	Expression expr; //optional
-	VarDecl varRef;
-	types.Type type;
+	Expression expr; // optional
+	PascalDecl declRef;
 	
 	public Variable(int lNum) { 
 		super(lNum);
@@ -44,22 +43,19 @@ public class Variable extends Factor {
 
 	@Override
 	public void check(Block curScope, Library lib) {
-		PascalDecl pd = curScope.findDecl(name, this);
-		if(!(pd instanceof VarDecl)) error(name + "is no variable!");
-		varRef = (VarDecl) pd;
-		if(expr == null) {
-			type = varRef.type;
-			return;
-		} 
+		declRef = curScope.findDecl(name, this);
+		type = declRef.type;
+		if(expr == null) return; // nothing left to do
+		
 		// Check if this variable is a valid array access
 		expr.check(curScope, lib);
-		if(varRef.type instanceof types.ArrayType) {
-			types.ArrayType array = (types.ArrayType) varRef.type;
+		if(type instanceof types.ArrayType) {
+			types.ArrayType array = (types.ArrayType) type;
 			expr.type.checkType(array.indexType, "array index", this, 
 					"Index to " + name + " has wrong type!");
 			type = array.elemType;
 		} else {
-			error("Cannot index " + name + "; it is no array!");
+			error("You cannot index " + name + "; it is no array!");
 		}
 	}
 }

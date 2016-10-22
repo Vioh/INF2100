@@ -5,7 +5,6 @@ import static scanner.TokenKind.*;
 
 public class Negation extends Factor {
 	Factor fact;
-	types.Type type;
 	
 	public Negation(int lNum) {
 		super(lNum);

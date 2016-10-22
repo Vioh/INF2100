@@ -6,7 +6,7 @@ import static scanner.TokenKind.*;
 public class IfStatm extends Statement {
 	Expression condition;
 	Statement thenStmt;
-	Statement elseStmt; //optional
+	Statement elseStmt; // optional
 	
 	public IfStatm(int lNum) {
 		super(lNum);
@@ -56,7 +56,7 @@ public class IfStatm extends Statement {
 		if(elseStmt != null) elseStmt.check(curScope, lib);
 		
 		// Check type of if-condition
-		condition.type.checkType(lib.boolType, "if-test", this, 
-				"If-test is not Boolean!");
+		condition.type.checkType(lib.boolType, "if-test", 
+				this, "If-test is not Boolean!");
 	}
 }

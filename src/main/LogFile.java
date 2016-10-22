@@ -85,7 +85,7 @@ public class LogFile {
 
 
 	public void noteTypeCheck(types.Type t1, String op, 
-				  types.Type t2, PascalSyntax where) {
+			types.Type t2, PascalSyntax where) {
 		if (doLogTypeChecks)
 			writeLogLine("Type check " + op + " on line " + where.lineNum + 
 			": " + t1.identify() + " vs " + t2.identify());

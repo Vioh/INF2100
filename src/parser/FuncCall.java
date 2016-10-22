@@ -6,10 +6,9 @@ import static scanner.TokenKind.*;
 
 public class FuncCall extends Factor {
 	String name;
+	FuncDecl declRef; // reference to the function declaration 
 	ArrayList<Expression> exprList = new ArrayList<Expression>();
-	FuncDecl funcRef;
-	types.Type type;
-	
+
 	public FuncCall(int lNum) {
 		super(lNum);
 	}
@@ -55,33 +54,32 @@ public class FuncCall extends Factor {
 		PascalDecl pd = curScope.findDecl(name, this);
 		for(Expression expr : exprList) expr.check(curScope, lib);
 		
-		// Check if the name a function name
+		// Check if the declaration is an actual function declaration
 		pd.checkWhetherFunction(this);
-		funcRef = (FuncDecl) pd;
-		this.type = funcRef.type;
+		declRef = (FuncDecl) pd;
+		type = declRef.type; // return type of the function
 		
 		// Make an alias for the parameter declarations array-list
-		ArrayList<ParamDecl> pdList_alias = null;
-		if(funcRef.pdl != null) pdList_alias = funcRef.pdl.pdList;
+		ArrayList<ParamDecl> pdl_alias = null;
+		if(declRef.pdl != null) 
+			pdl_alias = declRef.pdl.pdList;
 		
 		// Check if this function has no formal parameters
-		if(pdList_alias == null) {
+		if(pdl_alias == null) {
 			if(!exprList.isEmpty())
 				error("Too many parameters in call on " + name);
 			return;
 		}
 		// Check if the types of formal and actual parameters match
-		if(exprList.size() > pdList_alias.size()) 
+		if(exprList.size() > pdl_alias.size()) 
 			error("Too many paramters in call on " + name);
-		else if(exprList.size() < pdList_alias.size())
+		else if(exprList.size() < pdl_alias.size())
 			error("Too few parameters in call on " + name);
 		else {
 			for(int i = 0; i < exprList.size(); i++) {
-				pdList_alias.get(i).type.checkType(exprList.get(i).type, 
+				pdl_alias.get(i).type.checkType(exprList.get(i).type, 
 						"param #" + i, this, "Illegal type of parameter #" + i);
 			}
 		}
-		// Assign the type of this function call to the type in its declaration
-		type = funcRef.type;
 	}
 }

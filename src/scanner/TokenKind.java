@@ -1,8 +1,5 @@
 package scanner;
 
-// Note that tokens found in standard Pascal but not in Pascal2016
-// have been commented out.
-
 public enum TokenKind {
 	nameToken("name"),
 	intValToken("number"),
@@ -54,7 +51,6 @@ public enum TokenKind {
 	TokenKind(String im) {
 		image = im;
 	}
-
 
 	public String identify() {
 		return image + " token";

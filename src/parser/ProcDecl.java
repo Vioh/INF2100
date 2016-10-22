@@ -4,7 +4,7 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 public class ProcDecl extends PascalDecl {	
-	ParamDeclList pdl; //optional
+	ParamDeclList pdl; // optional
 	Block block;
 	
 	public ProcDecl(String name, int lNum) {
@@ -15,7 +15,7 @@ public class ProcDecl extends PascalDecl {
 	public String identify() {
 		String ret = "<func decl> " + name;
 		if(this.isInLibrary()) return ret + " in the library";
-		return ret + " on line" + lineNum;
+		return ret + " on line " + lineNum;
 	}
 	
 	public static ProcDecl parse(Scanner s) {
@@ -49,16 +49,16 @@ public class ProcDecl extends PascalDecl {
 	
 	@Override
 	public void check(Block curScope, Library lib) {
-		curScope.addDecl(this.name, this);
-		if(this.pdl != null) {
-			this.pdl.check(curScope, lib);
+		curScope.addDecl(name, this);
+		if(pdl != null) {
+			pdl.check(block, lib);
 		}
-		this.block.check(curScope, lib);
+		block.check(curScope, lib);
 	}
 
 	@Override
 	public void checkWhetherAssignable(PascalSyntax where) {
-		where.error("Cannot assign to a procedure.");
+		where.error("You cannot assign to a procedure.");
 	}
 
 	@Override

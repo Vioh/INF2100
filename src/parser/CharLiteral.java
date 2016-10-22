@@ -5,8 +5,6 @@ import static scanner.TokenKind.*;
 
 public class CharLiteral extends UnsignedConstant {
 	char character;
-	int constVal;
-	types.Type type;
 	
 	public CharLiteral(int lNum) {
 		super(lNum);

@@ -6,8 +6,8 @@ import java.util.HashMap;
 import static scanner.TokenKind.*;
 
 public class Block extends PascalSyntax {
-	VarDeclPart vdp;   //optional
-	ConstDeclPart cdp; //optional
+	VarDeclPart vdp;   // optional
+	ConstDeclPart cdp; // optional
 	StatmList stmtList;
 	ArrayList<ProcDecl> procAndFuncList = new ArrayList<ProcDecl>();
 	HashMap<String,PascalDecl> decls = new HashMap<String,PascalDecl>();

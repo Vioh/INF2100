@@ -42,21 +42,21 @@ public class ParamDecl extends PascalDecl {
 
 	@Override
 	public void checkWhetherAssignable(PascalSyntax where) {
-		where.error("Cannot assign to a paramater");
+		where.error("You cannot assign to a paramater.");
 	}
 
 	@Override
 	public void checkWhetherFunction(PascalSyntax where) {
-		where.error(name + " is a parameter, not a function");
+		where.error(name + " is a parameter, not a function.");
 	}
 
 	@Override
 	public void checkWhetherProcedure(PascalSyntax where) {
-		where.error(name + " is a parameter, not a procedure");
+		where.error(name + " is a parameter, not a procedure.");
 	}
 
 	@Override
 	public void checkWhetherValue(PascalSyntax where) {
-		// A parameter always has a value. Do nothing!	
+		// A parameter always has a value. Do nothing!
 	}
 }

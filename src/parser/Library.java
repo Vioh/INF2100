@@ -1,18 +1,18 @@
 package parser;
 
 public class Library extends Block {
-	ProcDecl writeProc;
-	ConstDecl eolConst;
-	ConstDecl trueConst;
-	ConstDecl falseConst;
-	types.IntType integerType;
-	types.BoolType boolType;
-	types.CharType charType;
+	public ProcDecl writeProc;
+	public ConstDecl eolConst;
+	public ConstDecl trueConst;
+	public ConstDecl falseConst;
+	public types.IntType integerType;
+	public types.BoolType boolType;
+	public types.CharType charType;
 	
 	public Library() {
 		super(-1); // library doesn't have a line number
 		
-		// Instantiate primitive types
+		// Instantiate the primitive types
 		integerType = new types.IntType();
 		boolType = new types.BoolType();
 		charType = new types.CharType();

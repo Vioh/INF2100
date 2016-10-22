@@ -15,7 +15,7 @@ public class ConstDecl extends PascalDecl {
 	public String identify() {
 		String ret = "<const decl> " + name;
 		if(this.isInLibrary()) return ret + " in the library";
-		return ret + " on line" + lineNum;
+		return ret + " on line " + lineNum;
 	}
 	
 	public static ConstDecl parse(Scanner s) {
@@ -42,13 +42,13 @@ public class ConstDecl extends PascalDecl {
 	public void check(Block curScope, Library lib) {
 		curScope.addDecl(name, this);
 		constant.check(curScope, lib);
-		type = constant.type;
 		constVal = constant.constVal;
+		type = constant.type;
 	}
 
 	@Override
 	public void checkWhetherAssignable(PascalSyntax where) {
-		where.error("Cannot assign to a constant.");
+		where.error("You cannot assign to a constant.");
 	}
 
 	@Override
@@ -63,6 +63,6 @@ public class ConstDecl extends PascalDecl {
 
 	@Override
 	public void checkWhetherValue(PascalSyntax where) {
-		// Constant has a value. Do nothing!
+		// Constant always has a value. Do nothing!
 	}
 } 

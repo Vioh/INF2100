@@ -48,9 +48,9 @@ public class Expression extends PascalSyntax {
 		
 		if(exprEnd != null) {
 			exprEnd.check(curScope, lib);
-			String oprName = opr.oprType.toString();
-			type.checkType(exprEnd.type, oprName + " operands", this,
-					"Operands to " + oprName + " are of different types!");
+			TokenKind oprType = opr.oprType;
+			exprStart.type.checkType(exprEnd.type, oprType + " operands", this,
+					"Operands to " + oprType + " are of different types!");
 			type = lib.boolType;
 		}
 	}

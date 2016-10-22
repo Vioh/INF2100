@@ -14,7 +14,7 @@ public class FuncDecl extends ProcDecl {
 	public String identify() {
 		String ret = "<func decl> " + name;
 		if(this.isInLibrary()) return ret + " in the library";
-		return ret + " on line" + lineNum;
+		return ret + " on line " + lineNum;
 	}
 	
 	public static FuncDecl parse(Scanner s) {
@@ -52,18 +52,16 @@ public class FuncDecl extends ProcDecl {
 	
 	@Override
 	public void check(Block curScope, Library lib) {
-		curScope.addDecl(this.name, this);
-		if(this.pdl != null) {
-			this.pdl.check(curScope, lib);
-		}
+		curScope.addDecl(name, this);
+		if(pdl != null) pdl.check(block, lib);
 		typename.check(curScope, lib);
-		this.type = typename.type;
-		this.block.check(curScope, lib);
+		block.check(curScope, lib);
+		type = typename.type; // return type of the function
 	}
 	
 	@Override
 	public void checkWhetherAssignable(PascalSyntax where) {
-		// A function is assignable. Do nothing!
+		// A function is assignable (return value). Do nothing!
 	}
 	
 	@Override

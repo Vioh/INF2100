@@ -3,10 +3,10 @@ import scanner.*;
 import static scanner.TokenKind.*;
 
 public class Constant extends PascalSyntax {
-	PrefixOperator prefix; //optional
+	PrefixOperator prefix; // optional
 	UnsignedConstant uconst;
-	types.Type type;
 	int constVal;
+	types.Type type;
 	
 	public Constant(int lNum) {
 		super(lNum);
@@ -40,14 +40,14 @@ public class Constant extends PascalSyntax {
 	@Override
 	public void check(Block curScope, Library lib) {
 		uconst.check(curScope, lib);
-		type = uconst.type;
 		constVal = uconst.constVal;
+		type = uconst.type;
 		
 		if(prefix != null) {
-			String oprName = prefix.oprType.toString();
-			uconst.type.checkType(lib.integerType, "Prefix " + oprName, this,
+			TokenKind oprType = prefix.oprType;
+			uconst.type.checkType(lib.integerType, "Prefix " + oprType, this,
 					"Prefix + or - may only be applied to Integers.");
-			if (prefix.oprType == subtractToken) constVal = -constVal;
+			if(oprType == subtractToken) constVal = -constVal;
 		}
 	}
 }

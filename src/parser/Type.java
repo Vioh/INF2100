@@ -8,11 +8,6 @@ public abstract class Type extends PascalSyntax {
 		super(lNum);
 	}
 	
-	@Override
-	public String identify() {
-		return "<type> on line " + lineNum;
-	}
-	
 	public static parser.Type parse(Scanner s) {
 		enterParser("type");
 		parser.Type typeFromParser = null;

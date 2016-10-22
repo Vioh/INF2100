@@ -5,11 +5,6 @@ public abstract class Statement extends PascalSyntax {
 	public Statement(int lNum) {
 		super(lNum);
 	}
-	 
-	@Override
-	public String identify() {
-		return "<statement> on line " + lineNum;
-	}
 	
 	public static Statement parse(Scanner s) {
 		enterParser("statement");

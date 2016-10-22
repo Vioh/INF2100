@@ -3,15 +3,9 @@ import scanner.*;
 
 public abstract class UnsignedConstant extends Factor {
 	int constVal;
-	types.Type type;
 	
 	public UnsignedConstant(int lNum) {
 		super(lNum);
-	}
-	
-	@Override
-	public String identify() {
-		return "<unsigned constant> on line " + lineNum;
 	}
 	
 	public static UnsignedConstant parse(Scanner s) {

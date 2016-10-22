@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import static scanner.TokenKind.*;
 
 public class SimpleExpr extends PascalSyntax {
-	PrefixOperator prefix; //optional
+	PrefixOperator prefix; // optional
 	ArrayList<Term> termList = new ArrayList<Term>();
 	ArrayList<TermOperator> termOprList = new ArrayList<TermOperator>();
 	types.Type type;
@@ -51,10 +51,11 @@ public class SimpleExpr extends PascalSyntax {
 	@Override
 	public void check(Block curScope, Library lib) {
 		for(Term term : termList) term.check(curScope, lib);
+		Term term0 = termList.get(0); // the first term always exists
+		type = term0.type;
 		
 		if(prefix != null) {
-			Term firstTerm = termList.get(0);
-			firstTerm.type.checkType(lib.integerType, "Prefix " + prefix.oprType, 
+			term0.type.checkType(lib.integerType, "Prefix " + prefix.oprType,
 					this, "Prefix + or - may only be applied to Integers.");
 		}
 		for(int i = 0; i < termOprList.size(); i++) {
@@ -64,21 +65,20 @@ public class SimpleExpr extends PascalSyntax {
 			
 			if(oprType == addToken || oprType == subtractToken) {
 				lTermType.checkType(lib.integerType, 
-					"left " + oprType + " operands", this, 
-					"Left operand to " + oprType+ " is not a number!");
+					"left " + oprType + " operand", this, 
+					"Left operand to " + oprType + " is not a number!");
 				rTermType.checkType(lib.integerType, 
-					"right " + oprType + " operands", this, 
+					"right " + oprType + " operand", this, 
 					"Right operand to " + oprType + " is not a number!");
 			}
 			else if(oprType == orToken) {
 				lTermType.checkType(lib.boolType, 
-					"left " + oprType + " operands", this, 
+					"left 'or' operand", this, 
 					"Left operand to " + oprType+ " is not a Boolean!");
 				rTermType.checkType(lib.boolType, 
-					"right " + oprType + " operands", this, 
+					"right 'or' operand", this, 
 					"Right operand to " + oprType + " is not a Boolean!");
 			}
 		}
-		//TODO: Assigned type to this SimpleExpr
 	}
 }

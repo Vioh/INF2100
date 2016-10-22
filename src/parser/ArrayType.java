@@ -56,12 +56,12 @@ public class ArrayType extends Type {
 		if(lastInd.constVal - firstInd.constVal < 0)
 			error("Arrays cannot have negative size!");
 		
-		// Check the element type of the array
+		// Check if the element type is a valid type for an array
 		if(typeFromParser.type instanceof types.ArrayType)
 			error("Multi-dimensional arrays not allowed.");
 		
-		// Create a new array type
-		this.type = new types.ArrayType(typeFromParser.type,
+		// Create a new ArrayType (that belongs to the "types" package) 
+		type = new types.ArrayType(typeFromParser.type,
 				firstInd.type, firstInd.constVal, lastInd.constVal);
 	}
 }

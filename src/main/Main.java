@@ -3,8 +3,7 @@ package main;
 import parser.*;
 import scanner.Scanner;
 import static scanner.TokenKind.*;
-
-import java.io.*;
+//import java.io.*;
 
 public class Main {
 	public static final String version = "2016-08-22";
@@ -139,8 +138,6 @@ public class Main {
 
 		assembleCode();
 	}
-	*/
-
 
 	private static void assembleCode() {
 		String pName = baseFileName;
@@ -183,6 +180,7 @@ public class Main {
 			error("Assembly errors detected.");
 		}
 	}
+	*/
 
 
 	// Error message utilities:

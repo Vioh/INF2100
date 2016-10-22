@@ -6,8 +6,8 @@ import static scanner.TokenKind.*;
 
 public class ProcCallStatm extends Statement {
 	String name;
+	ProcDecl declRef; // reference to the procedure declaration
 	ArrayList<Expression> exprList = new ArrayList<Expression>();
-	ProcDecl procRef;
 
 	public ProcCallStatm(int lNum) {
 		super(lNum);
@@ -54,7 +54,7 @@ public class ProcCallStatm extends Statement {
 		PascalDecl pd = curScope.findDecl(name, this);
 		for(Expression expr : exprList) expr.check(curScope, lib);
 		
-		// Special case for the call to the in-built "write" procedure
+		// Special case if this is the in-built "write" procedure
 		if(pd == lib.writeProc) {
 			for(Expression expr : exprList) {
 				if(expr.type instanceof types.ArrayType) 
@@ -62,28 +62,29 @@ public class ProcCallStatm extends Statement {
 			}
 			return;
 		}
-		// Check if the name is a procedure name
+		// Check if the declaration is an actual procedure name
 		pd.checkWhetherProcedure(this);
-		procRef = (ProcDecl) pd;		
+		declRef = (ProcDecl) pd;		
 		
 		// Make an alias for the parameter declarations array-list (if exists)
-		ArrayList<ParamDecl> pdList_alias = null;
-		if(procRef.pdl != null) pdList_alias = procRef.pdl.pdList;
+		ArrayList<ParamDecl> pdl_alias = null;
+		if(declRef.pdl != null) 
+			pdl_alias = declRef.pdl.pdList;
 		
 		// Check if this procedure has no formal parameters
-		if(pdList_alias == null) {
+		if(pdl_alias == null) {
 			if(!exprList.isEmpty()) 
 				error("Too many parameters in call on " + name);
 			return;
 		}
 		// Check if the types of formal and actual parameters match
-		if(exprList.size() > pdList_alias.size())
+		if(exprList.size() > pdl_alias.size())
 			error("Too many parameters in call on " + name); 
-		else if(exprList.size() < pdList_alias.size())
+		else if(exprList.size() < pdl_alias.size())
 			error("Too few parameters in call on " + name);
 		else {
 			for(int i = 0; i < exprList.size(); i++) {
-				pdList_alias.get(i).type.checkType(exprList.get(i).type,
+				pdl_alias.get(i).type.checkType(exprList.get(i).type,
 						"param #" + i, this, "Illegal type of parameter #" + i);
 			}
 		}

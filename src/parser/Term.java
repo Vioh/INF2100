@@ -46,6 +46,8 @@ public class Term extends PascalSyntax {
 	@Override
 	public void check(Block curScope, Library lib) {
 		for(Factor fact : facList) fact.check(curScope, lib);
+		Factor fact0 = facList.get(0); // the first factor always exists
+		type = fact0.type;
 		
 		for(int i = 0; i < facOprList.size(); i++) {
 			TokenKind oprType = facOprList.get(i).oprType;
@@ -56,18 +58,18 @@ public class Term extends PascalSyntax {
 					|| oprType == divToken 
 					|| oprType == modToken) {
 				lTermType.checkType(lib.integerType, 
-					"left " + oprType + " operands", this, 
+					"left " + oprType + " operand", this, 
 					"Left operand to " + oprType + " is not a number!");
 				rTermType.checkType(lib.integerType, 
-					"right " + oprType + " operands", this, 
+					"right " + oprType + " operand", this, 
 					"Right operand to " + oprType + " is not a number!");
 			}
 			else if(oprType == andToken) {
 				lTermType.checkType(lib.boolType, 
-					"left " + oprType + " operands", this, 
+					"left 'and' operand", this, 
 					"Left operand to " + oprType + " is not a Boolean!");
 				rTermType.checkType(lib.boolType, 
-					"right " + oprType + " operands", this, 
+					"right 'and' operand", this, 
 					"Right operand to " + oprType + " is not a Boolean!");
 			}
 		}

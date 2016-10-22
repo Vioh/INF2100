@@ -40,15 +40,15 @@ public class AssignStatm extends Statement {
 		var.check(curScope, lib);
 		expr.check(curScope, lib);
 		
-		// Check if this is an assignment of a whole array
+		// Check if the variable is assignable
+		var.declRef.checkWhetherAssignable(this);
+		
+		// Check if the assignment is for an entire array
 		if(var.type instanceof types.ArrayType)
 			error("Assignment of arrays is not allowed.");
 		
 		// Check if both sides of assignment are of the same type
 		var.type.checkType(expr.type, ":=", this, 
 				"Different types in assignment!");
-		
-		// Check if the variable is assignable
-		var.varRef.checkWhetherAssignable(this);
 	}
 }
