@@ -53,10 +53,10 @@ public class FuncDecl extends ProcDecl {
 	@Override
 	public void check(Block curScope, Library lib) {
 		curScope.addDecl(name, this);
-		if(pdl != null) pdl.check(block, lib);
 		typename.check(curScope, lib);
+		type = typename.type; // function's return-type
+		if(pdl != null) pdl.check(block, lib);
 		block.check(curScope, lib);
-		type = typename.type; // return type of the function
 	}
 	
 	@Override

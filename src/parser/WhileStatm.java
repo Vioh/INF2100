@@ -39,8 +39,8 @@ public class WhileStatm extends Statement {
 	@Override
 	public void check(Block curScope, Library lib) {
 		condition.check(curScope, lib);
-		body.check(curScope, lib);
 		condition.type.checkType(lib.boolType, "while-test", this,
 				"While-test is not Boolean.");
+		body.check(curScope, lib);
 	}
 }

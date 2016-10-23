@@ -33,6 +33,9 @@ public class TypeName extends Type {
 	
 	@Override
 	public void check(Block curScope, Library lib) {
-		type = lib.findPrimitiveType(name, this);
+		PascalDecl pd = lib.findDecl(name, this);
+		if(pd instanceof TypeDecl) 
+			type = pd.type;
+		else error(name + " is no type name!");
 	}
 }

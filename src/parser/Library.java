@@ -31,13 +31,8 @@ public class Library extends Block {
 		decls.put("eol", eolConst);
 		decls.put("true", trueConst);
 		decls.put("false", falseConst);
-	}
-	
-	public types.Type findPrimitiveType(String name, PascalSyntax where) {
-		if(name.equals("integer")) return integerType;
-		if(name.equals("boolean")) return boolType;
-		if(name.equals("char")) return charType;
-		where.error("Name " + name + " is unknown!");
-		return null;
+		decls.put("char", new TypeDecl("char", -1, charType));
+		decls.put("boolean", new TypeDecl("boolean", -1, boolType));
+		decls.put("integer", new TypeDecl("integer", -1, integerType));
 	}
 }

@@ -52,7 +52,6 @@ public class FuncCall extends Factor {
 	@Override
 	public void check(Block curScope, Library lib) {
 		PascalDecl pd = curScope.findDecl(name, this);
-		for(Expression expr : exprList) expr.check(curScope, lib);
 		
 		// Check if the declaration is an actual function declaration
 		pd.checkWhetherFunction(this);
@@ -67,18 +66,20 @@ public class FuncCall extends Factor {
 		// Check if this function has no formal parameters
 		if(pdl_alias == null) {
 			if(!exprList.isEmpty())
-				error("Too many parameters in call on " + name);
+				error("Too many parameters in call on " + name + "!");
 			return;
 		}
 		// Check if the types of formal and actual parameters match
 		if(exprList.size() > pdl_alias.size()) 
-			error("Too many paramters in call on " + name);
+			error("Too many paramters in call on " + name + "!");
 		else if(exprList.size() < pdl_alias.size())
-			error("Too few parameters in call on " + name);
+			error("Too few parameters in call on " + name + "!");
 		else {
 			for(int i = 0; i < exprList.size(); i++) {
+				exprList.get(i).check(curScope, lib);
 				pdl_alias.get(i).type.checkType(exprList.get(i).type, 
-						"param #" + i, this, "Illegal type of parameter #" + i);
+						"param #" + (i+1), this, 
+						"Illegal type of parameter #" + (i+1) + "!");
 			}
 		}
 	}

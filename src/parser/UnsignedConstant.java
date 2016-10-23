@@ -22,7 +22,6 @@ public abstract class UnsignedConstant extends Factor {
 		default:
 			s.testError("unsigned constant"); // expect an unsigned const here
 		}
-		s.readNextToken();
 		leaveParser("unsigned constant");
 		return uc;
 	}

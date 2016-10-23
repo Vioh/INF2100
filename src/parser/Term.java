@@ -45,11 +45,12 @@ public class Term extends PascalSyntax {
 	
 	@Override
 	public void check(Block curScope, Library lib) {
-		for(Factor fact : facList) fact.check(curScope, lib);
 		Factor fact0 = facList.get(0); // the first factor always exists
+		fact0.check(curScope, lib);
 		type = fact0.type;
 		
 		for(int i = 0; i < facOprList.size(); i++) {
+			facList.get(i+1).check(curScope, lib);
 			TokenKind oprType = facOprList.get(i).oprType;
 			types.Type lTermType = facList.get(i).type;   // type of left factor
 			types.Type rTermType = facList.get(i+1).type; // type of right factor

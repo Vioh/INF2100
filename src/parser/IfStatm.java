@@ -39,7 +39,7 @@ public class IfStatm extends Statement {
 		Main.log.prettyPrint("if ");
 		condition.prettyPrint();
 		
-		Main.log.prettyPrintLn(" then "); Main.log.prettyIndent();
+		Main.log.prettyPrintLn(" then"); Main.log.prettyIndent();
 		thenStmt.prettyPrint(); Main.log.prettyOutdent();
 		
 		if(elseStmt != null) {
@@ -52,11 +52,9 @@ public class IfStatm extends Statement {
 	@Override
 	public void check(Block curScope, Library lib) {
 		condition.check(curScope, lib);
-		thenStmt.check(curScope, lib);
-		if(elseStmt != null) elseStmt.check(curScope, lib);
-		
-		// Check type of if-condition
 		condition.type.checkType(lib.boolType, "if-test", 
 				this, "If-test is not Boolean!");
+		thenStmt.check(curScope, lib);
+		if(elseStmt != null) elseStmt.check(curScope, lib);
 	}
 }

@@ -50,15 +50,12 @@ public class SimpleExpr extends PascalSyntax {
 	
 	@Override
 	public void check(Block curScope, Library lib) {
-		for(Term term : termList) term.check(curScope, lib);
 		Term term0 = termList.get(0); // the first term always exists
+		term0.check(curScope, lib);
 		type = term0.type;
 		
-		if(prefix != null) {
-			term0.type.checkType(lib.integerType, "Prefix " + prefix.oprType,
-					this, "Prefix + or - may only be applied to Integers.");
-		}
 		for(int i = 0; i < termOprList.size(); i++) {
+			termList.get(i+1).check(curScope, lib);
 			TokenKind oprType = termOprList.get(i).oprType;
 			types.Type lTermType = termList.get(i).type;   // type of left term
 			types.Type rTermType = termList.get(i+1).type; // type of right term
@@ -79,6 +76,11 @@ public class SimpleExpr extends PascalSyntax {
 					"right 'or' operand", this, 
 					"Right operand to " + oprType + " is not a Boolean!");
 			}
+		}
+		if(prefix != null) {
+			term0.type.checkType(lib.integerType, 
+					"prefix " + prefix.oprType + " operand", this,
+					"Prefix + or - may only be applied to Integers.");
 		}
 	}
 }
