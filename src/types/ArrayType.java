@@ -1,7 +1,7 @@
 package types;
 import parser.PascalSyntax;
 
-public class ArrayType extends Type {
+public class ArrayType extends types.Type {
 	public Type elemType, indexType;
 	public int loLim, hiLim;
 

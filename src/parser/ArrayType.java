@@ -3,7 +3,7 @@ import main.*;
 import scanner.*;
 import static scanner.TokenKind.*;
 
-public class ArrayType extends Type {
+public class ArrayType extends parser.Type {
 	Constant firstInd;
 	Constant lastInd;
 	parser.Type typeFromParser; 
