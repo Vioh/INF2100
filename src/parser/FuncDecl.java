@@ -55,7 +55,11 @@ public class FuncDecl extends ProcDecl {
 		curScope.addDecl(name, this);
 		typename.check(curScope, lib);
 		type = typename.type; // function's return-type
-		if(pdl != null) pdl.check(block, lib);
+		
+		if(pdl != null) {
+			block.outerScope = curScope;
+			pdl.check(block, lib); // the params must be inside the proc's scope
+		}
 		block.check(curScope, lib);
 	}
 	

@@ -51,7 +51,8 @@ public class ProcDecl extends PascalDecl {
 	public void check(Block curScope, Library lib) {
 		curScope.addDecl(name, this);
 		if(pdl != null) {
-			pdl.check(block, lib);
+			block.outerScope = curScope;
+			pdl.check(block, lib); // the params must be inside the proc's scope
 		}
 		block.check(curScope, lib);
 	}
