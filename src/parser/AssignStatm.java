@@ -48,10 +48,11 @@ public class AssignStatm extends Statement {
 			error("Assignment of arrays is not allowed.");
 		
 		// Check if the assignment to function happens outside the function
-		if(curScope.decls.containsValue(var.declRef))
-			error("Assignment to " + var.name + 
-					" only allowed inside function!");
-		
+		if(var.declRef instanceof FuncDecl && 
+				curScope.decls.containsValue(var.declRef)) {
+			error("Assignment to '" + var.name 
+					+ "' is only allowed inside its body!");
+		}
 		// Check if both sides of assignment are of the same type
 		var.type.checkType(expr.type, ":=", this, 
 				"Different types in assignment!");
