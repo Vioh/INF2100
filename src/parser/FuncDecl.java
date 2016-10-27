@@ -61,6 +61,11 @@ public class FuncDecl extends ProcDecl {
 			pdl.check(block, lib); // the params must be inside the proc's scope
 		}
 		block.check(curScope, lib);
+		
+		// This function declaration must also be stored inside its own scope
+		// so that it's easy to make sure that it can only be assigned within
+		// its own block (for the function return value)
+		block.addDecl(name, this);
 	}
 	
 	@Override
