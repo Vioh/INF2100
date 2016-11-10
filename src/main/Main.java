@@ -3,7 +3,7 @@ package main;
 import parser.*;
 import scanner.Scanner;
 import static scanner.TokenKind.*;
-//import java.io.*;
+import java.io.*;
 
 public class Main {
 	public static final String version = "2016-10-25";
@@ -33,9 +33,8 @@ public class Main {
 				doTestParser(s);
 			else if (testChecker)
 				doTestChecker(s);
-			// Del 4:
-			// else
-			//     doRunRealCompiler(s);
+			else
+			    doRunRealCompiler(s);
 		} catch (PascalError e) {
 			System.out.println();
 			System.err.println(e.getMessage());
@@ -114,8 +113,6 @@ public class Main {
 		prog.check(library, library);
 	}
 
-
-	/* Del 4:
 	private static void doRunRealCompiler(Scanner s) {
 		System.out.print("Parsing...");
 		Program prog = Program.parse(s);
@@ -179,7 +176,6 @@ public class Main {
 			error("Assembly errors detected.");
 		}
 	}
-	*/
 
 
 	// Error message utilities:

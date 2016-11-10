@@ -12,6 +12,7 @@ public class Block extends PascalSyntax {
 	ArrayList<ProcDecl> procAndFuncList = new ArrayList<ProcDecl>();
 	HashMap<String,PascalDecl> decls = new HashMap<String,PascalDecl>();
 	Block outerScope;
+	PascalDecl context;
 	
 	public Block(int lNum) {
 		super(lNum);
@@ -95,5 +96,19 @@ public class Block extends PascalSyntax {
 		if(vdp != null) vdp.check(this, lib);
 		for(ProcDecl proc : procAndFuncList) proc.check(this, lib);
 		stmtList.check(this, lib);
+	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		if(cdp != null)	cdp.genCode(f);
+		if(vdp != null) vdp.genCode(f); 
+		for (ProcDecl pd : procAndFuncList) pd.genCode(f);
+		
+		f.genInstr(context.progProcFuncName, "", "", "");
+		
+		
+		
+		
+		
 	}
 }

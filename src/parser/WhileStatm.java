@@ -43,4 +43,19 @@ public class WhileStatm extends Statement {
 				"While-test is not Boolean.");
 		body.check(curScope, lib);
 	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		String testLabel = f.getLocalLabel();
+		String endLabel  = f.getLocalLabel();
+		
+		f.genInstr(testLabel, "", "", "Start while-statement");
+		condition.genCode(f);
+		f.genInstr("", "cmpl", "$0,%eax", "");
+		f.genInstr("", "je", endLabel, "");
+		body.genCode(f);
+		f.genInstr("", "jmp", testLabel, "");
+		f.genInstr(endLabel, "", "", "End while-statement");
+	}
+
 }
