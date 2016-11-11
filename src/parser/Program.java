@@ -50,11 +50,11 @@ public class Program extends PascalDecl {
 
 	@Override
 	public void genCode(CodeFile f) {
-		progProcFuncName = f.getLabel("prog$" + name);
+		progProcFuncLabel = f.getLabel("prog$" + name);
 		declLevel = 1;
 		f.genInstr("", ".globl", "main", "");
 		f.genInstr("main", "","","");
-		f.genInstr("", "call", progProcFuncName, "Start program");
+		f.genInstr("", "call", progProcFuncLabel, "Start program");
 		f.genInstr("", "movl", "$0,%eax", "Set status 0 and");
 		f.genInstr("", "ret", "", "terminate the program");
 		progBlock.genCode(f);

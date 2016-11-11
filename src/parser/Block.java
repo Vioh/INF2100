@@ -14,6 +14,12 @@ public class Block extends PascalSyntax {
 	Block outerScope;
 	PascalDecl context;
 	
+	/* The static variable `level` holds the current BLOCK level as we traverse
+	 * through the abstract syntax tree (AST) to generate the Assembler codes;
+	 * we increase the level every time we go into a new block, and decrease it
+	 * every time we escape the block. */
+	static int level = 0; 
+	
 	public Block(int lNum) {
 		super(lNum);
 	}
@@ -100,15 +106,28 @@ public class Block extends PascalSyntax {
 
 	@Override
 	public void genCode(CodeFile f) {
-		if(cdp != null)	cdp.genCode(f);
-		if(vdp != null) vdp.genCode(f); 
-		for (ProcDecl pd : procAndFuncList) pd.genCode(f);
+		// Increment block level
+		Block.level++;
 		
-		f.genInstr(context.progProcFuncName, "", "", "");
+		// Compute the 1st argument to the `enter` instruction
+		int nBytes = 32;
+		if(vdp != null) {
+			vdp.genCode(f);
+			nBytes = vdp.offset * -1;
+		}
+		// Generate codes for all procs and funcs in this block
+		for(ProcDecl pd : procAndFuncList) pd.genCode(f);
 		
+		// Generate codes for statements in this block
+		f.genInstr(context.progProcFuncLabel, "", "", "");
+		f.genInstr("", "enter", "$"+nBytes+",$"+level, "Start of "+context.name);
+		stmtList.genCode(f);
+		if(context instanceof FuncDecl) 
+			f.genInstr("", "movl", "-32(%ebp),%eax", "Fetch return value");
+		f.genInstr("", "leave", "", "");
+		f.genInstr("", "ret", "", "");
 		
-		
-		
-		
+		// Decrement block level
+		Block.level--;
 	}
 }

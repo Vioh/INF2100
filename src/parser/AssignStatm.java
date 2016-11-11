@@ -90,7 +90,7 @@ public class AssignStatm extends Statement {
 			f.genInstr("", "movl", (-4*level)+"(%ebp),%edx", "");
 			f.genInstr("", "leal", offset+"(%edx),%edx", "");
 			f.genInstr("", "popl", "%ecx", "");
-			f.genInstr("", "movl", "%ecx,(%edx,%eax,4)", "");
+			f.genInstr("", "movl", "%ecx,0(%edx,%eax,4)", pd.name+"[x] :=");
 		}
 	}
 }

@@ -6,6 +6,7 @@ import static scanner.TokenKind.*;
 
 public class VarDeclPart extends PascalSyntax {
 	ArrayList<VarDecl> vdList = new ArrayList<VarDecl>();
+	int offset = -32;
 	
 	public VarDeclPart(int lNum) {
 		super(lNum);
