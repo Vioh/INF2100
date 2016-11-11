@@ -61,18 +61,36 @@ public class AssignStatm extends Statement {
 
 	@Override
 	public void genCode(CodeFile f) {
-		var.genCode(f);
-		expr.genCode(f);
+		// Create some aliases
+		Expression e1 = var.expr;
+		Expression e2 = this.expr;
+		PascalDecl pd = var.declRef;
+		int offset = pd.declOffset;
+		int level = pd.declLevel;
 		
-		if(var.expr == null) { // non-array type variable
-			f.getInstr("", "movl", "-4")
-			
-		} else if(var.expr != null) { // array type variable
-			
-			
-		} else if(var.declRef instanceof FuncDecl) {
+		// Evaluate the RHS of the assignment
+		e2.genCode(f);
 		
-			
+		if(pd instanceof FuncDecl) {
+			// Assigning to a function (as a return statement)
+			f.genInstr("", "movl", (-4*(level+1))+"(%ebp),%edx", "");
+			f.genInstr("", "movl", "%eax,-32(%edx)", pd.name+" :=");
+			return;
+		}
+		if(e1 == null) {
+			// Assigning to a normal variable (non-array type) 
+			f.genInstr("", "movl", (-4*level)+"(%ebp),%edx", "");
+			f.genInstr("", "movl", "%eax,"+ offset+"(%edx)", pd.name+" :=");
+		} else { 
+			// Assigning to a variable inside an array
+			f.genInstr("", "pushl", "%eax", "");
+			e1.genCode(f);
+			int low = ((types.ArrayType) pd.type).loLim;
+			if(low != 0) f.genInstr("", "subl", "$"+low, "");
+			f.genInstr("", "movl", (-4*level)+"(%ebp),%edx", "");
+			f.genInstr("", "leal", offset+"(%edx),%edx", "");
+			f.genInstr("", "popl", "%ecx", "");
+			f.genInstr("", "movl", "%ecx,(%edx,%eax,4)", "");
 		}
 	}
 }
