@@ -30,6 +30,7 @@ public class FuncDecl extends ProcDecl {
 		fd.typename = TypeName.parse(s);
 		s.skip(semicolonToken);
 		fd.block = Block.parse(s);
+		fd.block.context = fd;
 		s.skip(semicolonToken);
 		
 		leaveParser("func decl");
@@ -86,5 +87,21 @@ public class FuncDecl extends ProcDecl {
 	@Override
 	public void checkWhetherValue(PascalSyntax where) {
 		// Function always returns a value. Do nothing!
+	}
+	
+	@Override
+	public void genCode(CodeFile f) {
+		// Increment the block level
+		declLevel = ++Block.level;
+		
+		// Create the label and point the block's context to this declaration
+		progProcFuncLabel = f.getLabel("func$" + name);
+		block.context = this;
+		
+		// Generate codes for the function's body
+		block.genCode(f);
+		
+		// Decrement the block level
+		Block.level--;
 	}
 }

@@ -14,10 +14,11 @@ public class Block extends PascalSyntax {
 	Block outerScope;
 	PascalDecl context;
 	
-	/* The static variable `level` holds the current BLOCK level as we traverse
-	 * through the abstract syntax tree (AST) to generate the Assembler codes;
-	 * we increase the level every time we go into a new block, and decrease it
-	 * every time we escape the block. */
+	/* The static variable `level` holds the current block level as we traverse
+	 * through the abstract syntax tree (AST) to generate the Assembler codes.
+	 * - We increase the level every time we go into a prog/proc/func.
+	 * - we decrease the level every time we out of a prog/proc/func.
+	 * - Hence, level is updated in genCode() of Program/ProcDecl/FuncDecl. */
 	static int level = 0; 
 	
 	public Block(int lNum) {
@@ -106,9 +107,6 @@ public class Block extends PascalSyntax {
 
 	@Override
 	public void genCode(CodeFile f) {
-		// Increment block level
-		Block.level++;
-		
 		// Compute the 1st argument to the `enter` instruction
 		int nBytes = 32;
 		if(vdp != null) {
@@ -126,8 +124,5 @@ public class Block extends PascalSyntax {
 			f.genInstr("", "movl", "-32(%ebp),%eax", "Fetch return value");
 		f.genInstr("", "leave", "", "");
 		f.genInstr("", "ret", "", "");
-		
-		// Decrement block level
-		Block.level--;
 	}
 }

@@ -77,4 +77,20 @@ public class ProcDecl extends PascalDecl {
 		where.error(name + " is a procedure name; "
 				+ "it may not be used in an expression.");
 	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		// Increment the block level
+		declLevel = ++Block.level;
+		
+		// Create the label and point the block's context to this declaration
+		progProcFuncLabel = f.getLabel("func$" + name);
+		block.context = this;
+		
+		// Generate codes for the procedure's body
+		block.genCode(f);
+		
+		// Decrement the block level
+		Block.level--;
+	}
 }

@@ -24,7 +24,6 @@ public class Program extends PascalDecl {
 		s.readNextToken();
 		s.skip(semicolonToken);
 		p.progBlock = Block.parse(s); 
-		p.progBlock.context = p;
 		s.skip(dotToken);
 		
 		leaveParser("program");
@@ -50,13 +49,22 @@ public class Program extends PascalDecl {
 
 	@Override
 	public void genCode(CodeFile f) {
+		// Increment the block level
+		declLevel = ++Block.level;
+		
+		// Create the label and point the block's context to this declaration
 		progProcFuncLabel = f.getLabel("prog$" + name);
-		declLevel = 1;
+		progBlock.context = this;
+		
+		// Generate codes for `main` and the program's body
 		f.genInstr("", ".globl", "main", "");
 		f.genInstr("main", "","","");
 		f.genInstr("", "call", progProcFuncLabel, "Start program");
 		f.genInstr("", "movl", "$0,%eax", "Set status 0 and");
 		f.genInstr("", "ret", "", "terminate the program");
 		progBlock.genCode(f);
+		
+		// Decrement the block level
+		Block.level--;
 	}
 }
