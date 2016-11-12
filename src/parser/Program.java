@@ -24,7 +24,7 @@ public class Program extends PascalDecl {
 		s.readNextToken();
 		s.skip(semicolonToken);
 		p.progBlock = Block.parse(s); 
-		p.progBlock.context = p;
+		// p.progBlock.context = p;
 		s.skip(dotToken);
 		
 		leaveParser("program");
@@ -47,16 +47,4 @@ public class Program extends PascalDecl {
 	@Override public void checkWhetherFunction(PascalSyntax where) {}
 	@Override public void checkWhetherProcedure(PascalSyntax where) {}
 	@Override public void checkWhetherValue(PascalSyntax where) {}
-
-	@Override
-	public void genCode(CodeFile f) {
-		progProcFuncName = f.getLabel("prog$" + name);
-		declLevel = 1;
-		f.genInstr("", ".globl", "main", "");
-		f.genInstr("main", "","","");
-		f.genInstr("", "call", progProcFuncName, "Start program");
-		f.genInstr("", "movl", "$0,%eax", "Set status 0 and");
-		f.genInstr("", "ret", "", "terminate the program");
-		progBlock.genCode(f);
-	}
 }

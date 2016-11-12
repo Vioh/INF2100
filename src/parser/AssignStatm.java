@@ -58,21 +58,4 @@ public class AssignStatm extends Statement {
 		var.type.checkType(expr.type, ":=", this, 
 				"Different types in assignment!");
 	}
-
-	@Override
-	public void genCode(CodeFile f) {
-		var.genCode(f);
-		expr.genCode(f);
-		
-		if(var.expr == null) { // non-array type variable
-			f.getInstr("", "movl", "-4")
-			
-		} else if(var.expr != null) { // array type variable
-			
-			
-		} else if(var.declRef instanceof FuncDecl) {
-		
-			
-		}
-	}
 }

@@ -27,5 +27,5 @@ public abstract class PascalSyntax {
 	abstract public String identify();
 	abstract void prettyPrint();
 	abstract void check(Block curScope, Library lib);
-	abstract void genCode(CodeFile f);
+	// Del 4: abstract void genCode(CodeFile f);
 }
