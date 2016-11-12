@@ -44,6 +44,7 @@ public class Variable extends Factor {
 	@Override
 	public void check(Block curScope, Library lib) {
 		declRef = curScope.findDecl(name, this);
+		declRef.checkWhetherValue(this);
 		type = declRef.type;
 		if(expr == null) return; // nothing left to do
 		
@@ -60,6 +61,29 @@ public class Variable extends Factor {
 	}
 	
 	public void genCode(CodeFile f) {
-		
+		// Handle an array access
+		if(expr != null) {
+			expr.genCode(f);
+			types.ArrayType t = (types.ArrayType) declRef.type;
+			f.genInstr("", "subl", "$"+t.loLim+",%eax", "");
+			f.genInstr("", "movl", (-4*declRef.declLevel)+"(%ebp)", "");
+			f.genInstr("", "leal", declRef.declOffset+"(%edx),%edx", "");
+			f.genInstr("", "movl", "0(%edx,%eax,4),%eax", "  "+name+"[...]");
+			return;
+		}
+		// Handle normal variable or parameter
+		if(declRef instanceof VarDecl || declRef instanceof ParamDecl) {
+			f.genInstr("", "movl", (-4*declRef.declLevel)+"(%ebp),%edx", "");
+			f.genInstr("", "movl", declRef.declOffset+"(%edx),%eax", "  "+name);
+			return;
+		}
+		// Handle the case when this is a constant
+		if(declRef instanceof ConstDecl) {
+			((ConstDecl) declRef).constant.genCode(f);
+			return;
+		}
+		// PANIC! Something wrong with the compiler! At stage 4 of the project,
+		// a Variable object can't be anything else other than the cases above.
+		Main.panic("genCode() method of Variable class in the compiler");
 	}
 }
