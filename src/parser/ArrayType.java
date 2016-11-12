@@ -66,7 +66,7 @@ public class ArrayType extends parser.Type {
 	}
 
 	@Override
-//	public void genCode(CodeFile f) {
-//		// No need to generate assembler codes for ArrayType
-//	}
+	public void genCode(CodeFile f) {
+		// No code needs to be generated for an array type
+	}
 }

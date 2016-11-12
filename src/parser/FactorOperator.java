@@ -34,4 +34,9 @@ public class FactorOperator extends PascalSyntax {
 	public void check(Block curScope, Library lib) {
 		// No need to check an operator
 	}
+	
+	@Override
+	public void genCode(CodeFile f) {
+		// No code needs to be generated for an operator
+	}
 }

@@ -83,4 +83,10 @@ public class SimpleExpr extends PascalSyntax {
 					"Prefix + or - may only be applied to Integers.");
 		}
 	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		
+		
+	}
 }

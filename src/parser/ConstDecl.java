@@ -65,4 +65,9 @@ public class ConstDecl extends PascalDecl {
 	public void checkWhetherValue(PascalSyntax where) {
 		// Constant always has a value. Do nothing!
 	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		// No code needs to be generated for a constant declaration
+	}
 } 

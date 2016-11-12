@@ -38,4 +38,9 @@ public class CompoundStatm extends Statement {
 	public void check(Block curScope, Library lib) {
 		stmtList.check(curScope, lib);
 	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		stmtList.genCode(f);
+	}
 }

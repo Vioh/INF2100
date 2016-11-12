@@ -41,4 +41,9 @@ public class StatmList extends PascalSyntax {
 	public void check(Block curScope, Library lib) {
 		for(Statement stmt : stmtList) stmt.check(curScope, lib);
 	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		for(Statement stmt : stmtList) stmt.genCode(f);
+	}
 }

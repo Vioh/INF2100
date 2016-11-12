@@ -1,5 +1,7 @@
 package parser;
 
+import main.CodeFile;
+
 /** 
  * NOTE: TypeDecl is the only class in the "parser" package that does not
  * appear anywhere on the grammar-diagram (jernbanediagram). This class
@@ -38,4 +40,9 @@ public class TypeDecl extends PascalDecl {
 
 	@Override public void prettyPrint() {}
 	@Override public void check(Block curScope, Library lib) {}
+
+	@Override
+	public void genCode(CodeFile f) {
+		// No code needs to be generated for a type declaration
+	}
 }
