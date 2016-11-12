@@ -81,7 +81,7 @@ public class Term extends PascalSyntax {
 		facList.get(0).genCode(f);
 		for(int i = 0; i < facOprList.size(); i++) {
 			f.genInstr("", "pushl", "%eax", "");
-			facOprList.get(i+1).genCode(f);
+			facList.get(i+1).genCode(f);
 			f.genInstr("", "movl", "%eax,%ecx", "");
 			f.genInstr("", "popl", "%eax", "");
 			
@@ -95,7 +95,7 @@ public class Term extends PascalSyntax {
 				break;
 			case modToken:
 				f.genInstr("", "cdq", "", "");
-				f.genInstr("", "idivl", "%ecx", "  /");
+				f.genInstr("", "idivl", "%ecx", "");
 				f.genInstr("", "movl", "%edx,%eax", "  mod");
 				break;
 			case andToken:

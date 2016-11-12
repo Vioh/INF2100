@@ -43,6 +43,6 @@ public class Negation extends Factor {
 	@Override
 	public void genCode(CodeFile f) {
 		fact.genCode(f);
-		f.genInstr("", "xorl", "$1,%eax", "  not");
+		f.genInstr("", "xorl", "$0x1,%eax", "  not");
 	}
 }

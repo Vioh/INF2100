@@ -63,6 +63,7 @@ public class IfStatm extends Statement {
 		String elseLabel = null;
 		String endLabel  = null;
 		
+		f.genInstr("", "", "", "Start if-statement");
 		condition.genCode(f);
 		f.genInstr("", "cmpl", "$0,%eax", "");
 		
@@ -80,5 +81,6 @@ public class IfStatm extends Statement {
 			elseStmt.genCode(f);
 		}
 		f.genInstr(endLabel, "", "", "");
+		f.genInstr("", "", "", "End if-statement");
 	}
 }

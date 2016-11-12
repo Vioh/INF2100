@@ -6,7 +6,7 @@ import static scanner.TokenKind.*;
 import java.io.*;
 
 public class Main {
-	public static final String version = "2016-10-25";
+	public static final String version = "12 Nov 2016";
 	public static parser.Library library;
 	public static LogFile log = new LogFile();
 
@@ -128,11 +128,11 @@ public class Main {
 
 		System.out.print(" generating code...");
 		CodeFile code = new CodeFile(baseFileName+".s");
-		library.genCode(code);  prog.genCode(code);
+		prog.genCode(code);
 		code.finish();
 		System.out.println("OK");
 
-		assembleCode();
+//		assembleCode();
 	}
 
 	private static void assembleCode() {

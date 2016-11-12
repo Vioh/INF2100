@@ -96,23 +96,24 @@ public class ProcCallStatm extends Statement {
 		if(declRef.name.equals("write")) {
 			for(Expression expr : exprList) {
 				expr.genCode(f);
-				f.genInstr("", "pushl", "%eax", "");
+				f.genInstr("", "pushl", "%eax", "Push next param.");
 				if(expr.type instanceof types.IntType) 
 					f.genInstr("", "call", "write_int", "");
 				else if(expr.type instanceof types.BoolType)
 					f.genInstr("", "call", "write_bool", "");
 				else if(expr.type instanceof types.CharType)
 					f.genInstr("", "call", "write_char", "");
-				f.genInstr("", "addl", "$4,%esp", "");
+				f.genInstr("", "addl", "$4,%esp", "Pop param.");
 			}
 			return;
 		}
-		for(Expression expr : exprList) {
-			expr.genCode(f);
-			f.genInstr("", "pushl", "%eax", "");
+		for(int i = exprList.size()-1; i >= 0; i--) {
+			exprList.get(i).genCode(f);
+			f.genInstr("", "pushl", "%eax", "Push param #"+(i+1)+".");
 		}
-		int nBytes = 4 * exprList.size();
 		f.genInstr("", "call", declRef.progProcFuncLabel, "");
-		f.genInstr("", "addl", "$"+nBytes+",%esp", "");
+		int nbytes = 4 * exprList.size();
+		if(nbytes > 0) 
+			f.genInstr("", "addl", "$"+nbytes+",%esp", "Pop params.");
 	}
 }

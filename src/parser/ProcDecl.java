@@ -81,13 +81,14 @@ public class ProcDecl extends PascalDecl {
 	@Override
 	public void genCode(CodeFile f) {
 		// Increment the block level
-		declLevel = ++Block.level;
+		declLevel = Block.level++;
 		
 		// Create the label and point the block's context to this declaration
-		progProcFuncLabel = f.getLabel("func$" + name);
+		progProcFuncLabel = f.getLabel("proc$" + name);
 		block.context = this;
 		
-		// Generate codes for the procedure's body
+		// Generate codes for the procedure's parameters and body
+		if(pdl != null) pdl.genCode(f);
 		block.genCode(f);
 		
 		// Decrement the block level

@@ -86,12 +86,13 @@ public class FuncCall extends Factor {
 
 	@Override
 	public void genCode(CodeFile f) {
-		for(Expression expr : exprList) {
-			expr.genCode(f);
-			f.genInstr("", "pushl", "%eax", "");
+		for(int i = exprList.size()-1; i >= 0; i--) {
+			exprList.get(i).genCode(f);
+			f.genInstr("", "pushl", "%eax", "Push param #"+(i+1));
 		}
-		int nBytes = 4 * exprList.size();
 		f.genInstr("", "call", declRef.progProcFuncLabel, "");
-		f.genInstr("", "addl", "$"+nBytes+",%esp", "");
+		int nbytes = 4 * exprList.size();
+		if(nbytes > 0) 
+			f.genInstr("", "addl", "$"+nbytes+",%esp", "Pop parameters");
 	}
 }

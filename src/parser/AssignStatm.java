@@ -86,7 +86,7 @@ public class AssignStatm extends Statement {
 			f.genInstr("", "pushl", "%eax", "");
 			e1.genCode(f);
 			int low = ((types.ArrayType) pd.type).loLim;
-			if(low != 0) f.genInstr("", "subl", "$"+low, "");
+			if(low != 0) f.genInstr("", "subl", "$"+low+",%eax", "");
 			f.genInstr("", "movl", (-4*level)+"(%ebp),%edx", "");
 			f.genInstr("", "leal", offset+"(%edx),%edx", "");
 			f.genInstr("", "popl", "%ecx", "");

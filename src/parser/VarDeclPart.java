@@ -50,8 +50,7 @@ public class VarDeclPart extends PascalSyntax {
 		for(VarDecl vd : vdList) {
 			vd.genCode(f);
 			vd.declLevel  = Block.level;
-			vd.declOffset = offset - 4;
-			offset -= vd.nbytes;			
+			vd.declOffset = (offset -= vd.nbytes);
 		}
 	}
 }

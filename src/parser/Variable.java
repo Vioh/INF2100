@@ -66,7 +66,7 @@ public class Variable extends Factor {
 			expr.genCode(f);
 			types.ArrayType t = (types.ArrayType) declRef.type;
 			f.genInstr("", "subl", "$"+t.loLim+",%eax", "");
-			f.genInstr("", "movl", (-4*declRef.declLevel)+"(%ebp)", "");
+			f.genInstr("", "movl", (-4*declRef.declLevel)+"(%ebp),%edx", "");
 			f.genInstr("", "leal", declRef.declOffset+"(%edx),%edx", "");
 			f.genInstr("", "movl", "0(%edx,%eax,4),%eax", "  "+name+"[...]");
 			return;
@@ -79,7 +79,8 @@ public class Variable extends Factor {
 		}
 		// Handle the case when this is a constant
 		if(declRef instanceof ConstDecl) {
-			((ConstDecl) declRef).constant.genCode(f);
+			int val = ((ConstDecl) declRef).constVal;
+			f.genInstr("", "movl", "$"+val+",%eax", "  "+val);
 			return;
 		}
 		// PANIC! Something wrong with the compiler! At stage 4 of the project,

@@ -108,17 +108,17 @@ public class Block extends PascalSyntax {
 	@Override
 	public void genCode(CodeFile f) {
 		// Compute the 1st argument to the `enter` instruction
-		int nBytes = 32;
+		int nbytes = 32;
 		if(vdp != null) {
 			vdp.genCode(f);
-			nBytes = vdp.offset * -1;
+			nbytes = vdp.offset * -1;
 		}
 		// Generate codes for all procs and funcs in this block
 		for(ProcDecl pd : procAndFuncList) pd.genCode(f);
 		
 		// Generate codes for statements in this block
 		f.genInstr(context.progProcFuncLabel, "", "", "");
-		f.genInstr("", "enter", "$"+nBytes+",$"+level, "Start of "+context.name);
+		f.genInstr("", "enter", "$"+nbytes+",$"+level, "Start of "+context.name);
 		stmtList.genCode(f);
 		if(context instanceof FuncDecl) 
 			f.genInstr("", "movl", "-32(%ebp),%eax", "Fetch return value");

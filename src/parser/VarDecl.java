@@ -68,7 +68,7 @@ public class VarDecl extends PascalDecl {
 		nbytes = 4;
 		if(type instanceof types.ArrayType) {
 			types.ArrayType t = (types.ArrayType) type;
-			nbytes += 4 * (t.hiLim - t.loLim + 1);
+			nbytes = 4 * (t.hiLim - t.loLim + 1);
 		}
 	}
 }
