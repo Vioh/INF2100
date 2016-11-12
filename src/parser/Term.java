@@ -75,4 +75,35 @@ public class Term extends PascalSyntax {
 			}
 		}
 	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		facList.get(0).genCode(f);
+		for(int i = 0; i < facOprList.size(); i++) {
+			f.genInstr("", "pushl", "%eax", "");
+			facOprList.get(i+1).genCode(f);
+			f.genInstr("", "movl", "%eax,%ecx", "");
+			f.genInstr("", "popl", "%eax", "");
+			
+			switch(facOprList.get(i).oprType) {
+			case multiplyToken:
+				f.genInstr("", "imull", "%ecx,%eax", "  *");
+				break;
+			case divToken:
+				f.genInstr("", "cdq", "", "");
+				f.genInstr("", "idivl", "%ecx", "  /");
+				break;
+			case modToken:
+				f.genInstr("", "cdq", "", "");
+				f.genInstr("", "idivl", "%ecx", "  /");
+				f.genInstr("", "movl", "%edx,%eax", "  mod");
+				break;
+			case andToken:
+				f.genInstr("", "andl", "%ecx,%eax", "  and");
+				break;
+			default: // will never execute
+				break;
+			}
+		}
+	}
 }

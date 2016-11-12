@@ -58,4 +58,8 @@ public class Variable extends Factor {
 			error("You cannot index " + name + "; it is no array!");
 		}
 	}
+	
+	public void genCode(CodeFile f) {
+		
+	}
 }

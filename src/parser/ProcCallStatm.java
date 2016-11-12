@@ -51,7 +51,10 @@ public class ProcCallStatm extends Statement {
 	
 	@Override
 	public void check(Block curScope, Library lib) {
+		// Find the declaration and check if it's an actual procedure name
 		PascalDecl pd = curScope.findDecl(name, this);
+		pd.checkWhetherProcedure(this);
+		declRef = (ProcDecl) pd;
 		
 		// Special case if this is the in-built "write" procedure
 		if(pd == lib.writeProc) {
@@ -62,10 +65,6 @@ public class ProcCallStatm extends Statement {
 			}
 			return;
 		}
-		// Check if the declaration is an actual procedure name
-		pd.checkWhetherProcedure(this);
-		declRef = (ProcDecl) pd;		
-		
 		// Make an alias for the parameter declarations array-list (if exists)
 		ArrayList<ParamDecl> pdl_alias = null;
 		if(declRef.pdl != null) 
@@ -90,5 +89,30 @@ public class ProcCallStatm extends Statement {
 						"Illegal type of parameter #" + (i+1) + "!");
 			}
 		}
+	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		if(declRef.name.equals("write")) {
+			for(Expression expr : exprList) {
+				expr.genCode(f);
+				f.genInstr("", "pushl", "%eax", "");
+				if(expr.type instanceof types.IntType) 
+					f.genInstr("", "call", "write_int", "");
+				else if(expr.type instanceof types.BoolType)
+					f.genInstr("", "call", "write_bool", "");
+				else if(expr.type instanceof types.CharType)
+					f.genInstr("", "call", "write_char", "");
+				f.genInstr("", "addl", "$4,%esp", "");
+			}
+			return;
+		}
+		for(Expression expr : exprList) {
+			expr.genCode(f);
+			f.genInstr("", "pushl", "%eax", "");
+		}
+		int nBytes = 4 * exprList.size();
+		f.genInstr("", "call", declRef.progProcFuncLabel, "");
+		f.genInstr("", "addl", "$"+nBytes+",%esp", "");
 	}
 }

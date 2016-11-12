@@ -86,7 +86,28 @@ public class SimpleExpr extends PascalSyntax {
 
 	@Override
 	public void genCode(CodeFile f) {
-		
-		
+		// Handle 1st term and prefix
+		termList.get(0).genCode(f);
+		if(prefix != null && prefix.oprType == subtractToken) {
+			f.genInstr("", "negl", "%eax", "  - (prefix)");
+		}
+		// Handle other terms
+		for(int i = 0; i < termOprList.size(); i++) {
+			f.genInstr("", "pushl", "%eax", "");
+			termList.get(i+1).genCode(f);
+			f.genInstr("", "movl", "%eax,%ecx", "");
+			f.genInstr("", "popl", "%eax", "");
+
+			switch(termOprList.get(i).oprType) {
+			case addToken:
+				f.genInstr("", "addl", "%ecx,%eax", "  +"); break;
+			case subtractToken:
+				f.genInstr("", "subl", "%ecx,%eax", "  -"); break;
+			case orToken:
+				f.genInstr("", "orl", "%ecx,%eax", "  or"); break;
+			default: // will never execute
+				break;
+			}			
+		}
 	}
 }

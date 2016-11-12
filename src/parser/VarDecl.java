@@ -5,6 +5,7 @@ import static scanner.TokenKind.*;
 
 public class VarDecl extends PascalDecl {
 	parser.Type typeFromParser;
+	int nbytes;
 	
 	public VarDecl(String name, int lNum) {
 		super(name, lNum);
@@ -60,5 +61,14 @@ public class VarDecl extends PascalDecl {
 	@Override
 	public void checkWhetherValue(PascalSyntax where) {
 		// Variable can have a value. Do nothing!
+	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		nbytes = 4;
+		if(type instanceof types.ArrayType) {
+			types.ArrayType t = (types.ArrayType) type;
+			nbytes += 4 * (t.hiLim - t.loLim + 1);
+		}
 	}
 }

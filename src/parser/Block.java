@@ -122,7 +122,7 @@ public class Block extends PascalSyntax {
 		stmtList.genCode(f);
 		if(context instanceof FuncDecl) 
 			f.genInstr("", "movl", "-32(%ebp),%eax", "Fetch return value");
-		f.genInstr("", "leave", "", "");
+		f.genInstr("", "leave", "", "End of "+context.name);
 		f.genInstr("", "ret", "", "");
 	}
 }

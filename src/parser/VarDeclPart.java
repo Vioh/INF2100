@@ -44,4 +44,14 @@ public class VarDeclPart extends PascalSyntax {
 	public void check(Block curScope, Library lib) {
 		for(VarDecl vd: vdList) vd.check(curScope, lib);
 	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		for(VarDecl vd : vdList) {
+			vd.genCode(f);
+			vd.declLevel  = Block.level;
+			vd.declOffset = offset - 4;
+			offset -= vd.nbytes;			
+		}
+	}
 }

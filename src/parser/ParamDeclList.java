@@ -46,4 +46,14 @@ public class ParamDeclList extends PascalSyntax {
 	public void check(Block curScope, Library lib) {
 		for(ParamDecl dec : pdList) dec.check(curScope, lib);
 	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		int offset = 8;
+		for(ParamDecl pd : pdList) {
+			pd.declLevel  = Block.level;
+			pd.declOffset = offset;
+			offset += 4;
+		}
+	}
 }

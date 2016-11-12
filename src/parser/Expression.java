@@ -79,8 +79,7 @@ public class Expression extends PascalSyntax {
 			instr = "setg"; break;
 		case greaterEqualToken:
 			instr = "setge"; break;
-		default:
-			// will never execute
+		default: // will never execute
 			break;
 		}
 		f.genInstr("", instr, "%al", "Test "+opr.oprType);
