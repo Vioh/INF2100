@@ -44,6 +44,7 @@ public class Variable extends Factor {
 	@Override
 	public void check(Block curScope, Library lib) {
 		declRef = curScope.findDecl(name, this);
+		declRef.checkWhetherValue(this);
 		type = declRef.type;
 		if(expr == null) return; // nothing left to do
 		
