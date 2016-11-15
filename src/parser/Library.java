@@ -1,4 +1,5 @@
 package parser;
+import main.*;
 
 public class Library extends Block {
 	public ProcDecl writeProc;
@@ -34,5 +35,10 @@ public class Library extends Block {
 		decls.put("char", new TypeDecl("char", -1, charType));
 		decls.put("boolean", new TypeDecl("boolean", -1, boolType));
 		decls.put("integer", new TypeDecl("integer", -1, integerType));
+	}
+	
+	@Override
+	public void genCode(CodeFile f) {
+		// No code needs to be generated for hte library
 	}
 }

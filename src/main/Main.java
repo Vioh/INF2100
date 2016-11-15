@@ -3,7 +3,7 @@ package main;
 import parser.*;
 import scanner.Scanner;
 import static scanner.TokenKind.*;
-//import java.io.*;
+import java.io.*;
 
 public class Main {
 	public static final String version = "12 Nov 2016";
@@ -114,8 +114,6 @@ public class Main {
 		prog.check(library, library);
 	}
 
-
-	/* Del 4:
 	private static void doRunRealCompiler(Scanner s) {
 		System.out.print("Parsing...");
 		Program prog = Program.parse(s);
@@ -131,11 +129,11 @@ public class Main {
 
 		System.out.print(" generating code...");
 		CodeFile code = new CodeFile(baseFileName+".s");
-		library.genCode(code);  prog.genCode(code);
+		prog.genCode(code);
 		code.finish();
 		System.out.println("OK");
 
-		assembleCode();
+		//assembleCode();
 	}
 
 	private static void assembleCode() {
@@ -179,7 +177,6 @@ public class Main {
 			error("Assembly errors detected.");
 		}
 	}
-	*/
 
 
 	// Error message utilities:
