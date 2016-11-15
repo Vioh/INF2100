@@ -6,6 +6,7 @@ import static scanner.TokenKind.*;
 
 public class VarDeclPart extends PascalSyntax {
 	ArrayList<VarDecl> vdList = new ArrayList<VarDecl>();
+	int offset = -32;
 	
 	public VarDeclPart(int lNum) {
 		super(lNum);
@@ -42,5 +43,14 @@ public class VarDeclPart extends PascalSyntax {
 	@Override
 	public void check(Block curScope, Library lib) {
 		for(VarDecl vd: vdList) vd.check(curScope, lib);
+	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		for(VarDecl vd : vdList) {
+			vd.genCode(f);
+			vd.declLevel  = Block.level;
+			vd.declOffset = (offset -= vd.nbytes);
+		}
 	}
 }

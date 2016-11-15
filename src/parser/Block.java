@@ -12,6 +12,14 @@ public class Block extends PascalSyntax {
 	ArrayList<ProcDecl> procAndFuncList = new ArrayList<ProcDecl>();
 	HashMap<String,PascalDecl> decls = new HashMap<String,PascalDecl>();
 	Block outerScope;
+	PascalDecl context;
+	
+	/* The static variable `level` holds the current block level as we traverse
+	 * through the abstract syntax tree (AST) to generate the Assembler codes.
+	 * - We increase the level every time we go into a prog/proc/func.
+	 * - We decrease the level every time we go out of a prog/proc/func.
+	 * - Thus, level is updated in genCode() of Program/ProcDecl/FuncDecl. */
+	static int level = 0;
 	
 	public Block(int lNum) {
 		super(lNum);
@@ -95,5 +103,26 @@ public class Block extends PascalSyntax {
 		if(vdp != null) vdp.check(this, lib);
 		for(ProcDecl proc : procAndFuncList) proc.check(this, lib);
 		stmtList.check(this, lib);
+	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		// Compute the 1st argument to the `enter` instruction
+		int nbytes = 32;
+		if(vdp != null) {
+			vdp.genCode(f);
+			nbytes = vdp.offset * -1;
+		}
+		// Generate codes for all procedures and functions in this block
+		for(ProcDecl pd: procAndFuncList) pd.genCode(f);
+		
+		// Generate codes for statements in this block
+		f.genInstr(context.progProcFuncLabel, "", "", "");
+		f.genInstr("", "enter", "$"+nbytes+",$"+level, "Start of "+context.name);
+		stmtList.genCode(f);
+		if(context instanceof FuncDecl) 
+			f.genInstr("", "movl", "-32(%ebp),%eax", "Fetch return value");
+		f.genInstr("", "leave", "", "End of "+context.name);
+		f.genInstr("", "ret", "", "");
 	}
 }
