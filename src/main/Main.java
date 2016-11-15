@@ -6,7 +6,7 @@ import static scanner.TokenKind.*;
 import java.io.*;
 
 public class Main {
-	public static final String version = "12 Nov 2016";
+	public static final String version = "15 Nov 2016";
 	public static parser.Library library;
 	public static LogFile log = new LogFile();
 
@@ -33,9 +33,8 @@ public class Main {
 				doTestParser(s);
 			else if (testChecker)
 				doTestChecker(s);
-			// Del 4:
-			// else
-			//     doRunRealCompiler(s);
+			else
+				doRunRealCompiler(s);
 		} catch (PascalError e) {
 			System.out.println();
 			System.err.println(e.getMessage());

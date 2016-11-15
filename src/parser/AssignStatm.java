@@ -78,7 +78,7 @@ public class AssignStatm extends Statement {
 		} else if(e1 == null) {
 			// Assigning to a normal variable (non-array types)
 			f.genInstr("", "movl", (-4*level)+"(%ebp),%edx", "");
-			f.genInstr("", "movl", "%eax"+offset+"(%edx)", pd.name+" :=");
+			f.genInstr("", "movl", "%eax,"+offset+"(%edx)", pd.name+" :=");
 		} else {
 			// Assigning to a variable inside an array
 			f.genInstr("", "pushl", "%eax", "");
@@ -88,7 +88,7 @@ public class AssignStatm extends Statement {
 			f.genInstr("", "movl", (-4*level)+"(%ebp),%edx", "");
 			f.genInstr("", "leal", offset+"(%edx),%edx", "");
 			f.genInstr("", "popl", "%ecx", "");
-			f.genInstr("", "movl", "%ecx,(%edx,%eax,4)", pd.name+"[x] :=");
+			f.genInstr("", "movl", "%ecx,0(%edx,%eax,4)", pd.name+"[x] :=");
 		}
 	}
 }
