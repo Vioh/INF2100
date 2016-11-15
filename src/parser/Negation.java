@@ -39,4 +39,10 @@ public class Negation extends Factor {
 				"'not' operator only allowed for Boolean values.");
 		type = lib.boolType;
 	}
+	
+	@Override
+	public void genCode(CodeFile f) {
+		fact.genCode(f);
+		f.genInstr("", "xorl", "$0x1,%eax", "  not");
+	}
 }

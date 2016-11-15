@@ -36,4 +36,9 @@ public class NumberLiteral extends UnsignedConstant {
 		constVal = number;
 		type = lib.integerType;
 	}
+	
+	@Override
+	public void genCode(CodeFile f) {
+		f.genInstr("", "movl", "$"+constVal+",%eax", "  "+constVal);
+	}
 }

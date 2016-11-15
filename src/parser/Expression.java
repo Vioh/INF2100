@@ -54,4 +54,34 @@ public class Expression extends PascalSyntax {
 			type = lib.boolType;
 		}
 	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		exprStart.genCode(f);
+		if(opr == null) return;
+		f.genInstr("", "pushl", "%eax", "");
+		exprEnd.genCode(f);
+		f.genInstr("", "popl", "%ecx", "");
+		f.genInstr("", "cmpl", "%eax,%ecx", "");
+		f.genInstr("", "movl", "$0,%eax", "");
+		
+		String instr = null;
+		switch(opr.oprType) {
+		case equalToken:
+			instr = "sete"; break;
+		case notEqualToken:
+			instr = "setne"; break;
+		case lessToken:
+			instr = "setl"; break;
+		case lessEqualToken:
+			instr = "setle"; break;
+		case greaterToken:
+			instr = "setg"; break;
+		case greaterEqualToken:
+			instr = "setge"; break;
+		default: // will never execute
+			break;
+		}
+		f.genInstr("", instr, "%al", "Test "+opr.oprType);
+	}
 }

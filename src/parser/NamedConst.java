@@ -41,4 +41,9 @@ public class NamedConst extends UnsignedConstant {
 		constVal = declRef.constVal;
 		type = declRef.type;
 	}
+	
+	@Override
+	public void genCode(CodeFile f) {
+		f.genInstr("", "movl", "$"+constVal+",%eax", "  "+constVal);
+	}
 }

@@ -1,4 +1,5 @@
 package parser;
+import main.CodeFile;
 import scanner.*;
 
 public class EmptyStatm extends Statement {
@@ -25,5 +26,10 @@ public class EmptyStatm extends Statement {
 	@Override
 	public void check(Block curScope, Library lib) {
 		// No need to check an empty statement
+	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		// No code needs to be generated for an empty statements	
 	}
 }

@@ -34,4 +34,9 @@ public class TermOperator extends PascalSyntax {
 	public void check(Block curScope, Library lib) {
 		// No need to check a term operator
 	}
+	
+	@Override
+	public void genCode(CodeFile f) {
+		// No code needs to be generated for an operator
+	}
 }

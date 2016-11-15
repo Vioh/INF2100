@@ -2,6 +2,8 @@ package parser;
 import scanner.*;
 import static scanner.TokenKind.*;
 
+import main.CodeFile;
+
 public class Constant extends PascalSyntax {
 	PrefixOperator prefix; // optional
 	UnsignedConstant uconst;
@@ -49,5 +51,10 @@ public class Constant extends PascalSyntax {
 					"Prefix + or - may only be applied to Integers.");
 			if(oprType == subtractToken) constVal = -constVal;
 		}
+	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		f.genInstr("", "movl", "$"+constVal+",%eax", "  "+constVal);
 	}
 }

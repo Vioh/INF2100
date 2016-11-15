@@ -57,4 +57,30 @@ public class IfStatm extends Statement {
 		thenStmt.check(curScope, lib);
 		if(elseStmt != null) elseStmt.check(curScope, lib);
 	}
+
+	@Override
+	void genCode(CodeFile f) {
+		String elseLabel = null;
+		String endLabel  = null;
+		
+		f.genInstr("", "", "", "Start if-statement");
+		condition.genCode(f);
+		f.genInstr("", "cmpl", "$0,%eax", "");
+		
+		if(elseStmt == null) {
+			endLabel = f.getLocalLabel();
+			f.genInstr("", "je", endLabel, "");
+			thenStmt.genCode(f);
+		} else{
+			elseLabel = f.getLocalLabel();
+			endLabel = f.getLocalLabel();
+			f.genInstr("", "je", elseLabel, "");
+			thenStmt.genCode(f);
+			f.genInstr("", "jmp", endLabel, "");	
+			f.genInstr(elseLabel, "", "", "");
+			elseStmt.genCode(f);
+		}
+		f.genInstr(endLabel, "", "", "");
+		f.genInstr("", "", "", "End if-statement");
+	}
 }

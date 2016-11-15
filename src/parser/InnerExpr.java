@@ -39,4 +39,9 @@ public class InnerExpr extends Factor {
 		expr.check(curScope, lib);
 		type = expr.type;
 	}
+	
+	@Override
+	public void genCode(CodeFile f) {
+		expr.genCode(f);
+	}
 }

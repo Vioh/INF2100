@@ -38,4 +38,9 @@ public class TypeName extends Type {
 			type = pd.type;
 		else error(name + " is no type name!");
 	}
+	
+	@Override
+	public void genCode(CodeFile f) {
+		// No code needs to be generated for a type name
+	}
 }

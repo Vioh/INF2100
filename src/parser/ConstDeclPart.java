@@ -43,4 +43,10 @@ public class ConstDeclPart extends PascalSyntax {
 	public void check(Block curScope, Library lib) {
 		for(ConstDecl dec : cdList) dec.check(curScope, lib);
 	}
+
+	@Override
+	public void genCode(CodeFile f) {
+		// No code needs to be generated for a list of constant declarations
+		
+	}
 }

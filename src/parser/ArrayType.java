@@ -64,4 +64,9 @@ public class ArrayType extends parser.Type {
 		type = new types.ArrayType(typeFromParser.type,
 				firstInd.type, firstInd.constVal, lastInd.constVal);
 	}
+	
+	@Override
+	public void genCode(CodeFile f) {
+		// No code needs to be generated for an array type
+	}
 }
