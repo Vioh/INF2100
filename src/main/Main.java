@@ -1,33 +1,31 @@
 package main;
-
 import parser.*;
 import scanner.Scanner;
 import static scanner.TokenKind.*;
 import java.io.*;
 
 public class Main {
-	public static final String version = "15 Nov 2016";
+	public static final String version = "05 Dec 2016";
 	public static parser.Library library;
 	public static LogFile log = new LogFile();
 
 	private static String sourceFileName, baseFileName;
-	private static boolean testChecker = false, 
+	private static boolean testChecker = false,
 	testParser = false, testScanner = false;
 	private static String OS;
 
 
 	public static void main(String arg[]) {
 		OS = System.getProperty("os.name");
-		System.out.println("Pascal2016 compiler (" + 
+		System.out.println("Pascal2016 compiler (" +
 				version + ")" + " running on " + OS);
-
 		int exitStatus = 0;
 		try {
 			readArgs(arg);
 			log.init(baseFileName + ".log");
 
 			Scanner s = new Scanner(sourceFileName);
-			if (testScanner) 
+			if (testScanner)
 				doTestScanner(s);
 			else if (testParser)
 				doTestParser(s);
@@ -42,7 +40,6 @@ public class Main {
 		} finally {
 			log.finish();
 		}
-
 		System.exit(exitStatus);
 	}
 
@@ -70,9 +67,9 @@ public class Main {
 			} else if (a.equals("-testchecker")) {
 				testChecker = log.doLogBinding = log.doLogTypeChecks = true;
 			} else if (a.equals("-testparser")) {
-				testParser = log.doLogParser = log.doLogPrettyPrint = true; 
+				testParser = log.doLogParser = log.doLogPrettyPrint = true;
 			} else if (a.equals("-testscanner")) {
-				testScanner = log.doLogScanner = true; 
+				testScanner = log.doLogScanner = true;
 			} else if (a.startsWith("-")) {
 				warning("Warning: Unknown option " + a + " ignored.");
 			} else if (sourceFileName != null) {
@@ -97,7 +94,7 @@ public class Main {
 
 	private static void doTestParser(Scanner s) {
 		Program prog = Program.parse(s);
-		if (s.curToken.kind != eofToken) 
+		if (s.curToken.kind != eofToken)
 			error("Scanner error: Garbage after the program!");
 		prog.prettyPrint();
 	}
@@ -105,7 +102,7 @@ public class Main {
 
 	private static void doTestChecker(Scanner s) {
 		Program prog = Program.parse(s);
-		if (s.curToken.kind != eofToken) 
+		if (s.curToken.kind != eofToken)
 			error("Scanner error: Garbage after the program!");
 		if (log.doLogPrettyPrint)
 			prog.prettyPrint();
@@ -116,7 +113,7 @@ public class Main {
 	private static void doRunRealCompiler(Scanner s) {
 		System.out.print("Parsing...");
 		Program prog = Program.parse(s);
-		if (s.curToken.kind != eofToken) 
+		if (s.curToken.kind != eofToken)
 			error("Scanner error: Garbage after the program!");
 
 		if (log.doLogPrettyPrint)
@@ -132,7 +129,7 @@ public class Main {
 		code.finish();
 		System.out.println("OK");
 
-		//assembleCode();
+		assembleCode();
 	}
 
 	private static void assembleCode() {
@@ -142,8 +139,8 @@ public class Main {
 		String cmd[] = new String[8];
 		cmd[0] = "gcc";  cmd[1] = "-m32";
 		cmd[2] = "-o";   cmd[3] = pName;
-		cmd[4] = sName;  
-		cmd[5] = "-L.";  cmd[6] = "-L/hom/inf2100";  cmd[7] = "-lpas2016";  
+		cmd[4] = sName;
+		cmd[5] = "-L.";  cmd[6] = "-L/hom/inf2100";  cmd[7] = "-lpas2016";
 
 		System.out.print("Running");
 		for (String s: cmd) {
@@ -160,15 +157,15 @@ public class Main {
 
 			// Print any output from the assembly process:
 			BufferedReader out = new BufferedReader
-			(new InputStreamReader(p.getInputStream()));
+			                     (new InputStreamReader(p.getInputStream()));
 			BufferedReader err = new BufferedReader
-			(new InputStreamReader(p.getErrorStream()));
+			                     (new InputStreamReader(p.getErrorStream()));
 
 			while ((line = out.readLine()) != null) {
-			System.out.println(line);
+				System.out.println(line);
 			}
 			while ((line = err.readLine()) != null) {
-			System.out.println(line);
+				System.out.println(line);
 			}
 			out.close();  err.close();
 			p.waitFor();
@@ -187,13 +184,13 @@ public class Main {
 
 	public static void error(int lineNum, String message) {
 		error("Error in " +
-			  (lineNum<0 ? "last line" : "line "+lineNum) + 
-			  ": " + message);
+		      (lineNum<0 ? "last line" : "line "+lineNum) +
+		      ": " + message);
 	}
 
 	private static void usage() {
 		error("Usage: java -jar pascal2016.jar " +
-			"[-log{B|P|S|T|Y}] [-test{checker|parser|scanner}] file");
+		      "[-log{B|P|S|T|Y}] [-test{checker|parser|scanner}] file");
 	}
 
 	public static void panic(String where) {
