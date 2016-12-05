@@ -6,4 +6,4 @@ Kompilering:
 - ant
 
 Kjøring:
-- java -jar pascal2016.jar <<Pascal-Filnavn>> -testchecker
+- java -jar pascal2016.jar <<Pascal-Filnavn>
