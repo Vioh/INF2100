@@ -1,4 +1,4 @@
-# INF2100 UiO (Autumn 2100)
+# INF2100 UiO (Autumn 2016)
 
 Project for the INF2100 course at the University of Oslo (UiO). The assignment 
 is to build a compiler for the Pascal2016 language (a "made-up" programming 
